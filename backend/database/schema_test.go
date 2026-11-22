@@ -40,7 +40,9 @@ func TestEnsureSchemaIdempotent(t *testing.T) {
 		t.Fatalf("第二次 EnsureSchema 应幂等: %v", err)
 	}
 	var count int
-	DB.QueryRow("SELECT COUNT(*) FROM sqlite_master WHERE type='table' AND name IN ('tutors','reviews','users')").Scan(&count)
+	if err := DB.QueryRow("SELECT COUNT(*) FROM sqlite_master WHERE type='table' AND name IN ('tutors','reviews','users')").Scan(&count); err != nil {
+		t.Fatalf("查询表失败: %v", err)
+	}
 	if count != 3 {
 		t.Fatalf("幂等后应仍有 3 张表, 实际 %d", count)
 	}

@@ -115,7 +115,7 @@ func GetTutors(c *gin.Context) {
 
 	whereClause, args := buildTutorWhere(&params)
 
-	countQuery := "SELECT COUNT(*) FROM tutors WHERE status = 'active'" + whereClause
+	countQuery := "SELECT COUNT(*) FROM tutors WHERE status = 'active' AND audit_status = 'approved'" + whereClause
 	var total int
 	if err := database.DB.QueryRow(countQuery, args...).Scan(&total); err != nil {
 		c.JSON(http.StatusInternalServerError, gin.H{"error": "查询总数失败: " + err.Error()})
@@ -127,7 +127,7 @@ func GetTutors(c *gin.Context) {
 		SELECT id, name, avatar, gender, education, school, major, subjects, grades,
 		       hourly_rate, location, experience, verified, rating, review_count, bio, wechat_id, status, created_at, updated_at
 		FROM tutors
-		WHERE status = 'active'
+		WHERE status = 'active' AND audit_status = 'approved'
 	` + whereClause + " ORDER BY rating DESC, review_count DESC LIMIT ? OFFSET ?"
 
 	dataArgs := append(args, params.PageSize, offset)
@@ -171,7 +171,7 @@ func GetTutorDetail(c *gin.Context) {
 		SELECT id, name, avatar, gender, education, school, major, subjects, grades,
 		       hourly_rate, location, experience, verified, rating, review_count, bio, wechat_id, status, created_at, updated_at
 		FROM tutors
-		WHERE id = ?
+		WHERE id = ? AND status = 'active' AND audit_status = 'approved'
 	`
 	tutor, err := scanTutor(database.DB.QueryRow(query, tutorID))
 
@@ -239,7 +239,7 @@ func GetTutorContact(c *gin.Context) {
 	var wechatID string
 	var verified bool
 	err := database.DB.QueryRow(
-		"SELECT wechat_id, verified FROM tutors WHERE id = ? AND status = 'active'",
+		"SELECT wechat_id, verified FROM tutors WHERE id = ? AND status = 'active' AND audit_status = 'approved'",
 		tutorID,
 	).Scan(&wechatID, &verified)
 

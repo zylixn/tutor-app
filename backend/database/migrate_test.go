@@ -1,7 +1,10 @@
 package database
 
 import (
+	"fmt"
 	"path/filepath"
+	"reflect"
+	"strings"
 	"testing"
 )
 
@@ -46,6 +49,10 @@ func TestMigrateAddsColumnsAndBackfills(t *testing.T) {
 		VALUES ('t_old', '老王', 'male', '硕士', '某大学', '海淀区', 'w@test', 'active')`); err != nil {
 		t.Fatalf("插存量数据: %v", err)
 	}
+	if _, err := DB.Exec(`INSERT INTO tutors (id, name, gender, education, school, location, wechat_id, status)
+		VALUES ('t_old_inactive', '老张', 'male', '本科', '某学院', '浦东区', 'z@test', 'inactive')`); err != nil {
+		t.Fatalf("插 inactive 行: %v", err)
+	}
 
 	// 迁移
 	if err := Migrate(); err != nil {
@@ -59,6 +66,15 @@ func TestMigrateAddsColumnsAndBackfills(t *testing.T) {
 	}
 	if auditStatus != "approved" {
 		t.Fatalf("存量档案应回填 approved, 实际 %q", auditStatus)
+	}
+
+	// 断言: 下线档案不应被回填, 保持 none
+	var inactiveStatus string
+	if err := DB.QueryRow("SELECT audit_status FROM tutors WHERE id='t_old_inactive'").Scan(&inactiveStatus); err != nil {
+		t.Fatalf("读 inactive 行失败: %v", err)
+	}
+	if inactiveStatus != "none" {
+		t.Fatalf("下线档案不应被回填, 应保持 none, 实际 %q", inactiveStatus)
 	}
 
 	// 幂等: 再跑一次不报错
@@ -89,7 +105,60 @@ func TestMigratePartialUniqueIndexBlocksDoublePending(t *testing.T) {
 	if err := ins("t_p1"); err != nil {
 		t.Fatalf("第一条 pending 应成功: %v", err)
 	}
-	if err := ins("t_p2"); err == nil {
-		t.Fatal("同 user 第二条 pending 应被唯一部分索引拒绝")
+	if err := ins("t_p2"); err == nil || !strings.Contains(err.Error(), "UNIQUE") {
+		t.Fatalf("同 user 第二条 pending 应被唯一索引拒绝(UNIQUE), got err=%v", err)
 	}
+}
+
+func TestFreshAndMigratedSchemasMatch(t *testing.T) {
+	dir := t.TempDir()
+	if err := InitDB(filepath.Join(dir, "a.db")); err != nil {
+		t.Fatalf("InitDB: %v", err)
+	}
+	defer CloseDB()
+
+	if err := EnsureSchema(); err != nil {
+		t.Fatalf("EnsureSchema: %v", err)
+	}
+	fresh := pragmaColumns(t, "tutors")
+
+	// 第二个库走 legacy+Migrate 路径
+	if err := InitDB(filepath.Join(dir, "b.db")); err != nil {
+		t.Fatalf("InitDB b: %v", err)
+	}
+	if _, err := DB.Exec(legacySchema); err != nil {
+		t.Fatalf("legacy: %v", err)
+	}
+	if err := Migrate(); err != nil {
+		t.Fatalf("Migrate: %v", err)
+	}
+	migrated := pragmaColumns(t, "tutors")
+
+	if !reflect.DeepEqual(fresh, migrated) {
+		t.Fatalf("全新安装与迁移安装的列定义漂移:\nfresh=%v\nmigrated=%v", fresh, migrated)
+	}
+}
+
+func pragmaColumns(t *testing.T, table string) map[string]string {
+	t.Helper()
+	rows, err := DB.Query("PRAGMA table_info(" + table + ")")
+	if err != nil {
+		t.Fatalf("PRAGMA: %v", err)
+	}
+	defer rows.Close()
+	cols := map[string]string{}
+	for rows.Next() {
+		var cid int
+		var name, ctype string
+		var notNull, pk int
+		var dflt interface{}
+		if err := rows.Scan(&cid, &name, &ctype, &notNull, &dflt, &pk); err != nil {
+			t.Fatalf("scan: %v", err)
+		}
+		cols[name] = ctype + "|default:" + fmt.Sprintf("%v", dflt)
+	}
+	if err := rows.Err(); err != nil {
+		t.Fatalf("rows.Err: %v", err)
+	}
+	return cols
 }

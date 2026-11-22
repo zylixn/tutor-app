@@ -137,8 +137,8 @@ func insertTestData() error {
 			verified = 1
 		}
 		_, err := database.DB.Exec(`
-			INSERT INTO tutors (id, name, avatar, gender, education, school, major, subjects, grades, hourly_rate, location, experience, verified, rating, review_count, bio, wechat_id, status)
-			VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, 'active')
+			INSERT INTO tutors (id, name, avatar, gender, education, school, major, subjects, grades, hourly_rate, location, experience, verified, rating, review_count, bio, wechat_id, status, audit_status)
+			VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, 'active', 'approved')
 		`, t.id, t.name, t.avatar, t.gender, t.education, t.school, t.major, t.subjects, t.grades, t.hourlyRate, t.location, t.experience, verified, t.rating, t.reviewCount, t.bio, t.wechatID)
 		if err != nil {
 			return err
