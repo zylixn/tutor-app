@@ -18,6 +18,8 @@ const maxImageBytes = 5 * 1024 * 1024 // 5MB
 // UploadApplicationImage 上传资质/头像图片
 // POST /api/v1/tutor-applications/images  (multipart, field: image)
 func UploadApplicationImage(c *gin.Context) {
+	// 5MB 图片 + multipart 编码开销，防止超限 body 先被暂存成临时文件（DoS 面）
+	c.Request.Body = http.MaxBytesReader(c.Writer, c.Request.Body, 6<<20)
 	file, err := c.FormFile("image")
 	if err != nil {
 		c.JSON(http.StatusBadRequest, gin.H{"error": "请选择图片文件"})
@@ -56,6 +58,7 @@ func UploadApplicationImage(c *gin.Context) {
 	}
 	name := uuid.New().String() + ext // uuid 命名: 防穿越/防覆盖
 	if err := c.SaveUploadedFile(file, filepath.Join(uploadsDir, name)); err != nil {
+		os.Remove(filepath.Join(uploadsDir, name)) // 清理部分写入的孤儿文件
 		c.JSON(http.StatusInternalServerError, gin.H{"error": "保存文件失败"})
 		return
 	}

@@ -103,6 +103,29 @@ func TestUploadRejectsOversize(t *testing.T) {
 	}
 }
 
+func TestUploadRejectsDisguisedContent(t *testing.T) {
+	setupTestDB(t)
+	uploadsDir = t.TempDir()
+	r := uploadRouter()
+	tok := tokenFor(t, "user_u", "user")
+
+	// GIF 内容伪装 .png 扩展名 → 过扩展名白名单，必须被内容嗅探拦截
+	body, ctype := multipartBody(t, "fake.png", []byte("GIF89axxxx"))
+	req := httptest.NewRequest("POST", "/api/v1/tutor-applications/images", body)
+	req.Header.Set("Content-Type", ctype)
+	req.Header.Set("Authorization", "Bearer "+tok)
+	w := httptest.NewRecorder()
+	r.ServeHTTP(w, req)
+
+	if w.Code != 400 {
+		t.Fatalf("伪装内容应 400, got %d: %s", w.Code, w.Body.String())
+	}
+	entries, err := os.ReadDir(uploadsDir)
+	if err != nil || len(entries) != 0 {
+		t.Fatalf("被拒文件不应落盘, err=%v entries=%d", err, len(entries))
+	}
+}
+
 func TestUploadRequiresAuth(t *testing.T) {
 	setupTestDB(t)
 	uploadsDir = t.TempDir()
