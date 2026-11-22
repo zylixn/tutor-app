@@ -2,7 +2,6 @@ package main
 
 import (
 	"context"
-	"embed"
 	"fmt"
 	"log"
 	"net/http"
@@ -18,9 +17,6 @@ import (
 	"tutor-api/handlers"
 	"tutor-api/middleware"
 )
-
-//go:embed database/init.sql
-var initSQLFS embed.FS
 
 func main() {
 	cfg, err := config.LoadConfig()
@@ -39,8 +35,11 @@ func main() {
 	}
 	defer database.CloseDB()
 
-	if err := initDatabaseSchema(); err != nil {
+	if err := database.EnsureSchema(); err != nil {
 		log.Fatalf("❌ 初始化数据库结构失败: %v", err)
+	}
+	if err := insertTestData(); err != nil {
+		log.Fatalf("❌ 初始化测试数据失败: %v", err)
 	}
 
 	router := gin.Default()
@@ -95,113 +94,6 @@ func main() {
 		log.Fatal("服务器强制关闭:", err)
 	}
 	fmt.Println("✅ 服务器已优雅关闭")
-}
-
-func initDatabaseSchema() error {
-	var count int
-	err := database.DB.QueryRow("SELECT COUNT(*) FROM sqlite_master WHERE type='table' AND name='tutors'").Scan(&count)
-	if err != nil {
-		return fmt.Errorf("检查数据库表失败: %w", err)
-	}
-
-	if count == 0 {
-		fmt.Println("📝 正在初始化数据库...")
-
-		// 优先使用嵌入的 init.sql，不再依赖工作目录
-		sqlContent, err := initSQLFS.ReadFile("database/init.sql")
-		if err != nil {
-			// 嵌入文件不存在则使用内嵌 SQL
-			return executeInitSQL()
-		}
-
-		if _, err := database.DB.Exec(string(sqlContent)); err != nil {
-			return fmt.Errorf("执行初始化 SQL 失败: %w", err)
-		}
-
-		if err := insertTestData(); err != nil {
-			return fmt.Errorf("插入测试数据失败: %w", err)
-		}
-
-		fmt.Println("✅ 数据库初始化完成")
-	} else {
-		var dataCount int
-		database.DB.QueryRow("SELECT COUNT(*) FROM tutors").Scan(&dataCount)
-		if dataCount == 0 {
-			fmt.Println("📊 检测到空数据库，插入测试数据...")
-			if err := insertTestData(); err != nil {
-				return fmt.Errorf("插入测试数据失败: %w", err)
-			}
-		} else {
-			fmt.Println("✅ 数据库已存在，跳过初始化")
-		}
-	}
-
-	return nil
-}
-
-func executeInitSQL() error {
-	initSQL := `
-	CREATE TABLE IF NOT EXISTS tutors (
-	    id TEXT PRIMARY KEY,
-	    name TEXT NOT NULL,
-	    avatar TEXT DEFAULT '',
-	    gender TEXT NOT NULL CHECK(gender IN ('male', 'female')),
-	    education TEXT NOT NULL,
-	    school TEXT NOT NULL,
-	    major TEXT DEFAULT '',
-	    subjects TEXT NOT NULL DEFAULT '[]',
-	    grades TEXT NOT NULL DEFAULT '[]',
-	    hourly_rate INTEGER NOT NULL DEFAULT 0,
-	    location TEXT NOT NULL,
-	    experience INTEGER DEFAULT 0,
-	    verified INTEGER DEFAULT 0,
-	    rating REAL DEFAULT 5.0,
-	    review_count INTEGER DEFAULT 0,
-	    bio TEXT DEFAULT '',
-	    wechat_id TEXT NOT NULL,
-	    status TEXT DEFAULT 'active' CHECK(status IN ('active', 'inactive')),
-	    created_at DATETIME DEFAULT CURRENT_TIMESTAMP,
-	    updated_at DATETIME DEFAULT CURRENT_TIMESTAMP
-	);
-
-	CREATE TABLE IF NOT EXISTS reviews (
-	    id TEXT PRIMARY KEY,
-	    tutor_id TEXT NOT NULL,
-	    user_id TEXT NOT NULL,
-	    rating INTEGER NOT NULL CHECK(rating >= 1 AND rating <= 5),
-	    content TEXT NOT NULL,
-	    status TEXT DEFAULT 'active' CHECK(status IN ('active', 'hidden')),
-	    created_at DATETIME DEFAULT CURRENT_TIMESTAMP,
-	    FOREIGN KEY (tutor_id) REFERENCES tutors(id),
-	    UNIQUE(tutor_id, user_id)
-	);
-
-	CREATE TABLE IF NOT EXISTS users (
-	    id TEXT PRIMARY KEY,
-	    openid TEXT NOT NULL UNIQUE,
-	    role TEXT DEFAULT 'user' CHECK(role IN ('user', 'admin')),
-	    nickname TEXT DEFAULT '',
-	    avatar_url TEXT DEFAULT '',
-	    created_at DATETIME DEFAULT CURRENT_TIMESTAMP,
-	    updated_at DATETIME DEFAULT CURRENT_TIMESTAMP
-	);
-
-	CREATE INDEX IF NOT EXISTS idx_tutors_status ON tutors(status);
-	CREATE INDEX IF NOT EXISTS idx_tutors_location ON tutors(location);
-	CREATE INDEX IF NOT EXISTS idx_reviews_tutor_id ON reviews(tutor_id);
-	CREATE INDEX IF NOT EXISTS idx_reviews_user_id ON reviews(user_id);
-	CREATE INDEX IF NOT EXISTS idx_users_openid ON users(openid);
-	`
-
-	if _, err := database.DB.Exec(initSQL); err != nil {
-		return fmt.Errorf("创建表失败: %w", err)
-	}
-
-	if err := insertTestData(); err != nil {
-		return fmt.Errorf("插入测试数据失败: %w", err)
-	}
-
-	return nil
 }
 
 func insertTestData() error {
