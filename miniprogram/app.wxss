@@ -322,3 +322,9 @@ page {
 
 /* ---------- 通用 ---------- */
 .container { padding: 24rpx 28rpx 48rpx; }
+
+/* ---------- 描边纸面卡 (mine/admin-audit 等页面共用) ---------- */
+.sheet {
+  border: 1rpx solid var(--line-strong);
+  background: var(--paper);
+}

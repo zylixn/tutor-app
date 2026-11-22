@@ -6,6 +6,8 @@ Page({
     loggedIn: false,
     role: 'user',
     application: null,   // {auditStatus, auditNote, name, ...} 或 null
+    applicationLoaded: false,
+    loadFailed: false,
     pendingCount: 0
   },
 
@@ -31,10 +33,10 @@ Page({
     try {
       const app = await api.getMyApplication()
       const application = app.auditStatus === 'none' ? null : app
-      this.setData({ application })
+      this.setData({ application, loadFailed: false, applicationLoaded: true })
       if (this.data.role === 'admin') { this.loadPendingCount() }
     } catch (e) {
-      wx.showToast({ title: '加载失败', icon: 'none' })
+      this.setData({ loadFailed: true, applicationLoaded: true })
     }
   },
 
@@ -42,8 +44,12 @@ Page({
     try {
       const res = await api.listApplications('pending')
       this.setData({ pendingCount: res.total })
-    } catch (e) { /* 静默 */ }
+    } catch (e) {
+      this.setData({ pendingCount: null })
+    }
   },
+
+  retryLoad() { this.refresh() },
 
   onLogin() { this.init() },
 
