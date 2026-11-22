@@ -75,7 +75,9 @@ type ReviewQueryParams struct {
 }
 
 // scanTutor 从 rows 扫描一条家教记录
-func scanTutor(scanner interface{ Scan(dest ...interface{}) error }) (models.Tutor, error) {
+func scanTutor(scanner interface {
+	Scan(dest ...interface{}) error
+}) (models.Tutor, error) {
 	var tutor models.Tutor
 	var subjectsJSON, gradesJSON string
 	err := scanner.Scan(

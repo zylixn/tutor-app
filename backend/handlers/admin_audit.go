@@ -34,7 +34,7 @@ func ListApplications(c *gin.Context) {
 	rows, err := database.DB.Query(`SELECT id, name, gender, education, school, major,
 		subjects, grades, hourly_rate, location, experience, bio, avatar, cert_images,
 		audit_status, audit_note, COALESCE(submitted_at,''), wechat_id
-		FROM tutors WHERE audit_status = ? ORDER BY submitted_at DESC LIMIT ? OFFSET ?`,
+		FROM tutors WHERE audit_status = ? ORDER BY submitted_at DESC, id DESC LIMIT ? OFFSET ?`,
 		status, pageSize, (page-1)*pageSize)
 	if err != nil {
 		c.JSON(http.StatusInternalServerError, gin.H{"error": "查询列表失败"})
@@ -53,6 +53,10 @@ func ListApplications(c *gin.Context) {
 			return
 		}
 		list = append(list, app)
+	}
+	if err := rows.Err(); err != nil {
+		c.JSON(http.StatusInternalServerError, gin.H{"error": "遍历列表失败"})
+		return
 	}
 	c.JSON(http.StatusOK, gin.H{"total": total, "page": page, "perPage": pageSize, "data": list})
 }

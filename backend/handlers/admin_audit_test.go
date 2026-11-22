@@ -103,3 +103,18 @@ func TestRejectRequiresNote(t *testing.T) {
 		t.Fatalf("驳回状态/原因不符: %s / %s", status, note)
 	}
 }
+
+func TestApproveNonPendingConflicts(t *testing.T) {
+	setupTestDB(t)
+	seedTutor(t, "t_r", "已驳回", "rejected")
+	seedTutor(t, "t_n", "未走审", "none")
+	r := auditRouter()
+	admin := tokenFor(t, "user_admin", "admin")
+
+	if w := postAdmin(r, admin, "/api/v1/admin/tutor-applications/t_r/approve", ""); w.Code != 409 {
+		t.Fatalf("rejected approve 应 409, got %d: %s", w.Code, w.Body.String())
+	}
+	if w := postAdmin(r, admin, "/api/v1/admin/tutor-applications/t_n/approve", ""); w.Code != 409 {
+		t.Fatalf("none approve 应 409, got %d: %s", w.Code, w.Body.String())
+	}
+}

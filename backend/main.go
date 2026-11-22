@@ -48,6 +48,8 @@ func main() {
 	router := gin.Default()
 	router.Use(middleware.SetupCORS(cfg.CORSOrigin))
 
+	router.Static("/uploads", "./uploads")
+
 	router.GET("/health", func(c *gin.Context) {
 		c.JSON(200, gin.H{"status": "ok", "message": "家教小程序 API 服务运行中"})
 	})
@@ -61,6 +63,14 @@ func main() {
 		v1.POST("/reviews", middleware.RequireAuth(), handlers.SubmitReview)
 		v1.POST("/tutors", middleware.RequireAuth(), middleware.RequireAdmin(), handlers.CreateTutor)
 		v1.POST("/auth/login", handlers.Login)
+
+		// 入驻系统
+		v1.POST("/tutor-applications", middleware.RequireAuth(), handlers.SubmitTutorApplication)
+		v1.GET("/tutor-applications/mine", middleware.RequireAuth(), handlers.GetMyApplication)
+		v1.POST("/tutor-applications/images", middleware.RequireAuth(), handlers.UploadApplicationImage)
+		v1.GET("/admin/tutor-applications", middleware.RequireAuth(), middleware.RequireAdmin(), handlers.ListApplications)
+		v1.POST("/admin/tutor-applications/:id/approve", middleware.RequireAuth(), middleware.RequireAdmin(), handlers.ApproveApplication)
+		v1.POST("/admin/tutor-applications/:id/reject", middleware.RequireAuth(), middleware.RequireAdmin(), handlers.RejectApplication)
 	}
 
 	srv := &http.Server{
