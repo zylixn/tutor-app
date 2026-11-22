@@ -31,7 +31,7 @@ Page({
   async loadTutorInfo(tutorId) {
     try {
       const result = await api.getTutorDetail(tutorId)
-      this.setData({ tutor: result.result.tutor })
+      this.setData({ tutor: result.tutor })
     } catch (err) {
       console.error('加载家教信息失败', err)
       wx.showToast({ title: '加载失败', icon: 'none' })

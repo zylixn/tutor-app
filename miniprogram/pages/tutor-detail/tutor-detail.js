@@ -21,8 +21,8 @@ Page({
     try {
       const result = await api.getTutorDetail(tutorId)
       this.setData({
-        tutor: result.result.tutor,
-        reviews: result.result.reviews,
+        tutor: result.tutor,
+        reviews: result.reviews,
         loading: false
       })
     } catch (err) {

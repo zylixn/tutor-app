@@ -29,9 +29,9 @@ Page({
 
       const result = await api.getTutors(params)
       this.setData({
-        tutors: this.data.tutors.concat(result.result.data),
+        tutors: this.data.tutors.concat(result.data),
         page: this.data.page + 1,
-        hasMore: result.result.hasMore,
+        hasMore: result.hasMore,
         loading: false
       })
     } catch (err) {

@@ -36,7 +36,7 @@ Page({
       }
 
       const result = await api.getTutors(params)
-      const newTutors = result.result.data || []
+      const newTutors = result.data || []
 
       this.setData({
         tutors: append ? this.data.tutors.concat(newTutors) : newTutors,
