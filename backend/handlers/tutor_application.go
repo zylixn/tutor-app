@@ -63,6 +63,15 @@ func validateApplication(req *TutorApplicationRequest) map[string]string {
 	if len(req.CertImages) == 0 {
 		errs["certImages"] = "请至少上传一张资质凭证"
 	}
+	for _, img := range req.CertImages {
+		if !strings.HasPrefix(img, "/uploads/") {
+			errs["certImages"] = "凭证图片地址无效"
+			break
+		}
+	}
+	if strings.TrimSpace(req.WechatID) == "" {
+		errs["wechatId"] = "请填写微信号"
+	}
 	return errs
 }
 
@@ -89,6 +98,7 @@ func SubmitTutorApplication(c *gin.Context) {
 
 	switch {
 	case err == sql.ErrNoRows:
+		// 仅此处 INSERT；"每 user 一条记录"的不变量依赖此分支唯一性（部分唯一索引只挡 pending+pending）
 		// 首次入驻: 新建档案（inactive，审核通过才 active）
 		newID := "tutor_" + uuid.New().String()[:8]
 		_, e := database.DB.Exec(`INSERT INTO tutors
@@ -96,12 +106,17 @@ func SubmitTutorApplication(c *gin.Context) {
 			 hourly_rate, location, experience, verified, rating, review_count,
 			 bio, wechat_id, status, user_id, audit_status, submitted_at, cert_images)
 			VALUES (?,?,?,?,?,?,?,?,?,?,?,?,0,5.0,0,?,?,?,?,?,CURRENT_TIMESTAMP,?)`,
-			newID, req.Name, req.Avatar, req.Gender, req.Education, req.School, req.Major,
+			newID, strings.TrimSpace(req.Name), req.Avatar, req.Gender, req.Education, req.School, req.Major,
 			models.StringArray(req.Subjects), models.StringArray(req.Grades),
-			req.HourlyRate, req.Location, req.Experience,
-			req.Bio, req.WechatID, "inactive", userID, "pending",
+			req.HourlyRate, strings.TrimSpace(req.Location), req.Experience,
+			strings.TrimSpace(req.Bio), req.WechatID, "inactive", userID, "pending",
 			models.StringArray(req.CertImages))
 		if e != nil {
+			// 并发双提交败者触发局部唯一索引（modernc 报 UNIQUE constraint failed: tutors.user_id）
+			if strings.Contains(e.Error(), "UNIQUE constraint failed") {
+				c.JSON(http.StatusConflict, gin.H{"error": "已有待审核的申请，请等待审核结果"})
+				return
+			}
 			c.JSON(http.StatusInternalServerError, gin.H{"error": "提交申请失败"})
 			return
 		}
@@ -125,9 +140,9 @@ func SubmitTutorApplication(c *gin.Context) {
 		hourly_rate=?, location=?, experience=?, bio=?, wechat_id=?, cert_images=?,
 		audit_status='pending', audit_note='', submitted_at=CURRENT_TIMESTAMP
 		WHERE id=?`,
-		req.Name, req.Avatar, req.Gender, req.Education, req.School, req.Major,
+		strings.TrimSpace(req.Name), req.Avatar, req.Gender, req.Education, req.School, req.Major,
 		models.StringArray(req.Subjects), models.StringArray(req.Grades),
-		req.HourlyRate, req.Location, req.Experience, req.Bio, req.WechatID,
+		req.HourlyRate, strings.TrimSpace(req.Location), req.Experience, strings.TrimSpace(req.Bio), req.WechatID,
 		models.StringArray(req.CertImages), tutorID)
 	if e != nil {
 		c.JSON(http.StatusInternalServerError, gin.H{"error": "更新申请失败"})

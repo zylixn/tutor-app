@@ -72,7 +72,7 @@ func TestSubmitValidationErrorsAreFieldLevel(t *testing.T) {
 	if err := json.Unmarshal(w.Body.Bytes(), &body); err != nil {
 		t.Fatalf("解析: %v", err)
 	}
-	for _, field := range []string{"name", "hourlyRate", "subjects", "bio"} {
+	for _, field := range []string{"name", "hourlyRate", "subjects", "bio", "wechatId"} {
 		if body.Errors[field] == "" {
 			t.Fatalf("字段 %s 缺少错误信息: %s", field, w.Body.String())
 		}
@@ -117,6 +117,9 @@ func TestRejectedCanResubmit(t *testing.T) {
 	if status != "pending" {
 		t.Fatalf("重提后应回 pending, got %q", status)
 	}
+	if note != "" {
+		t.Fatalf("重提后 audit_note 应清空, got %q", note)
+	}
 }
 
 func TestApprovedEditReturnsToPending(t *testing.T) {
@@ -136,7 +139,9 @@ func TestApprovedEditReturnsToPending(t *testing.T) {
 		t.Fatalf("已通过档案编辑: %d %s", w.Code, w.Body.String())
 	}
 	var status, tutorStatus string
-	database.DB.QueryRow("SELECT audit_status, status FROM tutors WHERE user_id='user_a'").Scan(&status, &tutorStatus)
+	if err := database.DB.QueryRow("SELECT audit_status, status FROM tutors WHERE user_id='user_a'").Scan(&status, &tutorStatus); err != nil {
+		t.Fatal(err)
+	}
 	if status != "pending" || tutorStatus != "active" {
 		t.Fatalf("编辑后应 pending+active(家长端仍可见), got %s/%s", status, tutorStatus)
 	}
