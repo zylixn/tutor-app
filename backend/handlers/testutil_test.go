@@ -10,6 +10,7 @@ import (
 	"tutor-api/middleware"
 )
 
+// 注意: 依赖全局 database.DB，勿在调用 setupTestDB 的测试中使用 t.Parallel()
 // setupTestDB 每个测试独立的临时 SQLite（handlers 依赖全局 database.DB）
 func setupTestDB(t *testing.T) {
 	t.Helper()

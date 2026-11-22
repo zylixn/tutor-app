@@ -123,6 +123,7 @@ func TestFreshAndMigratedSchemasMatch(t *testing.T) {
 	fresh := pragmaColumns(t, "tutors")
 
 	// 第二个库走 legacy+Migrate 路径
+	CloseDB()
 	if err := InitDB(filepath.Join(dir, "b.db")); err != nil {
 		t.Fatalf("InitDB b: %v", err)
 	}

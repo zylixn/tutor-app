@@ -43,11 +43,30 @@ func TestParentListOnlyShowsApproved(t *testing.T) {
 
 func TestParentDetailBlocksUnapproved(t *testing.T) {
 	setupTestDB(t)
+	seedTutor(t, "t_ok", "已核验", "approved")
 	seedTutor(t, "t_pending", "审核中", "pending")
 	r := newTestRouter()
 
 	w := doJSON(r, "GET", "/api/v1/tutors/t_pending", "")
 	if w.Code != 404 {
 		t.Fatalf("pending 详情应 404, got %d: %s", w.Code, w.Body.String())
+	}
+	w = doJSON(r, "GET", "/api/v1/tutors/t_ok", "")
+	if w.Code != 200 {
+		t.Fatalf("approved 详情应 200, got %d: %s", w.Code, w.Body.String())
+	}
+}
+
+func TestParentContactBlocksUnapproved(t *testing.T) {
+	setupTestDB(t)
+	seedTutor(t, "t_pending", "审核中", "pending")
+	seedTutor(t, "t_ok", "已核验", "approved")
+	r := newTestRouter()
+	tok := tokenFor(t, "user_x", "user")
+	if w := doJSON(r, "GET", "/api/v1/tutors/t_pending/contact", tok); w.Code != 404 {
+		t.Fatalf("pending contact 应 404, got %d: %s", w.Code, w.Body.String())
+	}
+	if w := doJSON(r, "GET", "/api/v1/tutors/t_ok/contact", tok); w.Code != 200 {
+		t.Fatalf("approved contact 应 200, got %d: %s", w.Code, w.Body.String())
 	}
 }
