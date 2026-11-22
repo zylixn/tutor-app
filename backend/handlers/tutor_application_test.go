@@ -147,6 +147,24 @@ func TestApprovedEditReturnsToPending(t *testing.T) {
 	}
 }
 
+func TestSubmitSubjectRules(t *testing.T) {
+	setupTestDB(t)
+	r := applyRouter()
+	tok := tokenFor(t, "user_subj", "user")
+
+	// 自定义课外科目（钢琴/古筝）合法
+	body := `{"name":"王雨桐","gender":"female","education":"硕士","school":"华东师范大学","major":"音乐","subjects":["钢琴","古筝"],"grades":["小学"],"hourlyRate":150,"location":"杨浦区","experience":3,"bio":"测试简介需要满三十个字，这里补充一些描述内容以便通过校验规则。","certImages":["/uploads/x.jpg"],"wechatId":"w1"}`
+	if w := postApply(r, tok, body); w.Code != 200 {
+		t.Fatalf("自定义课外科目应被接受, got %d: %s", w.Code, w.Body.String())
+	}
+
+	// 超长科目名（>12 字）→ 400
+	bad := `{"name":"王雨桐","gender":"female","education":"硕士","school":"华东师范大学","major":"音乐","subjects":["这是一个超过十二个字的超长科目名称示例"],"grades":["小学"],"hourlyRate":150,"location":"杨浦区","experience":3,"bio":"测试简介需要满三十个字，这里补充一些描述内容以便通过校验规则。","certImages":["/uploads/x.jpg"],"wechatId":"w1"}`
+	if w := postApply(r, tok, bad); w.Code != 400 {
+		t.Fatalf("超长科目应 400, got %d: %s", w.Code, w.Body.String())
+	}
+}
+
 func TestGetMineReturnsStatus(t *testing.T) {
 	setupTestDB(t)
 	r := applyRouter()

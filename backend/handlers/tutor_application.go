@@ -46,6 +46,17 @@ func validateApplication(req *TutorApplicationRequest) map[string]string {
 	}
 	if len(req.Subjects) == 0 {
 		errs["subjects"] = "请至少选择一个科目"
+	} else {
+		if len(req.Subjects) > 8 {
+			errs["subjects"] = "科目最多 8 个"
+		}
+		for _, sub := range req.Subjects {
+			trimmed := strings.TrimSpace(sub)
+			if trimmed == "" || len([]rune(trimmed)) > 12 {
+				errs["subjects"] = "科目名称需为 1-12 字"
+				break
+			}
+		}
 	}
 	if len(req.Grades) == 0 {
 		errs["grades"] = "请至少选择一个年级"
@@ -88,6 +99,10 @@ func SubmitTutorApplication(c *gin.Context) {
 	if errs := validateApplication(&req); len(errs) > 0 {
 		c.JSON(http.StatusBadRequest, gin.H{"errors": errs})
 		return
+	}
+	cleanedSubjects := make(models.StringArray, 0, len(req.Subjects))
+	for _, sub := range req.Subjects {
+		cleanedSubjects = append(cleanedSubjects, strings.TrimSpace(sub))
 	}
 
 	var tutorID, auditStatus string

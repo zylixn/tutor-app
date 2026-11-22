@@ -44,8 +44,21 @@
   <block wx:if="{{step === 2}}">
     <view class="form-sec">
       <view class="f-label">授课科目</view>
+      <view class="f-label-sub">学科</view>
       <view class="opt-group wrap">
-        <text wx:for="{{subjectOptions}}" wx:key="*this" class="opt {{subjectSelected[item] ? 'on' : ''}}" data-value="{{item}}" bindtap="toggleSubject">{{item}}</text>
+        <text wx:for="{{academicOptions}}" wx:key="*this" class="opt {{subjectSelected[item] ? 'on' : ''}}" data-value="{{item}}" bindtap="toggleSubject">{{item}}</text>
+      </view>
+      <view class="f-label-sub">素质与课外</view>
+      <view class="opt-group wrap">
+        <text wx:for="{{qualityOptions}}" wx:key="*this" class="opt {{subjectSelected[item] ? 'on' : ''}}" data-value="{{item}}" bindtap="toggleSubject">{{item}}</text>
+      </view>
+      <view class="f-label-sub">自定义科目</view>
+      <view class="opt-group wrap" wx:if="{{customList.length}}">
+        <text wx:for="{{customList}}" wx:key="*this" class="opt on" data-value="{{item}}" bindtap="removeCustom">{{item}} ×</text>
+      </view>
+      <view class="custom-row">
+        <input class="f-input underline custom-input" value="{{customSubject}}" bindinput="onCustomSubject" maxlength="12" placeholder="其他课外学科，如：古筝" />
+        <view class="custom-add" bindtap="addCustomSubject">添加</view>
       </view>
       <view class="f-err" wx:if="{{errors.subjects}}">{{errors.subjects}}</view>
       <view class="f-label mt-lg">授课年级</view>

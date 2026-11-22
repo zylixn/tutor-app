@@ -2,7 +2,9 @@
 const api = require('../../utils/api')
 
 const EDU_OPTIONS = ['本科', '硕士', '博士']
-const SUBJECT_OPTIONS = ['语文', '数学', '英语', '物理', '化学', '生物', '历史', '地理', '全科']
+const ACADEMIC_SUBJECTS = ['语文', '数学', '英语', '物理', '化学', '生物', '历史', '地理', '全科']
+const QUALITY_SUBJECTS = ['音乐', '美术', '书法', '编程', '体育', '舞蹈', '围棋']
+const ALL_PRESETS = ACADEMIC_SUBJECTS.concat(QUALITY_SUBJECTS)
 const GRADE_OPTIONS = ['小学', '初中', '高中']
 
 // WXML 表达式不支持方法调用，多选选中态用 {值: true} 映射维护
@@ -28,7 +30,10 @@ Page({
     uploadingCert: false,
     uploadingAvatar: false,
     eduOptions: EDU_OPTIONS,
-    subjectOptions: SUBJECT_OPTIONS,
+    academicOptions: ACADEMIC_SUBJECTS,
+    qualityOptions: QUALITY_SUBJECTS,
+    customSubject: '',
+    customList: [],
     gradeOptions: GRADE_OPTIONS
   },
 
@@ -66,6 +71,7 @@ Page({
           subjectSelected: toSelectedMap(app.subjects),
           gradeSelected: toSelectedMap(app.grades)
         })
+        this.setData({ customList: (app.subjects || []).filter(v => !ALL_PRESETS.includes(v)) })
         this.syncDisplays()
       }
     } catch (e) { /* 拉取旧档案失败: 保留空白表单 */ }
@@ -81,6 +87,33 @@ Page({
   onPickEdu(e) { this._dirty = true; this.setData({ 'form.education': e.currentTarget.dataset.value, 'errors.education': '' }) },
   toggleSubject(e) { this.toggleList('subjects', 'subjectSelected', e.currentTarget.dataset.value) },
   toggleGrade(e) { this.toggleList('grades', 'gradeSelected', e.currentTarget.dataset.value) },
+  onCustomSubject(e) { this.setData({ customSubject: e.detail.value }) },
+  addCustomSubject() {
+    const value = (this.data.customSubject || '').trim()
+    if (!value) { return }
+    if (ALL_PRESETS.includes(value)) { wx.showToast({ title: '该科目已在列表中', icon: 'none' }); return }
+    if (this.data.form.subjects.includes(value)) { wx.showToast({ title: '已添加该科目', icon: 'none' }); return }
+    if (this.data.form.subjects.length >= 8) { wx.showToast({ title: '科目最多 8 个', icon: 'none' }); return }
+    if (value.length > 12) { wx.showToast({ title: '科目名称不超过 12 字', icon: 'none' }); return }
+    this._dirty = true
+    this.setData({
+      'form.subjects': this.data.form.subjects.concat(value),
+      ['subjectSelected.' + value]: true,
+      customList: this.data.customList.concat(value),
+      customSubject: '',
+      'errors.subjects': ''
+    })
+  },
+  removeCustom(e) {
+    this._dirty = true
+    const value = e.currentTarget.dataset.value
+    this.setData({
+      'form.subjects': this.data.form.subjects.filter(v => v !== value),
+      ['subjectSelected.' + value]: false,
+      customList: this.data.customList.filter(v => v !== value),
+      'errors.subjects': ''
+    })
+  },
   toggleList(field, selectedField, value) {
     this._dirty = true
     const list = this.data.form[field]
