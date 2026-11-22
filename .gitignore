@@ -1,0 +1,16 @@
+# 依赖与构建
+node_modules/
+*.exe
+
+# 数据与上传（运行时产物）
+backend/database/*.db
+backend/database/*.db-wal
+backend/database/*.db-shm
+backend/uploads/
+
+# 环境与密钥
+.env
+*.local.json
+
+# 系统文件
+.DS_Store
