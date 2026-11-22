@@ -31,7 +31,7 @@ Page({
       this.setData({
         tutors: this.data.tutors.concat(result.data),
         page: this.data.page + 1,
-        hasMore: result.hasMore,
+        hasMore: result.data.length >= 20 && result.page * result.perPage < result.total,
         loading: false
       })
     } catch (err) {
