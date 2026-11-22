@@ -1,0 +1,280 @@
+/* 教师档案页 —— 连续纸面: 通栏头部 + 表格统计带 + 发丝线分区 */
+
+.detail {
+  padding-bottom: 170rpx;
+}
+
+/* ---------- 档案头 ---------- */
+.d-head {
+  display: flex;
+  align-items: flex-start;
+  padding: 16rpx 0 30rpx;
+  border-bottom: 8rpx double var(--ink-green);
+}
+
+.d-ava {
+  width: 128rpx;
+  height: 128rpx;
+  margin-right: 30rpx;
+  flex-shrink: 0;
+  font-size: 56rpx;
+}
+
+.d-ava.photo-frame {
+  padding: 4rpx;
+  border: 1rpx solid var(--line-strong);
+  background: var(--paper);
+  box-sizing: content-box;
+}
+.d-ava.photo-frame image {
+  display: block;
+  width: 128rpx;
+  height: 128rpx;
+}
+
+.tutor-info {
+  flex: 1;
+  min-width: 0;
+}
+
+.name-row {
+  display: flex;
+  align-items: center;
+  gap: 16rpx;
+  margin-bottom: 12rpx;
+}
+
+.name {
+  font-family: var(--serif);
+  font-size: 44rpx;
+  font-weight: 900;
+  letter-spacing: 3rpx;
+  color: var(--ink);
+}
+
+.education {
+  color: var(--ink-soft);
+  font-size: var(--fs-sub);
+  letter-spacing: 1rpx;
+}
+
+.meta-row {
+  display: flex;
+  font-size: var(--fs-sub);
+  margin-bottom: 8rpx;
+}
+
+.meta-row .k {
+  width: 110rpx;
+  color: var(--ink-faint);
+  letter-spacing: 4rpx;
+  flex-shrink: 0;
+}
+
+.meta-row .v {
+  color: var(--ink-soft);
+  flex: 1;
+}
+
+.d-bio-lines {
+  margin-top: 14rpx;
+}
+
+.subj-line {
+  margin-top: 14rpx;
+  display: flex;
+  flex-wrap: wrap;
+}
+
+/* ---------- 点线目录行: 公报检索行 (双线后接账目) ---------- */
+.d-ledger {
+  margin: 0 -28rpx;
+  padding: 12rpx 28rpx 16rpx;
+  border-bottom: 1rpx solid var(--line-strong);
+}
+
+.ledger-row {
+  display: flex;
+  align-items: flex-end;
+  padding: 12rpx 0;
+}
+
+.ledger-row .k {
+  font-size: var(--fs-sub);
+  color: var(--ink-soft);
+  letter-spacing: 4rpx;
+  padding-bottom: 6rpx;
+  flex-shrink: 0;
+}
+
+.ledger-row .leader {
+  flex: 1;
+  border-bottom: 2rpx dotted var(--line-strong);
+  margin: 0 16rpx 10rpx;
+}
+
+.ledger-row .v {
+  font-family: var(--serif);
+  font-weight: 900;
+  color: var(--ink);
+  font-size: 34rpx;
+  font-feature-settings: 'tnum';
+  line-height: 1.1;
+}
+
+.ledger-row .v-unit {
+  font-size: var(--fs-label);
+  font-weight: 400;
+  color: var(--ink-faint);
+  margin-left: 4rpx;
+}
+
+/* ---------- 分区: 发丝线 + 短墨条标题 ---------- */
+.d-sec {
+  padding: 36rpx 4rpx 8rpx;
+  border-bottom: 1rpx solid var(--line);
+}
+
+.d-sec:last-child {
+  border-bottom: none;
+}
+
+.d-sec .sec-title {
+  margin-bottom: 22rpx;
+}
+
+/* ---------- 内容 ---------- */
+.bio {
+  color: var(--ink);
+  font-size: var(--fs-body);
+  line-height: 1.9;
+}
+
+.plain {
+  color: var(--ink);
+  font-size: var(--fs-body);
+}
+
+.credentials {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 14rpx;
+}
+
+.credential {
+  display: flex;
+  align-items: center;
+  gap: 10rpx;
+  border: 1rpx solid var(--ink-faint);   /* 文件边界感: 比分隔线深一档; 红只留给钤印与错误 */
+  border-radius: 2rpx;
+  padding: 8rpx 20rpx;
+  color: var(--ink-soft);
+  font-size: var(--fs-sub);
+  letter-spacing: 1rpx;
+}
+
+.cred-check {
+  color: var(--ink-green);
+  font-weight: 700;
+  font-size: var(--fs-sub);   /* 勾选族规格: 与匿名复选框同族 (✓ · 700 · 24-26rpx) */
+}
+
+/* ---------- 学员评价: 账簿流水 ---------- */
+.reviews {
+  margin-top: 4rpx;
+}
+
+.review {
+  padding: 24rpx 0;
+  border-bottom: 1rpx dashed var(--line-strong);
+}
+
+.review:last-child {
+  border-bottom: none;
+  padding-bottom: 10rpx;
+}
+
+.review-header {
+  display: flex;
+  justify-content: space-between;
+  margin-bottom: 12rpx;
+  align-items: baseline;
+}
+
+.review-rating {
+  font-family: var(--serif);
+  font-weight: 900;
+  color: var(--ink);
+  font-size: 30rpx;
+  font-feature-settings: 'tnum';
+}
+
+.review-time {
+  color: var(--ink-faint);
+  font-size: var(--fs-label);
+  font-family: var(--mono);
+  letter-spacing: 1rpx;
+}
+
+.review-content {
+  color: var(--ink);
+  font-size: var(--fs-sub);
+  line-height: 1.8;
+}
+
+.empty-text {
+  color: var(--ink-faint);
+  text-align: center;
+  padding: 40rpx 0;
+  font-family: var(--serif);
+  letter-spacing: 4rpx;
+}
+
+/* ---------- 公报落款 ---------- */
+.d-folio {
+  padding: 40rpx 0 10rpx;
+  text-align: center;
+  font-size: var(--fs-label);
+  color: var(--ink-faint);
+  letter-spacing: 4rpx;
+  font-family: var(--serif);
+  border-top: 1rpx solid var(--line);
+}
+
+/* ---------- 底部操作 ---------- */
+.bottom-actions {
+  position: fixed;
+  bottom: 0;
+  left: 0;
+  right: 0;
+  background: var(--paper);
+  border-top: 1rpx solid var(--line-strong);
+  padding: 20rpx 28rpx calc(20rpx + env(safe-area-inset-bottom));
+  display: flex;
+  gap: 20rpx;
+}
+
+.action-btn {
+  flex: 1;
+  height: 88rpx;
+  font-size: var(--fs-body);
+  letter-spacing: 2rpx;
+  border-radius: 2rpx;
+  border: none;
+  line-height: 84rpx;
+}
+
+.action-btn::after {
+  border: none;
+}
+
+.action-btn.btn-ghost {
+  background: transparent;
+  color: var(--ink-green);
+  border: 2rpx solid var(--ink-green);
+}
+
+.action-btn.btn-primary {
+  background: var(--ink-green);
+  color: var(--paper);
+}

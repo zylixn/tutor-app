@@ -1,0 +1,57 @@
+# ==========================================
+# 角色 Token 效率 (新增)
+# ==========================================
+
+# TYPE ai_dispatch_tokens_per_task gauge
+ai_dispatch_tokens_per_task{instance="demo-wangzk",role="architect",team="group-di"} 15166
+ai_dispatch_tokens_per_task{instance="demo-wangzk",role="developer",team="group-di"} 37433
+ai_dispatch_tokens_per_task{instance="demo-wangzk",role="tester",team="group-di"} 1170
+ai_dispatch_tokens_per_task{instance="demo-wangzk",role="reviewer",team="group-di"} 2250
+ai_dispatch_tokens_per_task{instance="demo-wangzk",role="debate",team="group-di"} 12600
+ai_dispatch_tokens_per_task{instance="demo-zhoucw",role="architect",team="group-data"} 15375
+ai_dispatch_tokens_per_task{instance="demo-zhoucw",role="developer",team="group-data"} 38900
+ai_dispatch_tokens_per_task{instance="demo-zhoucw",role="tester",team="group-data"} 1242
+ai_dispatch_tokens_per_task{instance="demo-zhoucw",role="reviewer",team="group-data"} 2400
+ai_dispatch_tokens_per_task{instance="demo-zhoucw",role="debate",team="group-data"} 14750
+ai_dispatch_tokens_per_task{instance="demo-lisi",role="architect",team="group-infra"} 16666
+ai_dispatch_tokens_per_task{instance="demo-lisi",role="developer",team="group-infra"} 39250
+ai_dispatch_tokens_per_task{instance="demo-lisi",role="tester",team="group-infra"} 1500
+ai_dispatch_tokens_per_task{instance="demo-lisi",role="reviewer",team="group-infra"} 2850
+ai_dispatch_tokens_per_task{instance="demo-lisi",role="debate",team="group-infra"} 25800
+ai_dispatch_tokens_per_task{instance="demo-zhaowu",role="architect",team="group-platform"} 16333
+ai_dispatch_tokens_per_task{instance="demo-zhaowu",role="developer",team="group-platform"} 41791
+ai_dispatch_tokens_per_task{instance="demo-zhaowu",role="tester",team="group-platform"} 1325
+ai_dispatch_tokens_per_task{instance="demo-zhaowu",role="reviewer",team="group-platform"} 2300
+ai_dispatch_tokens_per_task{instance="demo-zhaowu",role="debate",team="group-platform"} 16500
+ai_dispatch_tokens_per_task{instance="demo-sunqi",role="architect",team="group-qa"} 15700
+ai_dispatch_tokens_per_task{instance="demo-sunqi",role="developer",team="group-qa"} 35500
+ai_dispatch_tokens_per_task{instance="demo-sunqi",role="tester",team="group-qa"} 1370
+ai_dispatch_tokens_per_task{instance="demo-sunqi",role="reviewer",team="group-qa"} 2111
+ai_dispatch_tokens_per_task{instance="demo-sunqi",role="debate",team="group-qa"} 11750
+
+# TYPE ai_dispatch_token_efficiency_ratio gauge
+ai_dispatch_token_efficiency_ratio{instance="demo-wangzk",role="architect",team="group-di"} 0.167
+ai_dispatch_token_efficiency_ratio{instance="demo-wangzk",role="developer",team="group-di"} 0.070
+ai_dispatch_token_efficiency_ratio{instance="demo-wangzk",role="tester",team="group-di"} 0.376
+ai_dispatch_token_efficiency_ratio{instance="demo-wangzk",role="reviewer",team="group-di"} 0.406
+ai_dispatch_token_efficiency_ratio{instance="demo-wangzk",role="debate",team="group-di"} 0.400
+ai_dispatch_token_efficiency_ratio{instance="demo-zhoucw",role="architect",team="group-data"} 0.183
+ai_dispatch_token_efficiency_ratio{instance="demo-zhoucw",role="developer",team="group-data"} 0.081
+ai_dispatch_token_efficiency_ratio{instance="demo-zhoucw",role="tester",team="group-data"} 0.381
+ai_dispatch_token_efficiency_ratio{instance="demo-zhoucw",role="reviewer",team="group-data"} 0.412
+ai_dispatch_token_efficiency_ratio{instance="demo-zhoucw",role="debate",team="group-data"} 0.405
+ai_dispatch_token_efficiency_ratio{instance="demo-lisi",role="architect",team="group-infra"} 0.190
+ai_dispatch_token_efficiency_ratio{instance="demo-lisi",role="developer",team="group-infra"} 0.090
+ai_dispatch_token_efficiency_ratio{instance="demo-lisi",role="tester",team="group-infra"} 0.389
+ai_dispatch_token_efficiency_ratio{instance="demo-lisi",role="reviewer",team="group-infra"} 0.390
+ai_dispatch_token_efficiency_ratio{instance="demo-lisi",role="debate",team="group-infra"} 0.387
+ai_dispatch_token_efficiency_ratio{instance="demo-zhaowu",role="architect",team="group-platform"} 0.167
+ai_dispatch_token_efficiency_ratio{instance="demo-zhaowu",role="developer",team="group-platform"} 0.072
+ai_dispatch_token_efficiency_ratio{instance="demo-zhaowu",role="tester",team="group-platform"} 0.413
+ai_dispatch_token_efficiency_ratio{instance="demo-zhaowu",role="reviewer",team="group-platform"} 0.400
+ai_dispatch_token_efficiency_ratio{instance="demo-zhaowu",role="debate",team="group-platform"} 0.387
+ai_dispatch_token_efficiency_ratio{instance="demo-sunqi",role="architect",team="group-qa"} 0.208
+ai_dispatch_token_efficiency_ratio{instance="demo-sunqi",role="developer",team="group-qa"} 0.109
+ai_dispatch_token_efficiency_ratio{instance="demo-sunqi",role="tester",team="group-qa"} 0.442
+ai_dispatch_token_efficiency_ratio{instance="demo-sunqi",role="reviewer",team="group-qa"} 0.407
+ai_dispatch_token_efficiency_ratio{instance="demo-sunqi",role="debate",team="group-qa"} 0.382

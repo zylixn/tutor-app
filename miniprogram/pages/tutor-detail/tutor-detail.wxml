@@ -1,0 +1,119 @@
+<wxs src="../../utils/filters.wxs" module="filters" />
+
+<wxs module="dt">
+module.exports.issue = function () {
+  var d = getDate();
+  var m = d.getMonth() + 1;
+  var day = d.getDate();
+  return 'NO.' + d.getFullYear() + '-' + (m < 10 ? '0' + m : m) + (day < 10 ? '0' + day : day);
+}
+</wxs>
+
+<view class="container detail-wrap">
+  <view wx:if="{{loading}}" class="skeleton">
+    <view class="skel-row" wx:for="{{[1, 2, 3]}}" wx:key="*this">
+      <view class="skel-box"/>
+      <view class="skel-lines">
+        <view class="skel-rule w90"/>
+        <view class="skel-rule w70"/>
+        <view class="skel-rule w50"/>
+      </view>
+    </view>
+  </view>
+
+  <view wx:else class="detail">
+    <!-- 档案头: 通栏 + 双细线 -->
+    <view class="d-head">
+      <image wx:if="{{tutor.avatar}}" class="d-ava photo-frame" src="{{tutor.avatar}}" mode="aspectFill" binderror="onAvatarError"/>
+      <view wx:else class="d-ava seal-ava">{{tutor.name[0]}}</view>
+      <view class="tutor-info">
+        <view class="name-row">
+          <text class="name">{{tutor.name}}</text>
+          <view wx:if="{{tutor.verified}}" class="seal-badge">认证</view>
+        </view>
+        <view class="education">{{tutor.education}} · {{tutor.school}} · {{tutor.major}}</view>
+        <view class="subj-line">
+          <text wx:for="{{tutor.subjects}}" wx:key="index" class="subj">【{{item}}】</text>
+        </view>
+        <view class="d-bio-lines">
+          <view class="meta-row">
+            <text class="k">所在地</text>
+            <text class="v">{{tutor.location}}</text>
+          </view>
+          <view class="meta-row" wx:if="{{tutor.grades && tutor.grades.length}}">
+            <text class="k">年级</text>
+            <text class="v">{{filters.joinList(tutor.grades)}}</text>
+          </view>
+        </view>
+      </view>
+    </view>
+
+    <!-- 点线目录行 (取代三格统计带) -->
+    <view class="d-ledger">
+      <view class="ledger-row">
+        <text class="k">评分</text>
+        <view class="leader"/>
+        <text class="v">{{tutor.rating || '暂无'}}</text>
+      </view>
+      <view class="ledger-row">
+        <text class="k">时薪</text>
+        <view class="leader"/>
+        <text class="v">{{tutor.hourlyRate}}<text class="v-unit"> 元/时</text></text>
+      </view>
+      <view class="ledger-row">
+        <text class="k">评价</text>
+        <view class="leader"/>
+        <text class="v">{{tutor.reviewCount || 0}}<text class="v-unit"> 条</text></text>
+      </view>
+    </view>
+
+    <!-- 个人简介 -->
+    <view class="d-sec">
+      <view class="sec-title">个人简介</view>
+      <text class="bio">{{tutor.bio}}</text>
+    </view>
+
+    <!-- 可授课时间 -->
+    <view class="d-sec">
+      <view class="sec-title">可授课时间</view>
+      <text class="plain">{{tutor.availability || '请咨询'}}</text>
+    </view>
+
+    <!-- 资质证明 -->
+    <view class="d-sec" wx:if="{{tutor.credentials && tutor.credentials.length > 0}}">
+      <view class="sec-title">资质证明</view>
+      <view class="credentials">
+        <view wx:for="{{tutor.credentials}}" wx:key="index" class="credential">
+          <text wx:if="{{item.verified}}" class="cred-check">✓</text>
+          <text>{{item.type}}</text>
+        </view>
+      </view>
+    </view>
+
+    <!-- 学员评价 -->
+    <view class="d-sec">
+      <view class="sec-title">学员评价</view>
+      <view wx:if="{{reviews.length === 0}}" class="empty-text">暂无评语</view>
+      <view wx:else class="reviews">
+        <view wx:for="{{reviews}}" wx:key="id" class="review">
+          <view class="review-header">
+            <text class="review-rating">{{item.rating}} 分</text>
+            <text class="review-time">{{filters.relativeTime(item.createdAt)}}</text>
+          </view>
+          <text class="review-content">{{item.content}}</text>
+        </view>
+      </view>
+    </view>
+
+    <!-- 公报落款 -->
+    <view class="d-folio">
+      <text>本档案核验于 {{dt.issue()}} · 家教公报</text>
+    </view>
+  </view>
+
+  <!-- 底部操作 -->
+  <view class="bottom-actions">
+    <button class="action-btn btn-ghost" bindtap="onWriteReview">写评语</button>
+    <button class="action-btn btn-primary" bindtap="onContact">联系家教</button>
+  </view>
+</view>

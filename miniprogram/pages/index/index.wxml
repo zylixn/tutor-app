@@ -1,0 +1,89 @@
+<wxs module="dt">
+module.exports.issue = function () {
+  var d = getDate();
+  var m = d.getMonth() + 1;
+  var day = d.getDate();
+  return 'NO.' + d.getFullYear() + '-' + (m < 10 ? '0' + m : m) + (day < 10 ? '0' + day : day);
+}
+</wxs>
+
+<view class="container">
+  <!-- 公报报头 -->
+  <view class="masthead">
+    <text class="masthead-title">家教公报</text>
+    <text class="masthead-issue">{{dt.issue()}}</text>
+  </view>
+
+  <!-- 检索行 -->
+  <view class="search-bar">
+    <view class="search-input">
+      <icon type="search" size="16"/>
+      <input
+        placeholder="检索科目、年级、地点…"
+        value="{{keyword}}"
+        bindinput="onSearchInput"
+        bindconfirm="onSearch"
+      />
+    </view>
+    <view class="text-action {{showFilter ? 'active' : ''}}" bindtap="onToggleFilter">
+      <text>筛选</text>
+    </view>
+  </view>
+
+  <!-- 已选条件 -->
+  <view class="active-filters" wx:if="{{hasActiveFilters}}">
+    <view class="filter-tag" wx:if="{{filters.subject}}">
+      <text>{{filters.subject}}</text>
+      <text class="remove" bindtap="removeSubjectFilter">×</text>
+    </view>
+    <view class="filter-tag" wx:if="{{filters.grade}}">
+      <text>{{filters.grade}}</text>
+      <text class="remove" bindtap="removeGradeFilter">×</text>
+    </view>
+    <view class="filter-tag" wx:if="{{filters.minPrice || filters.maxPrice}}">
+      <text>{{filters.minPrice || '0'}}-{{filters.maxPrice || '不限'}}元</text>
+      <text class="remove" bindtap="removePriceFilter">×</text>
+    </view>
+    <text class="clear-all" bindtap="clearAllFilters">清除全部</text>
+  </view>
+
+  <!-- 教师名录: 连续条目 -->
+  <view class="tutor-list">
+    <tutor-card
+      wx:for="{{tutors}}"
+      wx:key="id"
+      tutor="{{item}}"
+    />
+  </view>
+
+  <!-- 加载态: 付梓中 -->
+  <view wx:if="{{loading}}" class="skeleton">
+    <view class="skel-kicker">付梓中</view>
+    <view class="skel-row" wx:for="{{[1, 2, 3]}}" wx:key="*this">
+      <view class="skel-box"/>
+      <view class="skel-lines">
+        <view class="skel-rule w90"/>
+        <view class="skel-rule w70"/>
+        <view class="skel-rule w50"/>
+      </view>
+    </view>
+  </view>
+
+  <!-- 空态: 启事 -->
+  <view wx:if="{{!loading && tutors.length === 0}}" class="state-box">
+    <text class="state-kicker">启事</text>
+    <text class="state-copy">本期暂无记录</text>
+    <view class="state-btn" bindtap="clearAllFilters">调整检索</view>
+  </view>
+</view>
+
+<!-- 筛选抽屉 -->
+<view wx:if="{{showFilter}}" class="filter-layer">
+  <view class="scrim" bindtap="onToggleFilter"/>
+  <view class="sheet-panel">
+    <filter-panel
+      initial-filters="{{filters}}"
+      bind:filterchange="onFilterChange"
+    />
+  </view>
+</view>

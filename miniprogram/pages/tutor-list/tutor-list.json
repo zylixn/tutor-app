@@ -1,0 +1,7 @@
+{
+  "navigationBarTitleText": "教师名录",
+  "usingComponents": {
+    "filter-panel": "/components/filter-panel/filter-panel",
+    "tutor-card": "/components/tutor-card/tutor-card"
+  }
+}

@@ -1,0 +1,52 @@
+// utils/filters.wxs — WXS 过滤器（可在 WXML 中直接使用）
+
+function relativeTime(dateStr) {
+  if (!dateStr) return ''
+  var timestamp = getDate(dateStr).getTime()
+  if (isNaN(timestamp)) return dateStr
+
+  var now = getDate().getTime()
+  var diff = now - timestamp
+
+  if (diff < 0) return '刚刚'
+
+  var seconds = Math.floor(diff / 1000)
+  var minutes = Math.floor(seconds / 60)
+  var hours = Math.floor(minutes / 60)
+  var days = Math.floor(hours / 24)
+  var months = Math.floor(days / 30)
+  var years = Math.floor(days / 365)
+
+  if (years > 0) return years + '年前'
+  if (months > 0) return months + '个月前'
+  if (days > 0) return days + '天前'
+  if (hours > 0) return hours + '小时前'
+  if (minutes > 0) return minutes + '分钟前'
+  return '刚刚'
+}
+
+function formatDate(dateStr) {
+  if (!dateStr) return ''
+  var d = getDate(dateStr)
+  if (isNaN(d.getTime())) return dateStr
+  var y = d.getFullYear()
+  var m = d.getMonth() + 1
+  var day = d.getDate()
+  return y + '-' + (m < 10 ? '0' + m : m) + '-' + (day < 10 ? '0' + day : day)
+}
+
+function joinList(list) {
+  if (!list || !list.length) return ''
+  var out = ''
+  for (var i = 0; i < list.length; i++) {
+    if (i > 0) out += ' · '
+    out += list[i]
+  }
+  return out
+}
+
+module.exports = {
+  relativeTime: relativeTime,
+  formatDate: formatDate,
+  joinList: joinList
+}

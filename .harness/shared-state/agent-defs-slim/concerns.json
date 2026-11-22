@@ -1,0 +1,140 @@
+{
+  "p0": [
+    {
+      "id": "P0-001",
+      "title": "hotfix_transitions 残留 smoke 阶段引用 — 热修复流程中断",
+      "severity": "P0",
+      "status": "open",
+      "file": ".claude/reference/harness-rules.yaml",
+      "line": "865-876",
+      "raised_by": "Reviewer",
+      "created_at": "2026-06-09T12:50:00.000Z",
+      "detail": "hotfix_transitions 仍将 smoke 作为独立阶段 (implement DONE → smoke → code-review)，但 getPipelinePhases('hotfix') 返回 ['implement', 'code-review', 'archive']（无 smoke）。advanceImpl 会设置 current_phase = 'smoke'，但 state.pipeline['smoke'] 不存在，导致热修复流程中断。修复：删除 hotfix_transitions 中的 smoke 节点，implement DONE 直接到 code-review。"
+    },
+    {
+      "id": "P0-002",
+      "title": "Agent @include 指令无处理机制 — 核心指导内容丢失",
+      "severity": "P0",
+      "status": "open",
+      "file": ".claude/agents/developer.md",
+      "line": "286",
+      "raised_by": "Reviewer",
+      "created_at": "2026-06-09T12:50:00.000Z",
+      "detail": "developer.md:286 // @include: refs/developer-checklist.md 和 reviewer.md:188 // @include: refs/reviewer-scoring.md 均无处理机制。orchestrator.mjs dispatch-prompt 只读 agent 文件返回 agent_path，不展开 include。dispatch 模板仅告诉 sub-agent '读取 agent 文件'，不指示扩展 include。refs 文件中的内容（编码规范、质量标准、评分卡、质量门禁等）不会到达 sub-agent。修复选项：(1) 在 orchestrator.mjs 中实现 @include 展开逻辑；(2) 将内容合并回 agent 文件；(3) 在 dispatch 模板中显式指示 agent 读取 refs 文件。"
+    },
+    {
+      "id": "P0-003",
+      "title": "frontend.md @include 语法非有效指令",
+      "severity": "P0",
+      "status": "open",
+      "file": ".claude/agents/frontend.md",
+      "line": "47",
+      "raised_by": "Reviewer",
+      "created_at": "2026-06-09T12:50:00.000Z",
+      "detail": "frontend.md:47 // @include: 检查清单参见 developer.md — 这不是有效的 include 语法，是中文叙述伪装的指令。即使有 include 处理机制也无法解析。修复：改为标准 include 语法或直接写入检查清单内容。"
+    }
+  ],
+  "p1": [
+    {
+      "id": "P1-001",
+      "title": "auto_smoke: true 未被消费 — 死配置",
+      "severity": "P1",
+      "status": "open",
+      "file": ".claude/reference/harness-rules.yaml",
+      "line": "816",
+      "raised_by": "Reviewer",
+      "created_at": "2026-06-09T12:50:00.000Z",
+      "detail": "harness-rules.yaml:816 implement→test 转换上的 auto_smoke: true 字段，orchestrator.mjs 中无任何代码读取此字段。inline smoke 已硬编码在 advanceImpl:2137-2162，不依赖此配置。修复：删除 auto_smoke 字段，或在转换解析器中消费它。"
+    },
+    {
+      "id": "P1-002",
+      "title": "phase_skill_map 和 automated_phases 残留 smoke 条目",
+      "severity": "P1",
+      "status": "open",
+      "file": ".claude/reference/harness-rules.yaml",
+      "line": "745, 760",
+      "raised_by": "Reviewer",
+      "created_at": "2026-06-09T12:50:00.000Z",
+      "detail": "phase_skill_map:745 smoke: { role: developer, rd_skill: null } 和 automated_phases:760 smoke: { executor: run-automated, sub_agent_allowed: false } 为死条目。所有 getPipelinePhases() 返回的流程类型均不含 smoke 阶段。修复：删除这两个条目。"
+    },
+    {
+      "id": "P1-003",
+      "title": "cmdRunAutomated 保留死代码 smoke 逻辑 + runSmokeCheck 重复实现",
+      "severity": "P1",
+      "status": "open",
+      "file": ".claude/skills/rd-auto/scripts/orchestrator.mjs",
+      "line": "2769-2833",
+      "raised_by": "Reviewer",
+      "created_at": "2026-06-09T12:50:00.000Z",
+      "detail": "cmdRunAutomated:2769-2833 保留了完整的 smoke 阶段处理逻辑（编译+lint），与新 inline runSmokeCheck:2675-2720 重复。同时 mark-dispatch:2578 和 cmdRunAutomated:2733 仍将 smoke 作为有效阶段守卫。修复：删除 cmdRunAutomated 中的 smoke 分支、mark-dispatch 中的 smoke 守卫、run-automated usage 提示中的 smoke。"
+    },
+    {
+      "id": "P1-004",
+      "title": "SKILL.md 示例对话引用已删除的 smoke 阶段",
+      "severity": "P1",
+      "status": "open",
+      "file": ".claude/skills/rd-auto/SKILL.md",
+      "line": "220",
+      "raised_by": "Reviewer",
+      "created_at": "2026-06-09T12:50:00.000Z",
+      "detail": "示例对话第7步：'smoke(automated) → test: dispatch Tester → DONE → advance'。smoke 已改为 inline，不应出现在示例中。修复：删除此行，或改为注释说明 smoke 已内联执行。"
+    },
+    {
+      "id": "P1-005",
+      "title": "SKILL.md 自动化阶段描述仍包含 smoke",
+      "severity": "P1",
+      "status": "open",
+      "file": ".claude/skills/rd-auto/SKILL.md",
+      "line": "132",
+      "raised_by": "Reviewer",
+      "created_at": "2026-06-09T12:50:00.000Z",
+      "detail": "自动化阶段列表仍含 'smoke：编译 + lint（内联执行，非独立阶段）'。虽然标注了'非独立阶段'，但列在'自动化阶段'标题下容易误导。修复：将 smoke 描述移至 inline 相关章节，从自动化阶段列表中删除。"
+    },
+    {
+      "id": "P1-006",
+      "title": "frontend.md 缺标准 Agent 章节",
+      "severity": "P1",
+      "status": "open",
+      "file": ".claude/agents/frontend.md",
+      "line": "1-56",
+      "raised_by": "Reviewer",
+      "created_at": "2026-06-09T12:50:00.000Z",
+      "detail": "frontend.md 缺少以下标准章节：完整的 Exit States 表（仅3个条目，缺 DONE_WITH_CONCERNS）、Dispatch 摘要模板、Verification Gate、Failure Recovery Protocol、Anti-Rationalization Check、concerns.json 感知、评审结果感知。文件仅56行，远低于 Developer(286行) 和 Reviewer(188行) 的体量。修复：参考 developer.md/reviewer.md 结构补充缺失章节。"
+    }
+  ],
+  "p2": [
+    {
+      "id": "P2-001",
+      "title": "runSmokeCheck 和 cmdRunAutomated smoke 逻辑存在细微差异",
+      "severity": "P2",
+      "status": "open",
+      "file": ".claude/skills/rd-auto/scripts/orchestrator.mjs",
+      "line": "2675-2720 vs 2769-2833",
+      "raised_by": "Reviewer",
+      "created_at": "2026-06-09T12:50:00.000Z",
+      "detail": "两套 smoke 实现对编译输出错误检测和语言检测逻辑有差异。runSmokeCheck 对 unknow language 返回 passed，cmdRunAutomated 中 unknown language 写入 failures 但不阻塞。修复：统一为一套实现后删除 cmdRunAutomated 中的 smoke 分支。"
+    },
+    {
+      "id": "P2-002",
+      "title": "setup-harness.sh 硬编码 NPM_AUTH_TOKEN",
+      "severity": "P2",
+      "status": "open",
+      "file": ".claude/tools/scripts/setup/setup-harness.sh",
+      "line": "28",
+      "raised_by": "Reviewer",
+      "created_at": "2026-06-09T12:50:00.000Z",
+      "detail": "setup-harness.sh:28 硬编码 GitLab Personal Access Token (glpat-...)。此为预存问题（非本次变更引入），但属于安全风险。修复：改为环境变量注入或 .npmrc 预配置方式。"
+    },
+    {
+      "id": "P2-003",
+      "title": "setup-harness.sh NPM 版本检查在离线环境不可用",
+      "severity": "P2",
+      "status": "open",
+      "file": ".claude/tools/scripts/setup/setup-harness.sh",
+      "line": "823, 267",
+      "raised_by": "Reviewer",
+      "created_at": "2026-06-09T12:50:00.000Z",
+      "detail": "do_check:823 和 install_rd_cli:267 中的 npm view 调用在无网络/离线环境中会超时或失败，影响 --check 模式体验。修复：添加超时保护和离线降级提示。"
+    }
+  ]
+}

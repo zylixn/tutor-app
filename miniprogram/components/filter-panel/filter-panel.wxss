@@ -1,0 +1,140 @@
+/* 筛选面板 —— 抽屉内部: 报头双线 + 分组发丝线 + 单色反转选中 */
+/* 注意: 组件样式隔离, 共享类需在此本地定义 */
+
+.filter-panel {
+  padding: 0;
+  background: transparent;
+  border: none;
+}
+
+.sheet-head {
+  display: flex;
+  justify-content: space-between;
+  align-items: baseline;
+  padding: 4rpx 4rpx 22rpx;
+  border-bottom: 8rpx double var(--ink-green);
+}
+
+.sheet-title {
+  font-family: var(--serif);
+  font-size: 34rpx;
+  font-weight: 900;
+  letter-spacing: 6rpx;
+  color: var(--ink);
+}
+
+.sheet-count {
+  font-family: var(--mono);
+  font-size: 20rpx;
+  letter-spacing: 1rpx;
+  color: var(--ink-soft);
+}
+
+.filter-section {
+  padding: 26rpx 4rpx;
+  border-bottom: 1rpx solid var(--line);
+}
+
+.filter-section:first-child {
+  padding-top: 8rpx;
+}
+
+.section-title {
+  font-size: var(--fs-sub);
+  color: var(--ink-faint);
+  letter-spacing: 6rpx;
+  margin-bottom: 24rpx;
+}
+
+.option-grid {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 18rpx;
+}
+
+.option-item {
+  min-height: 88rpx;
+  padding: 0 36rpx;
+  display: flex;
+  align-items: center;
+  background: transparent;
+  border: 1rpx solid var(--line-strong);
+  border-radius: 2rpx;
+  font-size: var(--fs-sub);
+  color: var(--ink-soft);
+  letter-spacing: 1rpx;
+}
+
+.option-item.active {
+  background: var(--ink-green);
+  color: var(--paper);
+  border-color: var(--ink-green);
+}
+
+/* ---------- 价格区间: 排印式下划线输入 ---------- */
+.price-range {
+  display: flex;
+  align-items: center;
+  gap: 28rpx;
+}
+
+.price-input {
+  flex: 1;
+  height: 76rpx;
+  background: transparent;
+  border-bottom: 2rpx solid var(--line-strong);
+  border-radius: 0;
+  padding: 0 12rpx;
+  font-size: var(--fs-sub);
+  text-align: center;
+  font-family: var(--mono);
+  color: var(--ink);
+  box-sizing: border-box;
+}
+
+.price-unit {
+  font-size: var(--fs-label);
+  color: var(--ink-faint);
+  letter-spacing: 1rpx;
+  flex-shrink: 0;
+}
+
+.price-separator {
+  color: var(--ink-faint);
+  font-size: var(--fs-body);
+  font-family: var(--mono);
+}
+
+/* ---------- 操作按钮 ---------- */
+.filter-actions {
+  display: flex;
+  gap: 20rpx;
+  padding: 32rpx 4rpx 8rpx;
+}
+
+.reset-btn,
+.apply-btn {
+  flex: 1;
+  height: 84rpx;
+  font-size: var(--fs-body);
+  letter-spacing: 2rpx;
+  border-radius: 2rpx;
+  border: none;
+  line-height: 80rpx;
+}
+
+.reset-btn::after,
+.apply-btn::after {
+  border: none;
+}
+
+.reset-btn {
+  background: transparent;
+  color: var(--ink-soft);
+  border: 2rpx solid var(--line-strong);
+}
+
+.apply-btn {
+  background: var(--ink-green);
+  color: var(--paper);
+}

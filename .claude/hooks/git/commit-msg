@@ -1,0 +1,91 @@
+#!/usr/bin/env bash
+# commit-msg hook: AI Git 提交规范 v4.2 — 纯 bash 实现
+# 规范文档: .claude/rules/ai-git-commit-spec.md
+#
+# 校验规则（与 pre-receive hook 保持一致）:
+#   1. 首行四字段: [任务号] 阶段标识 模块名称[操作者类型]
+#   2. 首行与 body 之间必须有空行
+#   3. body 首行 type: 前缀（不含操作者，首行已有署名）
+#   4. 总长度 < 500 字符
+#   5. ci 类型禁止 AI 独立提交
+#   6. 模块名禁止过泛/过短/超长（新增 v4.2）
+
+set -euo pipefail
+
+MSG_FILE="$1"
+MSG=$(cat "$MSG_FILE")
+[ -z "$MSG" ] && exit 0
+
+HEADER=$(printf '%s' "$MSG" | head -n1)
+BODY_FIRST=$(printf '%s' "$MSG" | sed -n '3p')
+
+AI_ROLES="Developer|Architect|Tester|Reviewer|Debate|Doc|UX|Cond"
+
+error() { printf "[commit-msg] ERROR: %s\n" "$1" >&2; ERRORS=$((ERRORS + 1)); }
+hint()  { printf "  → %s\n" "$1" >&2; }
+
+ERRORS=0
+
+# 规则1: 首行四字段（含操作者类型）
+if ! [[ "$HEADER" =~ ^\[([A-Za-z]*-[0-9]+|[0-9]+)\]\ (DEV|BUG|CM|TEST|DOCS|REFACTOR|PERF|SEC|CI|REL|HOTFIX|MIGRATE|WIP)\ ([^ ]+)\[(AI·($AI_ROLES)|AI-[a-zA-Z0-9_-]+\.($AI_ROLES)|H-[a-zA-Z0-9_-]+)\]$ ]]; then
+  error "首行格式错误: $HEADER"
+  hint "正确格式: [任务号] 阶段标识 模块名称[操作者类型]"
+  hint "阶段标识: DEV/BUG/CM/TEST/DOCS/REFACTOR/PERF/SEC/CI/REL/HOTFIX/MIGRATE/WIP"
+  hint "示例:     [12345] DEV 融合引擎[AI·Developer]"
+fi
+
+# 规则2: 首行与 body 之间必须有空行
+LINE2=$(printf '%s' "$MSG" | sed -n '2p')
+if [ -n "$LINE2" ]; then
+  error "首行与 body 之间缺少空行（第 2 行必须为空）"
+  hint "正确格式: 首行 → 空行 → body"
+fi
+
+# 规则3: body 首行 type（不要求重复写操作者，首行已有署名）
+if [ -z "$BODY_FIRST" ]; then
+  error "缺少 body（首行后需空一行再写 body）"
+  hint "正确格式: feat: 中文摘要"
+else
+  if ! [[ "$BODY_FIRST" =~ ^(feat|fix|refactor|docs|test|style|perf|chore|ci|revert): ]]; then
+    error "body 首行缺少 type 前缀: $BODY_FIRST"
+    hint "正确格式: feat: 中文摘要（type: feat/fix/refactor/docs/test/style/perf/chore/ci/revert）"
+  fi
+fi
+
+# 规则4: 长度
+MSG_LEN=${#MSG}
+if [ "$MSG_LEN" -gt 500 ]; then
+  error "总长度 ${MSG_LEN} 字符，超出 500 限制"
+  hint "请精简 commit message，保留首行 + body 首行 + 关键变更点"
+fi
+
+# 规则5: ci 类型禁止 AI 独立（检查首行操作者）
+if [[ "$HEADER" =~ \[AI·($AI_ROLES)\]$ ]] && [[ "$BODY_FIRST" =~ ^ci: ]]; then
+  error "ci 类型禁止 AI 独立提交"
+  hint "ci 类型首行必须使用 [H-{git用户名}] 或 [AI-{git用户名}.{角色}]"
+fi
+
+# 规则6: 模块名禁止过泛/过短/超长
+MODULE_NAME=$(printf '%s' "$HEADER" | sed -n 's/.*\] [A-Z]* \([^ ]*\)\[.*/\1/p')
+# 过泛黑名单（通用词 + 已知的 change 名误用）
+BLACKLIST_MODULES="修改|优化|更新|update|fix|change|代码|杂项|misc|other|other"
+if printf '%s' "$MODULE_NAME" | grep -qiE "^(${BLACKLIST_MODULES})$"; then
+  error "模块名太泛化: $MODULE_NAME（禁止使用 $(echo "$BLACKLIST_MODULES" | tr '|' ' ') 等无意义词）"
+  hint "模块名应反映实际变更的文件/模块，参考 ai-git-commit-spec.md §模块名规则"
+fi
+# 长度: 2-24 字符（纯模块名，不含任务号/阶段/操作者）
+MODULE_LEN=${#MODULE_NAME}
+if [ "$MODULE_LEN" -lt 2 ]; then
+  error "模块名过短（${MODULE_LEN} 字符，最少 2 字符）: $MODULE_NAME"
+fi
+if [ "$MODULE_LEN" -gt 24 ]; then
+  error "模块名过长（${MODULE_LEN} 字符，最多 24 字符）: $MODULE_NAME"
+fi
+
+if [ "$ERRORS" -gt 0 ]; then
+  echo "" >&2
+  echo "发现 ${ERRORS} 个错误，请修正后重新提交。参考规范: .claude/rules/ai-git-commit-spec.md" >&2
+  exit 1
+fi
+
+exit 0

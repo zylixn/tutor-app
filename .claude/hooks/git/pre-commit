@@ -1,0 +1,127 @@
+#!/usr/bin/env bash
+# pre-commit hook: 框架文件保护 + TDD Iron Law 检查
+set -euo pipefail
+
+REPO_ROOT="$(git rev-parse --show-toplevel)"
+
+# ============================================================
+# 跨平台执行权限修正：Windows 无权限位，新建文件被存为 644
+# ============================================================
+_FIXED=0
+
+while IFS= read -r f; do
+    MODE=$(git ls-files -s -- "$f" 2>/dev/null | cut -d' ' -f1)
+    if [ "$MODE" = "100644" ]; then
+        git update-index --chmod=+x -- "$f"
+        _FIXED=$((_FIXED + 1))
+    fi
+done < <(git diff --cached --name-only --diff-filter=AM 2>/dev/null)
+[ "$_FIXED" -gt 0 ] && echo "💡 执行权限已自动修正: ${_FIXED} 个文件 (644 → 755)"
+
+# ============================================================
+# CRLF 自动清洗：确保 LF 文件不会混入 Windows 换行符
+# ============================================================
+_LF_PATTERN='\.(sh|bash|ps1|mjs|cjs|java|py|js|ts|vue|go|scala|yml|yaml|json|xml|toml|properties|conf|md|txt|adr|css|scss|less|html|htm)$'
+_CRLF_FILES=$(git diff --cached --name-only --diff-filter=AM 2>/dev/null | grep -E "$_LF_PATTERN" | while read -r f; do
+    [ -f "$f" ] && grep -qU $'\r' "$f" 2>/dev/null && echo "$f"
+done || true)
+
+if [ -n "$_CRLF_FILES" ]; then
+    while IFS= read -r f; do
+        sed -i 's/\r$//' "$f"
+        git add "$f"
+    done <<< "$_CRLF_FILES"
+    echo "💡 CRLF → LF 已自动修复: $(echo "$_CRLF_FILES" | wc -l) 个文件"
+fi
+
+# ============================================================
+# 框架文件保护
+# ============================================================
+MANIFEST="$REPO_ROOT/.framework-manifest"
+if [ -f "$MANIFEST" ]; then
+    framework_changes=()
+    while IFS= read -r staged; do
+        [ -z "$staged" ] && continue
+        # Check manifest directories
+        while IFS= read -r dir; do
+            [ -z "$dir" ] && continue
+            if [[ "$staged" == "$dir" || "$staged" == "$dir"/* ]]; then
+                framework_changes+=("$staged")
+                break
+            fi
+        done < <(grep '^d ' "$MANIFEST" | sed 's/^d //')
+        # Check manifest files (if not already matched by directory)
+        if [ ${#framework_changes[@]} -eq 0 ] || [[ " ${framework_changes[*]} " != *" $staged "* ]]; then
+            if grep -q "^f ${staged}$" "$MANIFEST" 2>/dev/null; then
+                framework_changes+=("$staged")
+            fi
+        fi
+    done < <(git diff --cached --name-only)
+
+    if [ ${#framework_changes[@]} -gt 0 ]; then
+        # bypass 仅在框架源仓生效（有 excluded git hooks 为源仓特征）
+        BYPASS_FILE="$REPO_ROOT/.claude/.framework-edit"
+        if [ -f "$BYPASS_FILE" ] && [ -f "$REPO_ROOT/.claude/hooks/git/pre-receive" ]; then
+            echo "[pre-commit] framework-edit bypass active"
+        else
+            echo "🚫 检测到框架文件变更，提交被阻止。"
+            echo "   变更文件:"
+            for f in "${framework_changes[@]}"; do
+                echo "     - $f"
+            done
+            echo ""
+            echo "   恢复方案（二选一）："
+            echo "     1) 还原变更: git checkout -- ${framework_changes[*]}"
+            echo "     2) 重新安装: bash .claude/tools/scripts/setup/setup-harness.sh"
+            exit 1
+        fi
+    fi
+fi
+
+# ============================================================
+# TDD Iron Law 增量检查
+# ============================================================
+# GATE_BYPASS 令牌检查
+if [ -f "$REPO_ROOT/.git/COMMIT_EDITMSG" ]; then
+    if grep -qE 'GATE_BYPASS:' "$REPO_ROOT/.git/COMMIT_EDITMSG" 2>/dev/null; then
+        echo "[TDD] ⚠️  GATE_BYPASS 绕过"
+        exit 0
+    fi
+fi
+
+# 生产代码扩展名（Java/Python/Go/Node.js/Vue/Perl/C/Rust/Lua）
+_CODE_RE='\.(py|java|go|c|cpp|cc|h|hpp|ts|js|jsx|tsx|mjs|cjs|mts|cts|vue|pl|pm|rs|lua)$'
+# 测试文件模式（路径含 test/__tests__/spec/cy/t/、文件名含 _test/.test/.spec/_spec/.cy、conftest.py）
+_TEST_RE='((^|/)[Tt]est[s]?/|(^|/)__tests__/|(^|/)[Tt]est_|(^|/)spec/|_test\.|\.test\.|\.spec\.|_spec\.|\.cy\.|(^|/)t/|(^|/)conftest\.py)'
+
+# 轻量变更白名单（不触发 TDD 检查）
+#   .d.ts              — TypeScript 类型声明，无运行时逻辑
+#   {tool}.config.{ext} — 枚举已知构建/工具配置文件
+_SKIP_TDD_RE='(\.d\.ts$|(^|/)(vite|webpack|jest|rollup|babel|tsconfig|eslint|prettier|tailwind|postcss|karma|cypress|playwright|nuxt|next)\.config\.[^/]+$)'
+
+# 过滤链: 代码文件 → 排除框架 → 排除测试 → 排除轻量白名单（仅剩需测试的生产代码）
+_PROD=$(git diff --cached --name-only --diff-filter=AM 2>/dev/null \
+    | grep -E "$_CODE_RE" \
+    | grep -vE '(^\.claude/|^\.harness/)' \
+    | grep -vE "$_TEST_RE" \
+    | grep -vE "$_SKIP_TDD_RE" \
+    || true)
+
+[ -z "$_PROD" ] && exit 0
+
+# 检查 staged 中是否有测试文件
+_HAS_TEST=$(git diff --cached --name-only --diff-filter=AM 2>/dev/null \
+    | grep -E "$_TEST_RE" \
+    | grep -E "$_CODE_RE" \
+    || true)
+
+if [ -n "$_HAS_TEST" ]; then
+    echo "[TDD] ✅ 检测到测试变更"
+    exit 0
+fi
+
+_PC=$(echo "$_PROD" | wc -l | tr -d ' ')
+echo "[TDD] 🚫 检测到 ${_PC} 个生产代码变更，无对应测试"
+echo "$_PROD" | sed 's/^/  - /'
+echo "解决: 添加测试并 stage，或 PM 绕过 GATE_BYPASS"
+exit 1

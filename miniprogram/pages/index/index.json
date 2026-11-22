@@ -1,0 +1,7 @@
+{
+  "navigationBarTitleText": "本期目录",
+  "usingComponents": {
+    "filter-panel": "/components/filter-panel/filter-panel",
+    "tutor-card": "/components/tutor-card/tutor-card"
+  }
+}

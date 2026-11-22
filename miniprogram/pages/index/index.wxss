@@ -1,0 +1,64 @@
+/* 首页 —— 家教公报: 报头 + 检索行 + 连续名录 */
+
+/* ---------- 检索行 ---------- */
+.search-bar {
+  display: flex;
+  align-items: center;
+  gap: 24rpx;
+  padding: 24rpx 4rpx 20rpx;
+  border-bottom: 1rpx solid var(--line-strong);
+  margin-bottom: 8rpx;
+}
+
+.search-input {
+  flex: 1;
+  display: flex;
+  align-items: center;
+  min-height: 64rpx;
+}
+
+.search-input input {
+  flex: 1;
+  margin-left: 12rpx;
+  font-size: var(--fs-body);
+  color: var(--ink);
+}
+
+/* 筛选动作样式见 app.wxss .text-action */
+
+/* ---------- 已选条件 ---------- */
+.active-filters {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  padding: 16rpx 4rpx 4rpx;
+  gap: 12rpx;
+}
+
+.filter-tag {
+  display: flex;
+  align-items: center;
+  border-bottom: 2rpx solid var(--line-strong);
+  color: var(--ink-soft);
+  padding: 4rpx 6rpx;
+  font-size: var(--fs-sub);
+  gap: 10rpx;
+}
+
+.filter-tag .remove {
+  color: var(--ink-faint);
+  font-size: 28rpx;
+  padding: 0 4rpx;
+}
+
+.clear-all {
+  color: var(--ink-soft);
+  font-size: var(--fs-sub);
+  padding: 8rpx;
+  letter-spacing: 2rpx;
+}
+
+/* ---------- 名录: 条目间仅发丝线 ---------- */
+.tutor-list {
+  margin-top: 8rpx;
+}

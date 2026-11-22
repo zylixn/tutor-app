@@ -1,0 +1,125 @@
+/* 家教条目 —— 公报流水条目: 连续纸面 + 发丝线分隔 (无边框盒) */
+
+.tutor-card {
+  padding: 32rpx 4rpx 30rpx;
+  border-bottom: 1rpx solid var(--line);
+}
+
+/* ---------- 头部: 篆印/档案照 + 宋体姓名 ---------- */
+.tutor-header {
+  display: flex;
+  align-items: flex-start;
+}
+
+.avatar {
+  width: 96rpx;
+  height: 96rpx;
+  margin-right: 26rpx;
+  flex-shrink: 0;
+  font-size: 44rpx;
+}
+
+.photo-frame {
+  padding: 4rpx;
+  border: 1rpx solid var(--line-strong);
+  background: var(--paper);
+  box-sizing: content-box;
+}
+.photo-frame image {
+  display: block;
+  width: 96rpx;
+  height: 96rpx;
+}
+
+.tutor-info {
+  flex: 1;
+  min-width: 0;
+}
+
+.name-row {
+  display: flex;
+  align-items: center;
+  gap: 14rpx;
+}
+
+.name {
+  font-family: var(--serif);
+  font-size: var(--fs-name);
+  font-weight: 900;
+  letter-spacing: 2rpx;
+  color: var(--ink);
+}
+
+.education {
+  color: var(--ink-soft);
+  font-size: var(--fs-sub);
+  margin-top: 8rpx;
+  letter-spacing: 1rpx;
+}
+
+.subjects {
+  margin-top: 10rpx;
+  display: flex;
+  flex-wrap: wrap;
+}
+
+/* 铅字直角排印【数学】 (组件内本地定义) */
+.subjects .subj {
+  font-size: var(--fs-sub);
+  color: var(--ink-green);
+  letter-spacing: 1rpx;
+}
+
+/* ---------- 一行排印式统计（行情数字规范） ---------- */
+.statline {
+  margin-top: 18rpx;
+  display: flex;
+  align-items: baseline;
+  flex-wrap: wrap;
+}
+
+.statline .piece {
+  display: flex;
+  align-items: baseline;
+  gap: 8rpx;
+}
+
+.statline .k {
+  font-size: var(--fs-label);
+  color: var(--ink-faint);
+  letter-spacing: 2rpx;
+}
+
+.statline .n {
+  font-family: var(--serif);
+  font-weight: 900;
+  color: var(--ink);
+  font-size: 30rpx;
+  font-feature-settings: 'tnum';
+  letter-spacing: 0;
+}
+
+.statline .u {
+  font-size: var(--fs-label);
+  color: var(--ink-faint);
+}
+
+.statline .dot {
+  margin: 0 14rpx;
+  color: var(--line-strong);
+}
+
+/* ---------- 简介摘录 ---------- */
+.tutor-footer {
+  margin-top: 12rpx;
+}
+
+.bio {
+  color: var(--ink-soft);
+  font-size: var(--fs-label);
+  line-height: 1.7;
+  display: -webkit-box;
+  -webkit-box-orient: vertical;
+  -webkit-line-clamp: 2;
+  overflow: hidden;
+}

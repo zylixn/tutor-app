@@ -1,0 +1,46 @@
+{
+  "pages": [
+    "pages/index/index",
+    "pages/tutor-detail/tutor-detail",
+    "pages/tutor-list/tutor-list",
+    "pages/write-review/write-review"
+  ],
+  "window": {
+    "navigationBarTitleText": "家教公报",
+    "navigationBarBackgroundColor": "#F7F4EC",
+    "navigationBarTextStyle": "black",
+    "backgroundColor": "#F7F4EC",
+    "backgroundTextStyle": "dark"
+  },
+  "tabBar": {
+    "color": "#8A8574",
+    "selectedColor": "#175243",
+    "backgroundColor": "#F7F4EC",
+    "borderStyle": "black",
+    "list": [
+      {
+        "pagePath": "pages/index/index",
+        "text": "首页",
+        "iconPath": "images/home.png",
+        "selectedIconPath": "images/home-active.png"
+      },
+      {
+        "pagePath": "pages/tutor-list/tutor-list",
+        "text": "家教",
+        "iconPath": "images/tutor.png",
+        "selectedIconPath": "images/tutor-active.png"
+      }
+    ]
+  },
+  "networkTimeout": {
+    "request": 10000,
+    "downloadFile": 10000
+  },
+  "permission": {
+    "scope.userLocation": {
+      "desc": "用于显示附近的家教信息"
+    }
+  },
+  "style": "v2",
+  "sitemapLocation": "sitemap.json"
+}

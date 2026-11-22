@@ -1,0 +1,372 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+<meta charset="UTF-8">
+<title>家教小程序 · 四个设计方向</title>
+<style>
+  * { margin: 0; padding: 0; box-sizing: border-box; }
+  body {
+    background: #2B2B28;
+    font-family: -apple-system, 'PingFang SC', sans-serif;
+    padding: 48px 40px 80px;
+    display: grid;
+    grid-template-columns: repeat(2, 390px);
+    gap: 56px 48px;
+    justify-content: center;
+  }
+  .board { display: flex; flex-direction: column; gap: 14px; }
+  .caption { color: #C8C4B8; padding: 0 4px; }
+  .caption h2 { color: #F2EFE6; font-size: 17px; margin-bottom: 4px; }
+  .caption p { font-size: 13px; line-height: 1.6; opacity: .75; }
+  .dots { display: flex; gap: 6px; margin-top: 8px; }
+  .dots i { width: 16px; height: 16px; border-radius: 50%; border: 1px solid rgba(255,255,255,.2); }
+  .phone {
+    width: 390px; border-radius: 32px; overflow: hidden;
+    box-shadow: 0 24px 60px rgba(0,0,0,.45);
+    border: 6px solid #111;
+    min-height: 760px;
+    display: flex; flex-direction: column;
+  }
+  .navbar {
+    height: 44px; display: flex; align-items: center; justify-content: center;
+    font-size: 15px; font-weight: 600; flex-shrink: 0;
+  }
+  .body { padding: 14px 14px 20px; flex: 1; display: flex; flex-direction: column; gap: 12px; }
+
+  /* ============ D1 夜书房 ============ */
+  .d1 { background: #10182B; color: #EAF0FA; }
+  .d1 .navbar { background: #10182B; color: #EAF0FA; border-bottom: 1px solid rgba(255,255,255,.06); }
+  .d1 .search { display: flex; gap: 10px; }
+  .d1 .search-input {
+    flex: 1; background: #1B2540; border-radius: 999px; padding: 11px 18px;
+    color: #67718C; font-size: 14px;
+  }
+  .d1 .filter-btn {
+    background: #F2A93B; color: #10182B; font-weight: 700; font-size: 14px;
+    border-radius: 999px; padding: 11px 20px;
+  }
+  .d1 .card {
+    background: #182238; border-radius: 20px; padding: 18px;
+  }
+  .d1 .row1 { display: flex; align-items: flex-start; }
+  .d1 .ava {
+    width: 52px; height: 52px; border-radius: 999px; flex-shrink: 0;
+    display: flex; align-items: center; justify-content: center;
+    font-size: 20px; font-weight: 700; color: #10182B; background: #31405F;
+  }
+  .d1 .who { flex: 1; margin-left: 12px; }
+  .d1 .nm { font-size: 17px; font-weight: 700; }
+  .d1 .nm .v {
+    font-size: 10px; color: #F2A93B; border: 1px solid rgba(242,169,59,.5);
+    border-radius: 999px; padding: 2px 8px; margin-left: 8px; font-weight: 600; vertical-align: 2px;
+  }
+  .d1 .edu { font-size: 12px; color: #93A0BC; margin-top: 5px; }
+  .d1 .price { text-align: right; }
+  .d1 .price b { font-size: 30px; font-weight: 800; color: #F2A93B; letter-spacing: -1px; }
+  .d1 .price span { font-size: 11px; color: #93A0BC; display: block; margin-top: 2px; }
+  .d1 .tags { display: flex; gap: 8px; margin-top: 12px; }
+  .d1 .tag {
+    background: rgba(242,169,59,.12); color: #F2C378; font-size: 12px;
+    border-radius: 999px; padding: 4px 12px;
+  }
+  .d1 .stats {
+    display: flex; gap: 8px; margin-top: 14px; padding-top: 14px;
+    border-top: 1px solid rgba(255,255,255,.07);
+  }
+  .d1 .st { flex: 1; background: #1B2540; border-radius: 999px; padding: 8px 0; text-align: center; }
+  .d1 .st b { font-size: 14px; color: #EAF0FA; }
+  .d1 .st span { font-size: 10px; color: #67718C; margin-left: 4px; }
+
+  /* ============ D2 成绩单公报 ============ */
+  .d2 { background: #F7F4EC; color: #22302B; }
+  .d2 .navbar { background: #F7F4EC; color: #175243; border-bottom: 1px solid #D9D3C2; }
+  .d2 .issue { display: flex; justify-content: space-between; align-items: baseline; padding: 2px 2px 10px; border-bottom: 2px solid #175243; }
+  .d2 .issue h1 { font-family: 'Songti SC','STSong','Noto Serif SC',serif; font-size: 26px; font-weight: 900; color: #175243; letter-spacing: 6px; }
+  .d2 .issue span { font-family: 'Menlo','SF Mono',monospace; font-size: 11px; color: #8A8574; letter-spacing: 1px; }
+  .d2 .search { display: flex; gap: 0; border-bottom: 1px solid #B9B2A0; padding: 6px 2px; }
+  .d2 .search-input { flex: 1; color: #8A8574; font-size: 14px; }
+  .d2 .search-btn { color: #175243; font-weight: 700; font-size: 13px; letter-spacing: 4px; }
+  .d2 .card { border: 1px solid #B9B2A0; background: transparent; padding: 16px 14px; }
+  .d2 .row1 { display: flex; align-items: baseline; justify-content: space-between; border-bottom: 1px solid #D9D3C2; padding-bottom: 10px; }
+  .d2 .nm { font-family: 'Songti SC','STSong',serif; font-size: 20px; font-weight: 900; color: #22302B; }
+  .d2 .nm .v {
+    display: inline-block; font-family: 'Songti SC',serif; font-size: 11px; color: #F7F4EC;
+    background: #B5442D; padding: 2px 6px; margin-left: 8px; vertical-align: 3px;
+  }
+  .d2 .price { font-family: 'Menlo','SF Mono',monospace; font-size: 24px; font-weight: 700; color: #175243; }
+  .d2 .price i { font-style: normal; font-size: 11px; color: #8A8574; margin-left: 2px; }
+  .d2 .edu { font-size: 12px; color: #6E6858; margin-top: 9px; letter-spacing: .5px; }
+  .d2 .tags { display: flex; gap: 8px; margin-top: 11px; }
+  .d2 .tag { border: 1px solid #175243; color: #175243; font-size: 12px; padding: 3px 10px; border-radius: 2px; }
+  .d2 .stats { display: flex; border-top: 1px solid #D9D3C2; margin-top: 13px; }
+  .d2 .st { flex: 1; text-align: center; padding: 10px 0 0; border-left: 1px solid #D9D3C2; }
+  .d2 .st:first-child { border-left: none; }
+  .d2 .st b { font-family: 'Menlo','SF Mono',monospace; font-size: 17px; color: #175243; }
+  .d2 .st span { display: block; font-size: 10px; color: #8A8574; margin-top: 3px; letter-spacing: 2px; }
+
+  /* ============ D3 黑板课表 ============ */
+  .d3 { background: #22322B; color: #F3EFE2; }
+  .d3 .navbar { background: #22322B; color: #F3EFE2; border-bottom: 2px solid rgba(243,239,226,.25); }
+  .d3 .top { display: flex; justify-content: space-between; align-items: center; }
+  .d3 .top h1 { font-family: 'Kaiti SC','STKaiti','KaiTi',serif; font-size: 22px; font-weight: 700; color: #F3EFE2; }
+  .d3 .top span { font-family: 'Menlo',monospace; font-size: 11px; color: #E9D04B; border: 1px dashed rgba(233,208,75,.6); padding: 3px 8px; }
+  .d3 .search { border: 2px solid rgba(243,239,226,.35); padding: 10px 14px; color: rgba(243,239,226,.5); font-size: 14px; }
+  .d3 .card { border: 2px solid rgba(243,239,226,.3); padding: 16px; }
+  .d3 .row1 { display: flex; justify-content: space-between; align-items: flex-start; }
+  .d3 .nm { font-family: 'Kaiti SC','STKaiti','KaiTi',serif; font-size: 21px; font-weight: 700; }
+  .d3 .nm .v { font-size: 11px; color: #E9D04B; margin-left: 8px; }
+  .d3 .edu { font-size: 12px; color: rgba(243,239,226,.6); margin-top: 6px; }
+  .d3 .price { text-align: right; font-family: 'Menlo',monospace; }
+  .d3 .price b { font-size: 28px; color: #E9D04B; font-weight: 700; }
+  .d3 .price span { display: block; font-size: 10px; color: rgba(243,239,226,.5); }
+  .d3 .tags { display: flex; gap: 8px; margin-top: 12px; }
+  .d3 .tag { border: 1.5px dashed rgba(156,201,232,.7); color: #9CC9E8; font-size: 12px; padding: 4px 12px; }
+  .d3 .stats {
+    display: grid; grid-template-columns: repeat(3,1fr); gap: 1px;
+    background: rgba(243,239,226,.25); border: 1px solid rgba(243,239,226,.25); margin-top: 14px;
+  }
+  .d3 .st { background: #22322B; text-align: center; padding: 9px 0; }
+  .d3 .st b { font-family: 'Menlo',monospace; font-size: 16px; color: #F3EFE2; }
+  .d3 .st span { display: block; font-size: 10px; color: rgba(243,239,226,.5); margin-top: 3px; }
+
+  /* ============ D4 作业本 ============ */
+  .d4 { background: #F6EFDF; color: #20242C; }
+  .d4 .navbar { background: #D9442C; color: #FFFDF7; }
+  .d4 .search { display: flex; }
+  .d4 .search-input {
+    flex: 1; background: #FFFDF7; border: 2px solid #20242C; padding: 10px 14px;
+    color: #9A9482; font-size: 14px; border-radius: 8px 0 0 8px;
+  }
+  .d4 .search-btn {
+    background: #D9442C; color: #FFFDF7; padding: 10px 18px; font-weight: 800; font-size: 14px;
+    border: 2px solid #20242C; border-left: none; border-radius: 0 8px 8px 0;
+  }
+  .d4 .card {
+    background: #FFFDF7; border: 2px solid #20242C; border-radius: 10px;
+    box-shadow: 5px 5px 0 rgba(43,85,204,.9); padding: 0; overflow: hidden;
+  }
+  .d4 .band { background: #2B55CC; color: #FFFDF7; padding: 12px 16px; display: flex; align-items: center; }
+  .d4 .band .nm { font-size: 18px; font-weight: 800; flex: 1; }
+  .d4 .band .v {
+    width: 34px; height: 34px; border-radius: 50%; background: #D9442C; color: #FFFDF7;
+    font-size: 10px; font-weight: 800; display: flex; align-items: center; justify-content: center;
+    transform: rotate(-10deg); border: 1.5px solid #FFFDF7; flex-shrink: 0;
+  }
+  .d4 .cardin { padding: 14px 16px 16px; display: flex; gap: 12px; }
+  .d4 .spine {
+    writing-mode: vertical-rl; font-size: 11px; letter-spacing: 4px; color: #2B55CC;
+    border-right: 1px dashed #C9C2B0; padding-right: 10px; flex-shrink: 0;
+  }
+  .d4 .main { flex: 1; }
+  .d4 .edu { font-size: 12px; color: #6E6A5C; margin-bottom: 10px; }
+  .d4 .tags { display: flex; gap: 8px; }
+  .d4 .tag { background: #EBB830; color: #20242C; font-size: 12px; font-weight: 700; padding: 4px 12px; border-radius: 4px; }
+  .d4 .price-row { display: flex; align-items: baseline; justify-content: space-between; margin-top: 13px; padding-top: 12px; border-top: 2px dashed #C9C2B0; }
+  .d4 .score { font-size: 13px; color: #6E6A5C; }
+  .d4 .score b { font-size: 16px; color: #20242C; }
+  .d4 .price { font-size: 26px; font-weight: 900; color: #D9442C; }
+  .d4 .price i { font-style: normal; font-size: 12px; font-weight: 700; color: #20242C; }
+</style>
+</head>
+<body>
+
+  <!-- ═══════════ 方向一 · 夜书房 ═══════════ -->
+  <div class="board">
+    <div class="phone d1">
+      <div class="navbar">家教</div>
+      <div class="body">
+        <div class="search">
+          <div class="search-input">搜索科目、年级、地点…</div>
+          <div class="filter-btn">筛选</div>
+        </div>
+        <div class="card">
+          <div class="row1">
+            <div class="ava">王</div>
+            <div class="who">
+              <div class="nm">王雨桐<span class="v">认证</span></div>
+              <div class="edu">硕士 · 华东师范大学 · 数学</div>
+            </div>
+            <div class="price"><b>¥180</b><span>每小时</span></div>
+          </div>
+          <div class="tags"><div class="tag">数学</div><div class="tag">物理</div><div class="tag">初中~高三</div></div>
+          <div class="stats">
+            <div class="st"><b>4.9</b><span>评分</span></div>
+            <div class="st"><b>27</b><span>评价</span></div>
+            <div class="st"><b>5年</b><span>经验</span></div>
+          </div>
+        </div>
+        <div class="card">
+          <div class="row1">
+            <div class="ava">李</div>
+            <div class="who">
+              <div class="nm">李牧之</div>
+              <div class="edu">本科 · 复旦大学 · 英语</div>
+            </div>
+            <div class="price"><b>¥150</b><span>每小时</span></div>
+          </div>
+          <div class="tags"><div class="tag">英语</div><div class="tag">语文</div><div class="tag">高中</div></div>
+          <div class="stats">
+            <div class="st"><b>4.8</b><span>评分</span></div>
+            <div class="st"><b>12</b><span>评价</span></div>
+            <div class="st"><b>3年</b><span>经验</span></div>
+          </div>
+        </div>
+      </div>
+    </div>
+    <div class="caption">
+      <h2>方向一 · 夜书房</h2>
+      <p>深夜刷手机选老师的场景：墨蓝夜色打底，台灯琥珀色只给价格和认证——一眼锁定"值多少钱、靠不靠谱"。胶囊圆角 + 超大价格数字，信息像便当盒一样分格。</p>
+      <div class="dots">
+        <i style="background:#10182B"></i><i style="background:#182238"></i><i style="background:#F2A93B"></i><i style="background:#93A0BC"></i>
+      </div>
+    </div>
+  </div>
+
+  <!-- ═══════════ 方向二 · 成绩单公报 ═══════════ -->
+  <div class="board">
+    <div class="phone d2">
+      <div class="navbar">家教</div>
+      <div class="body">
+        <div class="issue"><h1>家教公报</h1><span>NO.2026-1122</span></div>
+        <div class="search"><div class="search-input">搜索科目、年级…</div><div class="search-btn">检索</div></div>
+        <div class="card">
+          <div class="row1">
+            <div class="nm">王雨桐<span class="v">认证</span></div>
+            <div class="price">¥180<i>/时</i></div>
+          </div>
+          <div class="edu">硕士 · 华东师范大学 · 数学系</div>
+          <div class="tags"><div class="tag">数学</div><div class="tag">物理</div><div class="tag">初中~高三</div></div>
+          <div class="stats">
+            <div class="st"><b>4.9</b><span>评分</span></div>
+            <div class="st"><b>27</b><span>评价</span></div>
+            <div class="st"><b>5</b><span>经验</span></div>
+          </div>
+        </div>
+        <div class="card">
+          <div class="row1">
+            <div class="nm">李牧之</div>
+            <div class="price">¥150<i>/时</i></div>
+          </div>
+          <div class="edu">本科 · 复旦大学 · 英文系</div>
+          <div class="tags"><div class="tag">英语</div><div class="tag">语文</div><div class="tag">高中</div></div>
+          <div class="stats">
+            <div class="st"><b>4.8</b><span>评分</span></div>
+            <div class="st"><b>12</b><span>评价</span></div>
+            <div class="st"><b>3</b><span>经验</span></div>
+          </div>
+        </div>
+      </div>
+    </div>
+    <div class="caption">
+      <h2>方向二 · 成绩单公报（推荐）</h2>
+      <p>像一份老牌学校的招生简章/成绩单：纸白底、墨绿单色、宋体大标题、细表格线。宋体姓名 + 等宽数字价格，红色"认证"二字是唯一的印章红。克制、可信、不像模板。</p>
+      <div class="dots">
+        <i style="background:#F7F4EC"></i><i style="background:#175243"></i><i style="background:#B5442D"></i><i style="background:#D9D3C2"></i>
+      </div>
+    </div>
+  </div>
+
+  <!-- ═══════════ 方向三 · 黑板课表 ═══════════ -->
+  <div class="board">
+    <div class="phone d3">
+      <div class="navbar">家教</div>
+      <div class="body">
+        <div class="top"><h1>今日课表</h1><span>3 位老师可约</span></div>
+        <div class="search">搜索科目、年级…</div>
+        <div class="card">
+          <div class="row1">
+            <div>
+              <div class="nm">王雨桐<span class="v">✓ 已认证</span></div>
+              <div class="edu">硕士 · 华东师范大学 · 数学</div>
+            </div>
+            <div class="price"><b>¥180</b><span>每小时</span></div>
+          </div>
+          <div class="tags"><div class="tag">数学</div><div class="tag">物理</div><div class="tag">初中~高三</div></div>
+          <div class="stats">
+            <div class="st"><b>4.9</b><span>评分</span></div>
+            <div class="st"><b>27</b><span>评价</span></div>
+            <div class="st"><b>5年</b><span>经验</span></div>
+          </div>
+        </div>
+        <div class="card">
+          <div class="row1">
+            <div>
+              <div class="nm">李牧之</div>
+              <div class="edu">本科 · 复旦大学 · 英语</div>
+            </div>
+            <div class="price"><b>¥150</b><span>每小时</span></div>
+          </div>
+          <div class="tags"><div class="tag">英语</div><div class="tag">语文</div><div class="tag">高中</div></div>
+          <div class="stats">
+            <div class="st"><b>4.8</b><span>评分</span></div>
+            <div class="st"><b>12</b><span>评价</span></div>
+            <div class="st"><b>3年</b><span>经验</span></div>
+          </div>
+        </div>
+      </div>
+    </div>
+    <div class="caption">
+      <h2>方向三 · 黑板课表</h2>
+      <p>把 App 做成一间教室：墨绿黑板底、粉笔白线框、楷体当粉笔字，价格是黄色粉笔写的最大号。虚线框 = 粉笔手绘感，统计栏是课表格子。大胆、有记忆点。</p>
+      <div class="dots">
+        <i style="background:#22322B"></i><i style="background:#F3EFE2"></i><i style="background:#E9D04B"></i><i style="background:#9CC9E8"></i>
+      </div>
+    </div>
+  </div>
+
+  <!-- ═══════════ 方向四 · 作业本 ═══════════ -->
+  <div class="board">
+    <div class="phone d4">
+      <div class="navbar">家教</div>
+      <div class="body">
+        <div class="search">
+          <div class="search-input">搜索科目、年级、地点…</div>
+          <div class="search-btn">搜索</div>
+        </div>
+        <div class="card">
+          <div class="band">
+            <div class="nm">王雨桐</div>
+            <div class="v">认证</div>
+          </div>
+          <div class="cardin">
+            <div class="spine">数学 · 物理</div>
+            <div class="main">
+              <div class="edu">硕士 · 华东师范大学 · 数学系 · 初中~高三</div>
+              <div class="tags"><div class="tag">数学</div><div class="tag">物理</div></div>
+              <div class="price-row">
+                <div class="score">评分 <b>4.9</b> · 27 条评价 · 5年经验</div>
+                <div class="price">¥180<i>/时</i></div>
+              </div>
+            </div>
+          </div>
+        </div>
+        <div class="card">
+          <div class="band">
+            <div class="nm">李牧之</div>
+            <div class="v" style="background:#9A9482;border-color:#9A9482">未认证</div>
+          </div>
+          <div class="cardin">
+            <div class="spine">英语 · 语文</div>
+            <div class="main">
+              <div class="edu">本科 · 复旦大学 · 英文系 · 高中</div>
+              <div class="tags"><div class="tag">英语</div><div class="tag">语文</div></div>
+              <div class="price-row">
+                <div class="score">评分 <b>4.8</b> · 12 条评价 · 3年经验</div>
+                <div class="price">¥150<i>/时</i></div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+    <div class="caption">
+      <h2>方向四 · 作业本</h2>
+      <p>最大胆的一个：作业本纸色 + 红蓝黄三原色，卡片是描边加硬投影的"贴纸"，左侧竖排书脊写科目，认证是斜盖的圆形红印章。像一摞摊开的练习册，辨识度最高，也最挑执行。</p>
+      <div class="dots">
+        <i style="background:#F6EFDF"></i><i style="background:#D9442C"></i><i style="background:#2B55CC"></i><i style="background:#EBB830"></i>
+      </div>
+    </div>
+  </div>
+
+</body>
+</html>

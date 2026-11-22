@@ -1,0 +1,68 @@
+<view class="filter-panel">
+  <!-- 面板报头 -->
+  <view class="sheet-head">
+    <text class="sheet-title">筛选</text>
+    <text class="sheet-count">已选 {{(selectedSubject ? 1 : 0) + (selectedGrade ? 1 : 0) + ((minPrice || maxPrice) ? 1 : 0)}} 项</text>
+  </view>
+
+  <!-- Subject Filter -->
+  <view class="filter-section">
+    <view class="section-title">科目</view>
+    <view class="option-grid">
+      <view
+        class="option-item {{selectedSubject === item ? 'active' : ''}}"
+        wx:for="{{subjects}}"
+        wx:key="*this"
+        bindtap="onSubjectSelect"
+        data-subject="{{item}}"
+      >
+        <text>{{item}}</text>
+      </view>
+    </view>
+  </view>
+
+  <!-- Grade Filter -->
+  <view class="filter-section">
+    <view class="section-title">年级</view>
+    <view class="option-grid">
+      <view
+        class="option-item {{selectedGrade === item ? 'active' : ''}}"
+        wx:for="{{grades}}"
+        wx:key="*this"
+        bindtap="onGradeSelect"
+        data-grade="{{item}}"
+      >
+        <text>{{item}}</text>
+      </view>
+    </view>
+  </view>
+
+  <!-- Price Range Filter -->
+  <view class="filter-section">
+    <view class="section-title">价格范围 (元/时)</view>
+    <view class="price-range">
+      <input
+        class="price-input"
+        type="number"
+        placeholder="最低"
+        value="{{minPrice}}"
+        bindinput="onMinPriceInput"
+      />
+      <text class="price-separator">—</text>
+      <input
+        class="price-input"
+        type="number"
+        placeholder="最高"
+        value="{{maxPrice}}"
+        bindinput="onMaxPriceInput"
+      />
+      <text class="price-unit">元/时</text>
+    </view>
+  </view>
+
+  <!-- Action Buttons -->
+  <view class="filter-actions">
+    <button class="reset-btn" bindtap="onReset">重置</button>
+    <button class="apply-btn" bindtap="onApply">应用筛选</button>
+  </view>
+</view>

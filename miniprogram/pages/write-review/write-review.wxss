@@ -1,0 +1,205 @@
+/* 撰写评语页 —— 连续纸面表单 */
+
+.tutor-info {
+  display: flex;
+  align-items: center;
+  padding: 28rpx 4rpx;
+  border-bottom: 8rpx double var(--ink-green);
+  margin-bottom: 8rpx;
+}
+
+.avatar {
+  width: 96rpx;
+  height: 96rpx;
+  margin-right: 26rpx;
+  flex-shrink: 0;
+  font-size: 44rpx;
+}
+
+.avatar.photo-frame {
+  padding: 4rpx;
+  border: 1rpx solid var(--line-strong);
+  background: var(--paper);
+  box-sizing: content-box;
+}
+.avatar.photo-frame image {
+  display: block;
+  width: 96rpx;
+  height: 96rpx;
+}
+
+.info { flex: 1; }
+
+.name {
+  display: block;
+  font-family: var(--serif);
+  font-size: var(--fs-name);
+  font-weight: 900;
+  letter-spacing: 2rpx;
+  color: var(--ink);
+  margin-bottom: 6rpx;
+}
+
+.education {
+  font-size: var(--fs-sub);
+  color: var(--ink-soft);
+}
+
+/* ---------- 分区 ---------- */
+.section {
+  padding: 36rpx 4rpx 10rpx;
+  border-bottom: 1rpx solid var(--line);
+}
+
+.section .sec-title {
+  margin-bottom: 28rpx;
+}
+
+/* ---------- 星级: 墨绿填星 (选择/行动语义), 空星同族细描边 ---------- */
+.star-row {
+  display: flex;
+  align-items: baseline;
+  gap: 24rpx;
+  padding: 4rpx 4rpx 14rpx;
+}
+
+.stars {
+  display: flex;
+  gap: 10rpx;
+}
+
+.star {
+  width: 88rpx;
+  height: 88rpx;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 40rpx;
+  color: var(--paper);
+  -webkit-text-stroke: 2rpx var(--ink-green);
+  line-height: 1;
+}
+
+.star.active {
+  color: var(--ink-green);
+  -webkit-text-stroke: 0;
+}
+
+.rating-text {
+  font-size: var(--fs-sub);
+  color: var(--ink-soft);
+  letter-spacing: 2rpx;
+}
+
+/* ---------- 稿纸格: 墨绿细格线 (报刊隐喻进功能层) ---------- */
+.paper-grid {
+  position: relative;
+  border: 1rpx solid var(--line-strong);
+  border-radius: 2rpx;
+  background-color: var(--paper);
+  background-image: repeating-linear-gradient(
+    to bottom,
+    transparent 0,
+    transparent 51rpx,
+    rgba(23, 82, 67, 0.22) 51rpx,
+    rgba(23, 82, 67, 0.22) 52rpx
+  );
+  background-position: 0 16rpx;
+}
+
+.content-input {
+  width: 100%;
+  height: 300rpx;
+  padding: 16rpx 22rpx 44rpx;
+  background: transparent;
+  border: none;
+  border-radius: 0;
+  font-size: var(--fs-body);
+  line-height: 52rpx;   /* 与格线周期一致 */
+  box-sizing: border-box;
+}
+
+.char-count {
+  position: absolute;
+  right: 16rpx;
+  bottom: 10rpx;
+  font-size: var(--fs-label);
+  color: var(--ink-faint);
+  font-family: var(--mono);
+  letter-spacing: 1rpx;
+  background: var(--paper);
+  padding: 0 8rpx;
+}
+
+/* ---------- 匿名勾选: 方角铅字框 ---------- */
+.anonymous-option {
+  display: flex;
+  align-items: center;
+  gap: 16rpx;
+  padding: 36rpx 4rpx 10rpx;
+}
+
+.anonymous-option > text {
+  font-size: var(--fs-body);
+  color: var(--ink);
+}
+
+.checkbox {
+  width: 40rpx;
+  height: 40rpx;
+  border: 2rpx solid var(--ink-soft);
+  border-radius: 0;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  flex-shrink: 0;
+  background: var(--paper);
+}
+
+.checkbox.on {
+  background: var(--ink-green);
+  border-color: var(--ink-green);
+}
+
+.check-mark {
+  color: var(--paper);
+  font-size: 28rpx;
+  font-weight: 700;
+  line-height: 1;
+}
+
+/* ---------- 提交 ---------- */
+.submit-btn {
+  width: 100%;
+  height: 92rpx;
+  line-height: 92rpx;
+  font-size: 30rpx;
+  letter-spacing: 4rpx;
+  border-radius: 2rpx;
+  border: none;
+  margin-top: 40rpx;
+}
+
+.submit-btn::after {
+  border: none;
+}
+
+.submit-btn.btn-primary {
+  background: var(--ink-green);
+  color: var(--paper);
+}
+
+.submit-btn.disabled {
+  background: var(--line-strong);
+  color: var(--paper);
+}
+
+/* ---------- 页脚脚注: 压住页面收尾 ---------- */
+.page-folio {
+  padding: 28rpx 0 10rpx;
+  text-align: center;
+  font-size: var(--fs-label);
+  color: var(--ink-faint);
+  letter-spacing: 2rpx;
+  font-family: var(--serif);
+}

@@ -1,0 +1,499 @@
+# ============================================================
+# AI 员工任务 Grafana 演示数据 — Prometheus Exposition Format
+# 数据模型: instance=员工名, 每个员工覆盖全部5个AI角色
+# 5名员工: wangzk, zhoucw, lisi, zhaowu, sunqi
+# 生成时间: 2026-06-01
+# ============================================================
+
+# ==========================================
+# 1. 角色级基础指标 (按 instance + role 粒度)
+# ==========================================
+
+# TYPE ai_dispatch_task_count gauge
+ai_dispatch_task_count{instance="demo-wangzk",role="architect",team="group-di"} 12
+ai_dispatch_task_count{instance="demo-wangzk",role="developer",team="group-di"} 15
+ai_dispatch_task_count{instance="demo-wangzk",role="tester",team="group-di"} 10
+ai_dispatch_task_count{instance="demo-wangzk",role="reviewer",team="group-di"} 8
+ai_dispatch_task_count{instance="demo-wangzk",role="debate",team="group-di"} 3
+ai_dispatch_task_count{instance="demo-zhoucw",role="architect",team="group-data"} 8
+ai_dispatch_task_count{instance="demo-zhoucw",role="developer",team="group-data"} 10
+ai_dispatch_task_count{instance="demo-zhoucw",role="tester",team="group-data"} 7
+ai_dispatch_task_count{instance="demo-zhoucw",role="reviewer",team="group-data"} 6
+ai_dispatch_task_count{instance="demo-zhoucw",role="debate",team="group-data"} 2
+ai_dispatch_task_count{instance="demo-lisi",role="architect",team="group-infra"} 6
+ai_dispatch_task_count{instance="demo-lisi",role="developer",team="group-infra"} 8
+ai_dispatch_task_count{instance="demo-lisi",role="tester",team="group-infra"} 5
+ai_dispatch_task_count{instance="demo-lisi",role="reviewer",team="group-infra"} 4
+ai_dispatch_task_count{instance="demo-lisi",role="debate",team="group-infra"} 1
+ai_dispatch_task_count{instance="demo-zhaowu",role="architect",team="group-platform"} 9
+ai_dispatch_task_count{instance="demo-zhaowu",role="developer",team="group-platform"} 12
+ai_dispatch_task_count{instance="demo-zhaowu",role="tester",team="group-platform"} 8
+ai_dispatch_task_count{instance="demo-zhaowu",role="reviewer",team="group-platform"} 7
+ai_dispatch_task_count{instance="demo-zhaowu",role="debate",team="group-platform"} 2
+ai_dispatch_task_count{instance="demo-sunqi",role="architect",team="group-qa"} 4
+ai_dispatch_task_count{instance="demo-sunqi",role="developer",team="group-qa"} 6
+ai_dispatch_task_count{instance="demo-sunqi",role="tester",team="group-qa"} 10
+ai_dispatch_task_count{instance="demo-sunqi",role="reviewer",team="group-qa"} 9
+ai_dispatch_task_count{instance="demo-sunqi",role="debate",team="group-qa"} 2
+
+# TYPE ai_dispatch_completed_count gauge
+ai_dispatch_completed_count{instance="demo-wangzk",role="architect",team="group-di"} 10
+ai_dispatch_completed_count{instance="demo-wangzk",role="developer",team="group-di"} 10
+ai_dispatch_completed_count{instance="demo-wangzk",role="tester",team="group-di"} 9
+ai_dispatch_completed_count{instance="demo-wangzk",role="reviewer",team="group-di"} 7
+ai_dispatch_completed_count{instance="demo-wangzk",role="debate",team="group-di"} 2
+ai_dispatch_completed_count{instance="demo-zhoucw",role="architect",team="group-data"} 6
+ai_dispatch_completed_count{instance="demo-zhoucw",role="developer",team="group-data"} 6
+ai_dispatch_completed_count{instance="demo-zhoucw",role="tester",team="group-data"} 6
+ai_dispatch_completed_count{instance="demo-zhoucw",role="reviewer",team="group-data"} 5
+ai_dispatch_completed_count{instance="demo-zhoucw",role="debate",team="group-data"} 1
+ai_dispatch_completed_count{instance="demo-lisi",role="architect",team="group-infra"} 5
+ai_dispatch_completed_count{instance="demo-lisi",role="developer",team="group-infra"} 6
+ai_dispatch_completed_count{instance="demo-lisi",role="tester",team="group-infra"} 4
+ai_dispatch_completed_count{instance="demo-lisi",role="reviewer",team="group-infra"} 4
+ai_dispatch_completed_count{instance="demo-lisi",role="debate",team="group-infra"} 1
+ai_dispatch_completed_count{instance="demo-zhaowu",role="architect",team="group-platform"} 7
+ai_dispatch_completed_count{instance="demo-zhaowu",role="developer",team="group-platform"} 7
+ai_dispatch_completed_count{instance="demo-zhaowu",role="tester",team="group-platform"} 6
+ai_dispatch_completed_count{instance="demo-zhaowu",role="reviewer",team="group-platform"} 6
+ai_dispatch_completed_count{instance="demo-zhaowu",role="debate",team="group-platform"} 1
+ai_dispatch_completed_count{instance="demo-sunqi",role="architect",team="group-qa"} 4
+ai_dispatch_completed_count{instance="demo-sunqi",role="developer",team="group-qa"} 5
+ai_dispatch_completed_count{instance="demo-sunqi",role="tester",team="group-qa"} 9
+ai_dispatch_completed_count{instance="demo-sunqi",role="reviewer",team="group-qa"} 8
+ai_dispatch_completed_count{instance="demo-sunqi",role="debate",team="group-qa"} 2
+
+# TYPE ai_dispatch_first_pass_rate gauge
+ai_dispatch_first_pass_rate{instance="demo-wangzk",role="architect",team="group-di"} 0.83
+ai_dispatch_first_pass_rate{instance="demo-wangzk",role="developer",team="group-di"} 0.67
+ai_dispatch_first_pass_rate{instance="demo-wangzk",role="tester",team="group-di"} 0.90
+ai_dispatch_first_pass_rate{instance="demo-wangzk",role="reviewer",team="group-di"} 0.88
+ai_dispatch_first_pass_rate{instance="demo-wangzk",role="debate",team="group-di"} 0.67
+ai_dispatch_first_pass_rate{instance="demo-zhoucw",role="architect",team="group-data"} 0.75
+ai_dispatch_first_pass_rate{instance="demo-zhoucw",role="developer",team="group-data"} 0.60
+ai_dispatch_first_pass_rate{instance="demo-zhoucw",role="tester",team="group-data"} 0.86
+ai_dispatch_first_pass_rate{instance="demo-zhoucw",role="reviewer",team="group-data"} 0.83
+ai_dispatch_first_pass_rate{instance="demo-zhoucw",role="debate",team="group-data"} 0.50
+ai_dispatch_first_pass_rate{instance="demo-lisi",role="architect",team="group-infra"} 0.83
+ai_dispatch_first_pass_rate{instance="demo-lisi",role="developer",team="group-infra"} 0.75
+ai_dispatch_first_pass_rate{instance="demo-lisi",role="tester",team="group-infra"} 0.80
+ai_dispatch_first_pass_rate{instance="demo-lisi",role="reviewer",team="group-infra"} 1.00
+ai_dispatch_first_pass_rate{instance="demo-lisi",role="debate",team="group-infra"} 1.00
+ai_dispatch_first_pass_rate{instance="demo-zhaowu",role="architect",team="group-platform"} 0.78
+ai_dispatch_first_pass_rate{instance="demo-zhaowu",role="developer",team="group-platform"} 0.58
+ai_dispatch_first_pass_rate{instance="demo-zhaowu",role="tester",team="group-platform"} 0.75
+ai_dispatch_first_pass_rate{instance="demo-zhaowu",role="reviewer",team="group-platform"} 0.86
+ai_dispatch_first_pass_rate{instance="demo-zhaowu",role="debate",team="group-platform"} 0.50
+ai_dispatch_first_pass_rate{instance="demo-sunqi",role="architect",team="group-qa"} 1.00
+ai_dispatch_first_pass_rate{instance="demo-sunqi",role="developer",team="group-qa"} 0.83
+ai_dispatch_first_pass_rate{instance="demo-sunqi",role="tester",team="group-qa"} 0.90
+ai_dispatch_first_pass_rate{instance="demo-sunqi",role="reviewer",team="group-qa"} 0.89
+ai_dispatch_first_pass_rate{instance="demo-sunqi",role="debate",team="group-qa"} 1.00
+
+# TYPE ai_dispatch_avg_score gauge
+ai_dispatch_avg_score{instance="demo-wangzk",role="architect",team="group-di"} 92
+ai_dispatch_avg_score{instance="demo-wangzk",role="developer",team="group-di"} 88
+ai_dispatch_avg_score{instance="demo-wangzk",role="tester",team="group-di"} 95
+ai_dispatch_avg_score{instance="demo-wangzk",role="reviewer",team="group-di"} 90
+ai_dispatch_avg_score{instance="demo-wangzk",role="debate",team="group-di"} 78
+ai_dispatch_avg_score{instance="demo-zhoucw",role="architect",team="group-data"} 85
+ai_dispatch_avg_score{instance="demo-zhoucw",role="developer",team="group-data"} 82
+ai_dispatch_avg_score{instance="demo-zhoucw",role="tester",team="group-data"} 90
+ai_dispatch_avg_score{instance="demo-zhoucw",role="reviewer",team="group-data"} 88
+ai_dispatch_avg_score{instance="demo-zhoucw",role="debate",team="group-data"} 75
+ai_dispatch_avg_score{instance="demo-lisi",role="architect",team="group-infra"} 90
+ai_dispatch_avg_score{instance="demo-lisi",role="developer",team="group-infra"} 86
+ai_dispatch_avg_score{instance="demo-lisi",role="tester",team="group-infra"} 88
+ai_dispatch_avg_score{instance="demo-lisi",role="reviewer",team="group-infra"} 92
+ai_dispatch_avg_score{instance="demo-lisi",role="debate",team="group-infra"} 82
+ai_dispatch_avg_score{instance="demo-zhaowu",role="architect",team="group-platform"} 88
+ai_dispatch_avg_score{instance="demo-zhaowu",role="developer",team="group-platform"} 80
+ai_dispatch_avg_score{instance="demo-zhaowu",role="tester",team="group-platform"} 85
+ai_dispatch_avg_score{instance="demo-zhaowu",role="reviewer",team="group-platform"} 89
+ai_dispatch_avg_score{instance="demo-zhaowu",role="debate",team="group-platform"} 72
+ai_dispatch_avg_score{instance="demo-sunqi",role="architect",team="group-qa"} 94
+ai_dispatch_avg_score{instance="demo-sunqi",role="developer",team="group-qa"} 90
+ai_dispatch_avg_score{instance="demo-sunqi",role="tester",team="group-qa"} 93
+ai_dispatch_avg_score{instance="demo-sunqi",role="reviewer",team="group-qa"} 91
+ai_dispatch_avg_score{instance="demo-sunqi",role="debate",team="group-qa"} 84
+
+# TYPE ai_dispatch_avg_duration_ms gauge
+ai_dispatch_avg_duration_ms{instance="demo-wangzk",role="architect",team="group-di"} 360000
+ai_dispatch_avg_duration_ms{instance="demo-wangzk",role="developer",team="group-di"} 840000
+ai_dispatch_avg_duration_ms{instance="demo-wangzk",role="tester",team="group-di"} 180000
+ai_dispatch_avg_duration_ms{instance="demo-wangzk",role="reviewer",team="group-di"} 240000
+ai_dispatch_avg_duration_ms{instance="demo-wangzk",role="debate",team="group-di"} 480000
+ai_dispatch_avg_duration_ms{instance="demo-zhoucw",role="architect",team="group-data"} 480000
+ai_dispatch_avg_duration_ms{instance="demo-zhoucw",role="developer",team="group-data"} 1080000
+ai_dispatch_avg_duration_ms{instance="demo-zhoucw",role="tester",team="group-data"} 240000
+ai_dispatch_avg_duration_ms{instance="demo-zhoucw",role="reviewer",team="group-data"} 300000
+ai_dispatch_avg_duration_ms{instance="demo-zhoucw",role="debate",team="group-data"} 600000
+ai_dispatch_avg_duration_ms{instance="demo-lisi",role="architect",team="group-infra"} 420000
+ai_dispatch_avg_duration_ms{instance="demo-lisi",role="developer",team="group-infra"} 960000
+ai_dispatch_avg_duration_ms{instance="demo-lisi",role="tester",team="group-infra"} 300000
+ai_dispatch_avg_duration_ms{instance="demo-lisi",role="reviewer",team="group-infra"} 180000
+ai_dispatch_avg_duration_ms{instance="demo-lisi",role="debate",team="group-infra"} 720000
+ai_dispatch_avg_duration_ms{instance="demo-zhaowu",role="architect",team="group-platform"} 420000
+ai_dispatch_avg_duration_ms{instance="demo-zhaowu",role="developer",team="group-platform"} 1200000
+ai_dispatch_avg_duration_ms{instance="demo-zhaowu",role="tester",team="group-platform"} 300000
+ai_dispatch_avg_duration_ms{instance="demo-zhaowu",role="reviewer",team="group-platform"} 240000
+ai_dispatch_avg_duration_ms{instance="demo-zhaowu",role="debate",team="group-platform"} 660000
+ai_dispatch_avg_duration_ms{instance="demo-sunqi",role="architect",team="group-qa"} 300000
+ai_dispatch_avg_duration_ms{instance="demo-sunqi",role="developer",team="group-qa"} 720000
+ai_dispatch_avg_duration_ms{instance="demo-sunqi",role="tester",team="group-qa"} 180000
+ai_dispatch_avg_duration_ms{instance="demo-sunqi",role="reviewer",team="group-qa"} 180000
+ai_dispatch_avg_duration_ms{instance="demo-sunqi",role="debate",team="group-qa"} 420000
+
+# TYPE ai_dispatch_rework_count gauge
+ai_dispatch_rework_count{instance="demo-wangzk",role="architect",team="group-di"} 2
+ai_dispatch_rework_count{instance="demo-wangzk",role="developer",team="group-di"} 5
+ai_dispatch_rework_count{instance="demo-wangzk",role="tester",team="group-di"} 1
+ai_dispatch_rework_count{instance="demo-wangzk",role="reviewer",team="group-di"} 1
+ai_dispatch_rework_count{instance="demo-wangzk",role="debate",team="group-di"} 1
+ai_dispatch_rework_count{instance="demo-zhoucw",role="architect",team="group-data"} 2
+ai_dispatch_rework_count{instance="demo-zhoucw",role="developer",team="group-data"} 4
+ai_dispatch_rework_count{instance="demo-zhoucw",role="tester",team="group-data"} 1
+ai_dispatch_rework_count{instance="demo-zhoucw",role="reviewer",team="group-data"} 1
+ai_dispatch_rework_count{instance="demo-zhoucw",role="debate",team="group-data"} 1
+ai_dispatch_rework_count{instance="demo-lisi",role="architect",team="group-infra"} 1
+ai_dispatch_rework_count{instance="demo-lisi",role="developer",team="group-infra"} 2
+ai_dispatch_rework_count{instance="demo-lisi",role="tester",team="group-infra"} 1
+ai_dispatch_rework_count{instance="demo-lisi",role="reviewer",team="group-infra"} 0
+ai_dispatch_rework_count{instance="demo-lisi",role="debate",team="group-infra"} 0
+ai_dispatch_rework_count{instance="demo-zhaowu",role="architect",team="group-platform"} 2
+ai_dispatch_rework_count{instance="demo-zhaowu",role="developer",team="group-platform"} 5
+ai_dispatch_rework_count{instance="demo-zhaowu",role="tester",team="group-platform"} 2
+ai_dispatch_rework_count{instance="demo-zhaowu",role="reviewer",team="group-platform"} 1
+ai_dispatch_rework_count{instance="demo-zhaowu",role="debate",team="group-platform"} 1
+ai_dispatch_rework_count{instance="demo-sunqi",role="architect",team="group-qa"} 0
+ai_dispatch_rework_count{instance="demo-sunqi",role="developer",team="group-qa"} 1
+ai_dispatch_rework_count{instance="demo-sunqi",role="tester",team="group-qa"} 1
+ai_dispatch_rework_count{instance="demo-sunqi",role="reviewer",team="group-qa"} 1
+ai_dispatch_rework_count{instance="demo-sunqi",role="debate",team="group-qa"} 0
+
+# TYPE ai_dispatch_blocked_count gauge
+ai_dispatch_blocked_count{instance="demo-wangzk",role="architect",team="group-di"} 1
+ai_dispatch_blocked_count{instance="demo-wangzk",role="developer",team="group-di"} 3
+ai_dispatch_blocked_count{instance="demo-wangzk",role="tester",team="group-di"} 0
+ai_dispatch_blocked_count{instance="demo-wangzk",role="reviewer",team="group-di"} 1
+ai_dispatch_blocked_count{instance="demo-wangzk",role="debate",team="group-di"} 2
+ai_dispatch_blocked_count{instance="demo-zhoucw",role="architect",team="group-data"} 1
+ai_dispatch_blocked_count{instance="demo-zhoucw",role="developer",team="group-data"} 2
+ai_dispatch_blocked_count{instance="demo-zhoucw",role="tester",team="group-data"} 1
+ai_dispatch_blocked_count{instance="demo-zhoucw",role="reviewer",team="group-data"} 0
+ai_dispatch_blocked_count{instance="demo-zhoucw",role="debate",team="group-data"} 1
+ai_dispatch_blocked_count{instance="demo-lisi",role="architect",team="group-infra"} 0
+ai_dispatch_blocked_count{instance="demo-lisi",role="developer",team="group-infra"} 1
+ai_dispatch_blocked_count{instance="demo-lisi",role="tester",team="group-infra"} 0
+ai_dispatch_blocked_count{instance="demo-lisi",role="reviewer",team="group-infra"} 0
+ai_dispatch_blocked_count{instance="demo-lisi",role="debate",team="group-infra"} 0
+ai_dispatch_blocked_count{instance="demo-zhaowu",role="architect",team="group-platform"} 1
+ai_dispatch_blocked_count{instance="demo-zhaowu",role="developer",team="group-platform"} 3
+ai_dispatch_blocked_count{instance="demo-zhaowu",role="tester",team="group-platform"} 1
+ai_dispatch_blocked_count{instance="demo-zhaowu",role="reviewer",team="group-platform"} 1
+ai_dispatch_blocked_count{instance="demo-zhaowu",role="debate",team="group-platform"} 1
+ai_dispatch_blocked_count{instance="demo-sunqi",role="architect",team="group-qa"} 0
+ai_dispatch_blocked_count{instance="demo-sunqi",role="developer",team="group-qa"} 0
+ai_dispatch_blocked_count{instance="demo-sunqi",role="tester",team="group-qa"} 0
+ai_dispatch_blocked_count{instance="demo-sunqi",role="reviewer",team="group-qa"} 0
+ai_dispatch_blocked_count{instance="demo-sunqi",role="debate",team="group-qa"} 0
+
+# TYPE ai_dispatch_tokens_input gauge
+ai_dispatch_tokens_input{instance="demo-wangzk",role="architect",team="group-di"} 156000
+ai_dispatch_tokens_input{instance="demo-wangzk",role="developer",team="group-di"} 525000
+ai_dispatch_tokens_input{instance="demo-wangzk",role="tester",team="group-di"} 8500
+ai_dispatch_tokens_input{instance="demo-wangzk",role="reviewer",team="group-di"} 12800
+ai_dispatch_tokens_input{instance="demo-wangzk",role="debate",team="group-di"} 27000
+ai_dispatch_tokens_input{instance="demo-zhoucw",role="architect",team="group-data"} 104000
+ai_dispatch_tokens_input{instance="demo-zhoucw",role="developer",team="group-data"} 360000
+ai_dispatch_tokens_input{instance="demo-zhoucw",role="tester",team="group-data"} 6300
+ai_dispatch_tokens_input{instance="demo-zhoucw",role="reviewer",team="group-data"} 10200
+ai_dispatch_tokens_input{instance="demo-zhoucw",role="debate",team="group-data"} 21000
+ai_dispatch_tokens_input{instance="demo-lisi",role="architect",team="group-infra"} 84000
+ai_dispatch_tokens_input{instance="demo-lisi",role="developer",team="group-infra"} 288000
+ai_dispatch_tokens_input{instance="demo-lisi",role="tester",team="group-infra"} 5400
+ai_dispatch_tokens_input{instance="demo-lisi",role="reviewer",team="group-infra"} 8200
+ai_dispatch_tokens_input{instance="demo-lisi",role="debate",team="group-infra"} 18600
+ai_dispatch_tokens_input{instance="demo-zhaowu",role="architect",team="group-platform"} 126000
+ai_dispatch_tokens_input{instance="demo-zhaowu",role="developer",team="group-platform"} 468000
+ai_dispatch_tokens_input{instance="demo-zhaowu",role="tester",team="group-platform"} 7500
+ai_dispatch_tokens_input{instance="demo-zhaowu",role="reviewer",team="group-platform"} 11500
+ai_dispatch_tokens_input{instance="demo-zhaowu",role="debate",team="group-platform"} 23800
+ai_dispatch_tokens_input{instance="demo-sunqi",role="architect",team="group-qa"} 52000
+ai_dispatch_tokens_input{instance="demo-sunqi",role="developer",team="group-qa"} 192000
+ai_dispatch_tokens_input{instance="demo-sunqi",role="tester",team="group-qa"} 9500
+ai_dispatch_tokens_input{instance="demo-sunqi",role="reviewer",team="group-qa"} 13500
+ai_dispatch_tokens_input{instance="demo-sunqi",role="debate",team="group-qa"} 17000
+
+# TYPE ai_dispatch_tokens_output gauge
+ai_dispatch_tokens_output{instance="demo-wangzk",role="architect",team="group-di"} 26000
+ai_dispatch_tokens_output{instance="demo-wangzk",role="developer",team="group-di"} 36500
+ai_dispatch_tokens_output{instance="demo-wangzk",role="tester",team="group-di"} 3200
+ai_dispatch_tokens_output{instance="demo-wangzk",role="reviewer",team="group-di"} 5200
+ai_dispatch_tokens_output{instance="demo-wangzk",role="debate",team="group-di"} 10800
+ai_dispatch_tokens_output{instance="demo-zhoucw",role="architect",team="group-data"} 19000
+ai_dispatch_tokens_output{instance="demo-zhoucw",role="developer",team="group-data"} 29000
+ai_dispatch_tokens_output{instance="demo-zhoucw",role="tester",team="group-data"} 2400
+ai_dispatch_tokens_output{instance="demo-zhoucw",role="reviewer",team="group-data"} 4200
+ai_dispatch_tokens_output{instance="demo-zhoucw",role="debate",team="group-data"} 8500
+ai_dispatch_tokens_output{instance="demo-lisi",role="architect",team="group-infra"} 16000
+ai_dispatch_tokens_output{instance="demo-lisi",role="developer",team="group-infra"} 26000
+ai_dispatch_tokens_output{instance="demo-lisi",role="tester",team="group-infra"} 2100
+ai_dispatch_tokens_output{instance="demo-lisi",role="reviewer",team="group-infra"} 3200
+ai_dispatch_tokens_output{instance="demo-lisi",role="debate",team="group-infra"} 7200
+ai_dispatch_tokens_output{instance="demo-zhaowu",role="architect",team="group-platform"} 21000
+ai_dispatch_tokens_output{instance="demo-zhaowu",role="developer",team="group-platform"} 33500
+ai_dispatch_tokens_output{instance="demo-zhaowu",role="tester",team="group-platform"} 3100
+ai_dispatch_tokens_output{instance="demo-zhaowu",role="reviewer",team="group-platform"} 4600
+ai_dispatch_tokens_output{instance="demo-zhaowu",role="debate",team="group-platform"} 9200
+ai_dispatch_tokens_output{instance="demo-sunqi",role="architect",team="group-qa"} 10800
+ai_dispatch_tokens_output{instance="demo-sunqi",role="developer",team="group-qa"} 21000
+ai_dispatch_tokens_output{instance="demo-sunqi",role="tester",team="group-qa"} 4200
+ai_dispatch_tokens_output{instance="demo-sunqi",role="reviewer",team="group-qa"} 5500
+ai_dispatch_tokens_output{instance="demo-sunqi",role="debate",team="group-qa"} 6500
+
+# ==========================================
+# 2. 活跃任务挂钟时间 (按 task + instance 粒度)
+# ==========================================
+
+# TYPE ai_dispatch_task_wall_clock_ms gauge
+ai_dispatch_task_wall_clock_ms{instance="demo-wangzk",task="login-sso-refactor",team="group-di"} 14400000
+ai_dispatch_task_wall_clock_ms{instance="demo-wangzk",task="audit-log-module",team="group-di"} 9600000
+ai_dispatch_task_wall_clock_ms{instance="demo-zhoucw",task="data-pipeline-optimize",team="group-data"} 10800000
+ai_dispatch_task_wall_clock_ms{instance="demo-zhoucw",task="real-time-sync-engine",team="group-data"} 15600000
+ai_dispatch_task_wall_clock_ms{instance="demo-lisi",task="k8s-operator-upgrade",team="group-infra"} 7200000
+ai_dispatch_task_wall_clock_ms{instance="demo-lisi",task="service-mesh-migration",team="group-infra"} 12000000
+ai_dispatch_task_wall_clock_ms{instance="demo-zhaowu",task="api-gateway-retry",team="group-platform"} 18000000
+ai_dispatch_task_wall_clock_ms{instance="demo-zhaowu",task="config-hot-reload",team="group-platform"} 8400000
+ai_dispatch_task_wall_clock_ms{instance="demo-sunqi",task="e2e-test-framework",team="group-qa"} 3600000
+ai_dispatch_task_wall_clock_ms{instance="demo-sunqi",task="chaos-testing-suite",team="group-qa"} 4800000
+
+# ==========================================
+# 3. 角色阻塞率 (全局聚合)
+# ==========================================
+
+# TYPE ai_dispatch_blocked_rate gauge
+ai_dispatch_blocked_rate{instance="demo-wangzk",role="architect",team="group-di"} 0.083
+ai_dispatch_blocked_rate{instance="demo-wangzk",role="developer",team="group-di"} 0.200
+ai_dispatch_blocked_rate{instance="demo-wangzk",role="tester",team="group-di"} 0.000
+ai_dispatch_blocked_rate{instance="demo-wangzk",role="reviewer",team="group-di"} 0.125
+ai_dispatch_blocked_rate{instance="demo-wangzk",role="debate",team="group-di"} 0.667
+ai_dispatch_blocked_rate{instance="demo-zhoucw",role="architect",team="group-data"} 0.125
+ai_dispatch_blocked_rate{instance="demo-zhoucw",role="developer",team="group-data"} 0.200
+ai_dispatch_blocked_rate{instance="demo-zhoucw",role="tester",team="group-data"} 0.143
+ai_dispatch_blocked_rate{instance="demo-zhoucw",role="reviewer",team="group-data"} 0.000
+ai_dispatch_blocked_rate{instance="demo-zhoucw",role="debate",team="group-data"} 0.500
+ai_dispatch_blocked_rate{instance="demo-lisi",role="architect",team="group-infra"} 0.000
+ai_dispatch_blocked_rate{instance="demo-lisi",role="developer",team="group-infra"} 0.125
+ai_dispatch_blocked_rate{instance="demo-lisi",role="tester",team="group-infra"} 0.000
+ai_dispatch_blocked_rate{instance="demo-lisi",role="reviewer",team="group-infra"} 0.000
+ai_dispatch_blocked_rate{instance="demo-lisi",role="debate",team="group-infra"} 0.000
+ai_dispatch_blocked_rate{instance="demo-zhaowu",role="architect",team="group-platform"} 0.111
+ai_dispatch_blocked_rate{instance="demo-zhaowu",role="developer",team="group-platform"} 0.250
+ai_dispatch_blocked_rate{instance="demo-zhaowu",role="tester",team="group-platform"} 0.125
+ai_dispatch_blocked_rate{instance="demo-zhaowu",role="reviewer",team="group-platform"} 0.143
+ai_dispatch_blocked_rate{instance="demo-zhaowu",role="debate",team="group-platform"} 0.500
+ai_dispatch_blocked_rate{instance="demo-sunqi",role="architect",team="group-qa"} 0.000
+ai_dispatch_blocked_rate{instance="demo-sunqi",role="developer",team="group-qa"} 0.000
+ai_dispatch_blocked_rate{instance="demo-sunqi",role="tester",team="group-qa"} 0.000
+ai_dispatch_blocked_rate{instance="demo-sunqi",role="reviewer",team="group-qa"} 0.000
+ai_dispatch_blocked_rate{instance="demo-sunqi",role="debate",team="group-qa"} 0.000
+ai_dispatch_blocked_rate{instance="~",role="overall",team=""} 0.119
+
+# ==========================================
+# 4. 全局高级聚合指标 (跨所有实例)
+# ==========================================
+
+# TYPE ai_dispatch_lead_time_ms gauge
+ai_dispatch_lead_time_ms{instance="demo-wangzk",stat="p50",team="group-di"} 28800000
+ai_dispatch_lead_time_ms{instance="demo-wangzk",stat="p95",team="group-di"} 86400000
+ai_dispatch_lead_time_ms{instance="demo-wangzk",stat="p99",team="group-di"} 172800000
+ai_dispatch_lead_time_ms{instance="demo-wangzk",stat="avg",team="group-di"} 36000000
+ai_dispatch_lead_time_ms{instance="demo-wangzk",stat="min",team="group-di"} 3600000
+ai_dispatch_lead_time_ms{instance="demo-wangzk",stat="max",team="group-di"} 259200000
+
+# TYPE ai_dispatch_pm_to_first_artifact_ms gauge
+ai_dispatch_pm_to_first_artifact_ms{instance="demo-wangzk",stat="p50",team="group-di"} 900000
+ai_dispatch_pm_to_first_artifact_ms{instance="demo-wangzk",stat="p95",team="group-di"} 3600000
+ai_dispatch_pm_to_first_artifact_ms{instance="demo-wangzk",stat="p99",team="group-di"} 7200000
+ai_dispatch_pm_to_first_artifact_ms{instance="demo-wangzk",stat="avg",team="group-di"} 1200000
+ai_dispatch_pm_to_first_artifact_ms{instance="demo-wangzk",stat="min",team="group-di"} 120000
+ai_dispatch_pm_to_first_artifact_ms{instance="demo-wangzk",stat="max",team="group-di"} 10800000
+
+# ==========================================
+# 5. 阶段耗时百分位
+# ==========================================
+
+# TYPE ai_dispatch_phase_duration_p50_ms gauge
+ai_dispatch_phase_duration_p50_ms{instance="demo-wangzk",phase="intake",team="group-di"} 120000
+ai_dispatch_phase_duration_p50_ms{instance="demo-wangzk",phase="explore",team="group-di"} 600000
+ai_dispatch_phase_duration_p50_ms{instance="demo-wangzk",phase="propose",team="group-di"} 900000
+ai_dispatch_phase_duration_p50_ms{instance="demo-wangzk",phase="design-review",team="group-di"} 480000
+ai_dispatch_phase_duration_p50_ms{instance="demo-wangzk",phase="implement",team="group-di"} 1800000
+ai_dispatch_phase_duration_p50_ms{instance="demo-wangzk",phase="test",team="group-di"} 300000
+ai_dispatch_phase_duration_p50_ms{instance="demo-wangzk",phase="code-review",team="group-di"} 420000
+ai_dispatch_phase_duration_p50_ms{instance="demo-wangzk",phase="debate",team="group-di"} 600000
+ai_dispatch_phase_duration_p50_ms{instance="demo-wangzk",phase="archive",team="group-di"} 180000
+
+# TYPE ai_dispatch_phase_duration_p95_ms gauge
+ai_dispatch_phase_duration_p95_ms{instance="demo-wangzk",phase="intake",team="group-di"} 300000
+ai_dispatch_phase_duration_p95_ms{instance="demo-wangzk",phase="explore",team="group-di"} 1800000
+ai_dispatch_phase_duration_p95_ms{instance="demo-wangzk",phase="propose",team="group-di"} 2700000
+ai_dispatch_phase_duration_p95_ms{instance="demo-wangzk",phase="design-review",team="group-di"} 1200000
+ai_dispatch_phase_duration_p95_ms{instance="demo-wangzk",phase="implement",team="group-di"} 5400000
+ai_dispatch_phase_duration_p95_ms{instance="demo-wangzk",phase="test",team="group-di"} 900000
+ai_dispatch_phase_duration_p95_ms{instance="demo-wangzk",phase="code-review",team="group-di"} 1200000
+ai_dispatch_phase_duration_p95_ms{instance="demo-wangzk",phase="debate",team="group-di"} 1800000
+ai_dispatch_phase_duration_p95_ms{instance="demo-wangzk",phase="archive",team="group-di"} 600000
+
+# TYPE ai_dispatch_phase_duration_p99_ms gauge
+ai_dispatch_phase_duration_p99_ms{instance="demo-wangzk",phase="intake",team="group-di"} 600000
+ai_dispatch_phase_duration_p99_ms{instance="demo-wangzk",phase="explore",team="group-di"} 3600000
+ai_dispatch_phase_duration_p99_ms{instance="demo-wangzk",phase="propose",team="group-di"} 5400000
+ai_dispatch_phase_duration_p99_ms{instance="demo-wangzk",phase="design-review",team="group-di"} 2400000
+ai_dispatch_phase_duration_p99_ms{instance="demo-wangzk",phase="implement",team="group-di"} 10800000
+ai_dispatch_phase_duration_p99_ms{instance="demo-wangzk",phase="test",team="group-di"} 1800000
+ai_dispatch_phase_duration_p99_ms{instance="demo-wangzk",phase="code-review",team="group-di"} 2400000
+ai_dispatch_phase_duration_p99_ms{instance="demo-wangzk",phase="debate",team="group-di"} 3600000
+ai_dispatch_phase_duration_p99_ms{instance="demo-wangzk",phase="archive",team="group-di"} 1200000
+
+# ==========================================
+# 6. 返工原因分布
+# ==========================================
+
+# TYPE ai_dispatch_rework_reason_total gauge
+ai_dispatch_rework_reason_total{instance="demo-wangzk",reason="code/implementation",team="group-di"} 3
+ai_dispatch_rework_reason_total{instance="demo-wangzk",reason="code/style",team="group-di"} 2
+ai_dispatch_rework_reason_total{instance="demo-wangzk",reason="doc/missing",team="group-di"} 1
+ai_dispatch_rework_reason_total{instance="demo-wangzk",reason="code/logic_bug",team="group-di"} 2
+ai_dispatch_rework_reason_total{instance="demo-wangzk",reason="test/coverage",team="group-di"} 1
+ai_dispatch_rework_reason_total{instance="demo-wangzk",reason="spec/gap",team="group-di"} 1
+ai_dispatch_rework_reason_total{instance="demo-zhoucw",reason="code/implementation",team="group-data"} 2
+ai_dispatch_rework_reason_total{instance="demo-zhoucw",reason="code/style",team="group-data"} 1
+ai_dispatch_rework_reason_total{instance="demo-zhoucw",reason="doc/missing",team="group-data"} 2
+ai_dispatch_rework_reason_total{instance="demo-zhoucw",reason="review/readability",team="group-data"} 2
+ai_dispatch_rework_reason_total{instance="demo-lisi",reason="code/implementation",team="group-infra"} 1
+ai_dispatch_rework_reason_total{instance="demo-lisi",reason="test/coverage",team="group-infra"} 2
+ai_dispatch_rework_reason_total{instance="demo-lisi",reason="code/perf",team="group-infra"} 1
+ai_dispatch_rework_reason_total{instance="demo-zhaowu",reason="code/implementation",team="group-platform"} 2
+ai_dispatch_rework_reason_total{instance="demo-zhaowu",reason="code/style",team="group-platform"} 3
+ai_dispatch_rework_reason_total{instance="demo-zhaowu",reason="code/logic_bug",team="group-platform"} 2
+ai_dispatch_rework_reason_total{instance="demo-zhaowu",reason="doc/missing",team="group-platform"} 2
+ai_dispatch_rework_reason_total{instance="demo-sunqi",reason="test/coverage",team="group-qa"} 1
+ai_dispatch_rework_reason_total{instance="demo-sunqi",reason="review/readability",team="group-qa"} 1
+ai_dispatch_rework_reason_total{instance="demo-sunqi",reason="security/hardening",team="group-qa"} 1
+
+# ==========================================
+# 7. 质量门禁状态
+# ==========================================
+
+# TYPE ai_dispatch_quality_gate_passed gauge
+ai_dispatch_quality_gate_passed{instance="demo-wangzk",gate="QG-ARCH-001",team="group-di"} 10
+ai_dispatch_quality_gate_passed{instance="demo-wangzk",gate="QG-DEV-001",team="group-di"} 8
+ai_dispatch_quality_gate_passed{instance="demo-wangzk",gate="QG-REV-001",team="group-di"} 9
+ai_dispatch_quality_gate_passed{instance="demo-wangzk",gate="QG-REV-002",team="group-di"} 11
+ai_dispatch_quality_gate_passed{instance="demo-zhoucw",gate="QG-ARCH-001",team="group-data"} 6
+ai_dispatch_quality_gate_passed{instance="demo-zhoucw",gate="QG-DEV-001",team="group-data"} 5
+ai_dispatch_quality_gate_passed{instance="demo-zhoucw",gate="QG-REV-001",team="group-data"} 7
+ai_dispatch_quality_gate_passed{instance="demo-zhoucw",gate="QG-REV-002",team="group-data"} 7
+ai_dispatch_quality_gate_passed{instance="demo-lisi",gate="QG-ARCH-001",team="group-infra"} 5
+ai_dispatch_quality_gate_passed{instance="demo-lisi",gate="QG-DEV-001",team="group-infra"} 4
+ai_dispatch_quality_gate_passed{instance="demo-lisi",gate="QG-REV-001",team="group-infra"} 5
+ai_dispatch_quality_gate_passed{instance="demo-lisi",gate="QG-REV-002",team="group-infra"} 6
+ai_dispatch_quality_gate_passed{instance="demo-zhaowu",gate="QG-ARCH-001",team="group-platform"} 7
+ai_dispatch_quality_gate_passed{instance="demo-zhaowu",gate="QG-DEV-001",team="group-platform"} 6
+ai_dispatch_quality_gate_passed{instance="demo-zhaowu",gate="QG-REV-001",team="group-platform"} 8
+ai_dispatch_quality_gate_passed{instance="demo-zhaowu",gate="QG-REV-002",team="group-platform"} 8
+ai_dispatch_quality_gate_passed{instance="demo-sunqi",gate="QG-ARCH-001",team="group-qa"} 4
+ai_dispatch_quality_gate_passed{instance="demo-sunqi",gate="QG-DEV-001",team="group-qa"} 3
+ai_dispatch_quality_gate_passed{instance="demo-sunqi",gate="QG-REV-001",team="group-qa"} 4
+ai_dispatch_quality_gate_passed{instance="demo-sunqi",gate="QG-REV-002",team="group-qa"} 4
+
+# TYPE ai_dispatch_quality_gate_pending gauge
+ai_dispatch_quality_gate_pending{instance="demo-wangzk",gate="QG-ARCH-001",team="group-di"} 2
+ai_dispatch_quality_gate_pending{instance="demo-wangzk",gate="QG-DEV-001",team="group-di"} 5
+ai_dispatch_quality_gate_pending{instance="demo-wangzk",gate="QG-REV-001",team="group-di"} 2
+ai_dispatch_quality_gate_pending{instance="demo-wangzk",gate="QG-REV-002",team="group-di"} 1
+ai_dispatch_quality_gate_pending{instance="demo-zhoucw",gate="QG-ARCH-001",team="group-data"} 1
+ai_dispatch_quality_gate_pending{instance="demo-zhoucw",gate="QG-DEV-001",team="group-data"} 3
+ai_dispatch_quality_gate_pending{instance="demo-zhoucw",gate="QG-REV-001",team="group-data"} 1
+ai_dispatch_quality_gate_pending{instance="demo-zhoucw",gate="QG-REV-002",team="group-data"} 1
+ai_dispatch_quality_gate_pending{instance="demo-lisi",gate="QG-ARCH-001",team="group-infra"} 1
+ai_dispatch_quality_gate_pending{instance="demo-lisi",gate="QG-DEV-001",team="group-infra"} 2
+ai_dispatch_quality_gate_pending{instance="demo-lisi",gate="QG-REV-001",team="group-infra"} 1
+ai_dispatch_quality_gate_pending{instance="demo-lisi",gate="QG-REV-002",team="group-infra"} 0
+ai_dispatch_quality_gate_pending{instance="demo-zhaowu",gate="QG-ARCH-001",team="group-platform"} 1
+ai_dispatch_quality_gate_pending{instance="demo-zhaowu",gate="QG-DEV-001",team="group-platform"} 4
+ai_dispatch_quality_gate_pending{instance="demo-zhaowu",gate="QG-REV-001",team="group-platform"} 1
+ai_dispatch_quality_gate_pending{instance="demo-zhaowu",gate="QG-REV-002",team="group-platform"} 1
+ai_dispatch_quality_gate_pending{instance="demo-sunqi",gate="QG-ARCH-001",team="group-qa"} 0
+ai_dispatch_quality_gate_pending{instance="demo-sunqi",gate="QG-DEV-001",team="group-qa"} 1
+ai_dispatch_quality_gate_pending{instance="demo-sunqi",gate="QG-REV-001",team="group-qa"} 1
+ai_dispatch_quality_gate_pending{instance="demo-sunqi",gate="QG-REV-002",team="group-qa"} 0
+
+# TYPE ai_dispatch_quality_gate_failed gauge
+ai_dispatch_quality_gate_failed{instance="demo-wangzk",gate="QG-ARCH-001",team="group-di"} 0
+ai_dispatch_quality_gate_failed{instance="demo-wangzk",gate="QG-DEV-001",team="group-di"} 2
+ai_dispatch_quality_gate_failed{instance="demo-wangzk",gate="QG-REV-001",team="group-di"} 1
+ai_dispatch_quality_gate_failed{instance="demo-wangzk",gate="QG-REV-002",team="group-di"} 0
+ai_dispatch_quality_gate_failed{instance="demo-zhoucw",gate="QG-ARCH-001",team="group-data"} 1
+ai_dispatch_quality_gate_failed{instance="demo-zhoucw",gate="QG-DEV-001",team="group-data"} 2
+ai_dispatch_quality_gate_failed{instance="demo-zhoucw",gate="QG-REV-001",team="group-data"} 0
+ai_dispatch_quality_gate_failed{instance="demo-zhoucw",gate="QG-REV-002",team="group-data"} 0
+ai_dispatch_quality_gate_failed{instance="demo-lisi",gate="QG-ARCH-001",team="group-infra"} 0
+ai_dispatch_quality_gate_failed{instance="demo-lisi",gate="QG-DEV-001",team="group-infra"} 2
+ai_dispatch_quality_gate_failed{instance="demo-lisi",gate="QG-REV-001",team="group-infra"} 0
+ai_dispatch_quality_gate_failed{instance="demo-lisi",gate="QG-REV-002",team="group-infra"} 0
+ai_dispatch_quality_gate_failed{instance="demo-zhaowu",gate="QG-ARCH-001",team="group-platform"} 1
+ai_dispatch_quality_gate_failed{instance="demo-zhaowu",gate="QG-DEV-001",team="group-platform"} 2
+ai_dispatch_quality_gate_failed{instance="demo-zhaowu",gate="QG-REV-001",team="group-platform"} 0
+ai_dispatch_quality_gate_failed{instance="demo-zhaowu",gate="QG-REV-002",team="group-platform"} 0
+ai_dispatch_quality_gate_failed{instance="demo-sunqi",gate="QG-ARCH-001",team="group-qa"} 0
+ai_dispatch_quality_gate_failed{instance="demo-sunqi",gate="QG-DEV-001",team="group-qa"} 0
+ai_dispatch_quality_gate_failed{instance="demo-sunqi",gate="QG-REV-001",team="group-qa"} 0
+ai_dispatch_quality_gate_failed{instance="demo-sunqi",gate="QG-REV-002",team="group-qa"} 0
+
+# ==========================================
+# 8. 上下文模式分布 + 按 flow_type Token
+# ==========================================
+
+# TYPE ai_dispatch_context_mode_count gauge
+ai_dispatch_context_mode_count{instance="demo-wangzk",mode="minimal",team="group-di"} 15
+ai_dispatch_context_mode_count{instance="demo-wangzk",mode="read_only",team="group-di"} 14
+ai_dispatch_context_mode_count{instance="demo-wangzk",mode="full",team="group-di"} 19
+ai_dispatch_context_mode_count{instance="demo-zhoucw",mode="minimal",team="group-data"} 10
+ai_dispatch_context_mode_count{instance="demo-zhoucw",mode="read_only",team="group-data"} 9
+ai_dispatch_context_mode_count{instance="demo-zhoucw",mode="full",team="group-data"} 14
+ai_dispatch_context_mode_count{instance="demo-lisi",mode="minimal",team="group-infra"} 7
+ai_dispatch_context_mode_count{instance="demo-lisi",mode="read_only",team="group-infra"} 6
+ai_dispatch_context_mode_count{instance="demo-lisi",mode="full",team="group-infra"} 11
+ai_dispatch_context_mode_count{instance="demo-zhaowu",mode="minimal",team="group-platform"} 12
+ai_dispatch_context_mode_count{instance="demo-zhaowu",mode="read_only",team="group-platform"} 10
+ai_dispatch_context_mode_count{instance="demo-zhaowu",mode="full",team="group-platform"} 16
+ai_dispatch_context_mode_count{instance="demo-sunqi",mode="minimal",team="group-qa"} 8
+ai_dispatch_context_mode_count{instance="demo-sunqi",mode="read_only",team="group-qa"} 9
+ai_dispatch_context_mode_count{instance="demo-sunqi",mode="full",team="group-qa"} 14
+
+# TYPE ai_dispatch_tokens_by_flow_type gauge
+ai_dispatch_tokens_by_flow_type{instance="demo-wangzk",flow_type="development",metric="avg_input_tokens",team="group-di"} 145000
+ai_dispatch_tokens_by_flow_type{instance="demo-wangzk",flow_type="development",metric="avg_output_tokens",team="group-di"} 28000
+ai_dispatch_tokens_by_flow_type{instance="demo-wangzk",flow_type="development",metric="task_count",team="group-di"} 24
+ai_dispatch_tokens_by_flow_type{instance="demo-wangzk",flow_type="hotfix",metric="avg_input_tokens",team="group-di"} 35000
+ai_dispatch_tokens_by_flow_type{instance="demo-wangzk",flow_type="hotfix",metric="avg_output_tokens",team="group-di"} 8000
+ai_dispatch_tokens_by_flow_type{instance="demo-wangzk",flow_type="hotfix",metric="task_count",team="group-di"} 6
+ai_dispatch_tokens_by_flow_type{instance="demo-wangzk",flow_type="refactor",metric="avg_input_tokens",team="group-di"} 210000
+ai_dispatch_tokens_by_flow_type{instance="demo-wangzk",flow_type="refactor",metric="avg_output_tokens",team="group-di"} 42000
+ai_dispatch_tokens_by_flow_type{instance="demo-wangzk",flow_type="refactor",metric="task_count",team="group-di"} 8
+ai_dispatch_tokens_by_flow_type{instance="demo-wangzk",flow_type="docs",metric="avg_input_tokens",team="group-di"} 18000
+ai_dispatch_tokens_by_flow_type{instance="demo-wangzk",flow_type="docs",metric="avg_output_tokens",team="group-di"} 25000
+ai_dispatch_tokens_by_flow_type{instance="demo-wangzk",flow_type="docs",metric="task_count",team="group-di"} 6
+ai_dispatch_tokens_by_flow_type{instance="demo-wangzk",flow_type="config",metric="avg_input_tokens",team="group-di"} 8000
+ai_dispatch_tokens_by_flow_type{instance="demo-wangzk",flow_type="config",metric="avg_output_tokens",team="group-di"} 3000
+ai_dispatch_tokens_by_flow_type{instance="demo-wangzk",flow_type="config",metric="task_count",team="group-di"} 4
+
+# ==========================================
+# 9. 元数据
+# ==========================================
+
+# TYPE ai_dispatch_last_push_timestamp gauge
+ai_dispatch_last_push_timestamp 1748793600

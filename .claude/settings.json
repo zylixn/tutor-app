@@ -1,0 +1,121 @@
+{
+  "env": {
+    "CLAUDE_AUTOCOMPACT_PCT_OVERRIDE": "88"
+  },
+  "statusLine": {
+    "type": "command",
+    "command": "node \".claude/tools/scripts/statusline/statusline-command.cjs\""
+  },
+  "permissions": {
+    "allow": [
+      "Bash(git add *)",
+      "Bash(git commit -m *)",
+      "Bash(git rm *)",
+      "Edit(*)",
+      "Write(*)",
+      "Bash(sed *)"
+    ],
+    "deny": [
+      "Bash(rm -rf /)",
+      "Bash(rm -rf /*)",
+      "Bash(rm -rf ~)",
+      "Bash(rm -rf ~/*)",
+      "Bash(mkfs*)",
+      "Bash(dd if=* of=/dev/*)",
+      "Bash(chmod -R 777 /)",
+      "Bash(chown -R * /)",
+      "Bash(shutdown *)",
+      "Bash(reboot *)",
+      "Bash(init 0*)",
+      "Bash(init 6*)",
+      "Bash(git push *--force*)",
+      "Bash(git push *-f *)",
+      "Bash(git reset --hard *)",
+      "Bash(git checkout -- .)",
+      "Bash(git restore .)",
+      "Bash(git clean -f *)",
+      "Bash(git merge *)"
+    ],
+    "defaultMode": "bypassPermissions"
+  },
+  "hooks": {
+    "PreToolUse": [
+      {
+        "matcher": "Bash",
+        "hooks": [
+          {
+            "type": "command",
+            "command": "[ -f .claude/.framework-edit ] || { [ -f .claude/reference/harness-rules.md ] && .claude/hooks/claude/pre-tool-use-git-guard.sh || true; }"
+          },
+          {
+            "type": "command",
+            "if": "Bash(git commit *)",
+            "command": "[ -f .claude/.framework-edit ] || { [ -f .claude/reference/harness-rules.md ] && .claude/hooks/claude/pre-commit-state-check.sh || true; }"
+          }
+        ]
+      },
+      {
+        "matcher": "Edit",
+        "hooks": [
+          {
+            "type": "command",
+            "command": "[ -f .claude/.framework-edit ] || { [ -f .claude/reference/harness-rules.md ] && .claude/hooks/claude/pre-tool-use-memory-route-guard.sh || true; }"
+          }
+        ]
+      },
+      {
+        "matcher": "Write",
+        "hooks": [
+          {
+            "type": "command",
+            "command": "[ -f .claude/.framework-edit ] || { [ -f .claude/reference/harness-rules.md ] && .claude/hooks/claude/pre-tool-use-memory-route-guard.sh || true; }"
+          }
+        ]
+      }
+    ],
+    "SessionStart": [
+      {
+        "matcher": "",
+        "hooks": [
+          {
+            "type": "command",
+            "command": "[ -f .claude/reference/harness-rules.md ] && .claude/hooks/claude/session-start.sh || true"
+          }
+        ]
+      }
+    ],
+    "UserPromptSubmit": [
+      {
+        "matcher": "",
+        "hooks": [
+          {
+            "type": "command",
+            "command": "[ -f .claude/hooks/claude/check-upgrade-prompt.sh ] && .claude/hooks/claude/check-upgrade-prompt.sh || true"
+          }
+        ]
+      }
+    ],
+    "PostToolUse": [
+      {
+        "matcher": "*",
+        "hooks": [
+          {
+            "type": "command",
+            "command": "[ -f .claude/.framework-edit ] || { [ -f .claude/reference/harness-rules.md ] && .claude/hooks/claude/post-tool-use-agent-usage.sh || true; }"
+          }
+        ]
+      }
+    ],
+    "Stop": [
+      {
+        "matcher": "",
+        "hooks": [
+          {
+            "type": "command",
+            "command": "[ -f .claude/.framework-edit ] || { [ -f .claude/reference/harness-rules.md ] && (git diff --quiet 2>/dev/null || echo 'WARNING: Uncommitted changes detected after AI session ended') || true; }"
+          }
+        ]
+      }
+    ]
+  }
+}

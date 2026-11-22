@@ -1,0 +1,278 @@
+{
+  "meta": {
+    "description": "AI 员工任务 Grafana 演示数据 — 完整真实数据模型",
+    "version": "v5",
+    "generated_at": "2026-06-01T00:00:00Z",
+    "teams": {
+      "group-di": { "lead": "wangzk", "name": "数字智能工具组" },
+      "group-data": { "lead": "zhoucw", "name": "数据平台组" },
+      "group-infra": { "lead": "lisi", "name": "基础设施组" },
+      "group-platform": { "lead": "zhaowu", "name": "业务平台组" },
+      "group-qa": { "lead": "sunqi", "name": "质量工程组" }
+    },
+    "summary": {
+      "total_tasks": 134,
+      "total_teams": 5,
+      "total_roles": 5,
+      "total_employees": 5,
+      "note": "所有员工(5人)覆盖全角色(5角色)×全团队(5团队)，每人有完整任务数据"
+    }
+  },
+
+  "roles": [
+    { "role": "architect",   "team": "group-di",       "task_count": 12, "first_pass_count": 10, "first_pass_rate": 0.83, "rework_count": 2,  "avg_score": 92, "avg_duration_ms": 360000,  "blocked_count": 1, "total_input_tokens": 156000, "total_output_tokens": 26000, "primary_model": "claude-sonnet-4-6" },
+    { "role": "developer",   "team": "group-di",       "task_count": 15, "first_pass_count": 10, "first_pass_rate": 0.67, "rework_count": 5,  "avg_score": 88, "avg_duration_ms": 840000,  "blocked_count": 3, "total_input_tokens": 525000, "total_output_tokens": 36500, "primary_model": "claude-sonnet-4-6" },
+    { "role": "tester",      "team": "group-di",       "task_count": 10, "first_pass_count": 9,  "first_pass_rate": 0.90, "rework_count": 1,  "avg_score": 95, "avg_duration_ms": 180000,  "blocked_count": 0, "total_input_tokens": 8500,   "total_output_tokens": 3200,  "primary_model": "claude-haiku-4-5" },
+    { "role": "reviewer",    "team": "group-di",       "task_count": 8,  "first_pass_count": 7,  "first_pass_rate": 0.88, "rework_count": 1,  "avg_score": 90, "avg_duration_ms": 240000,  "blocked_count": 1, "total_input_tokens": 12800,  "total_output_tokens": 5200,  "primary_model": "claude-haiku-4-5" },
+    { "role": "debate",      "team": "group-di",       "task_count": 3,  "first_pass_count": 2,  "first_pass_rate": 0.67, "rework_count": 1,  "avg_score": 78, "avg_duration_ms": 480000,  "blocked_count": 2, "total_input_tokens": 27000,  "total_output_tokens": 10800, "primary_model": "claude-opus-4-8" },
+
+    { "role": "architect",   "team": "group-data",     "task_count": 8,  "first_pass_count": 6,  "first_pass_rate": 0.75, "rework_count": 2,  "avg_score": 85, "avg_duration_ms": 480000,  "blocked_count": 1, "total_input_tokens": 104000, "total_output_tokens": 19000, "primary_model": "claude-sonnet-4-6" },
+    { "role": "developer",   "team": "group-data",     "task_count": 10, "first_pass_count": 6,  "first_pass_rate": 0.60, "rework_count": 4,  "avg_score": 82, "avg_duration_ms": 1080000, "blocked_count": 2, "total_input_tokens": 360000, "total_output_tokens": 29000, "primary_model": "claude-sonnet-4-6" },
+    { "role": "tester",      "team": "group-data",     "task_count": 7,  "first_pass_count": 6,  "first_pass_rate": 0.86, "rework_count": 1,  "avg_score": 90, "avg_duration_ms": 240000,  "blocked_count": 1, "total_input_tokens": 6300,   "total_output_tokens": 2400,  "primary_model": "claude-haiku-4-5" },
+    { "role": "reviewer",    "team": "group-data",     "task_count": 6,  "first_pass_count": 5,  "first_pass_rate": 0.83, "rework_count": 1,  "avg_score": 88, "avg_duration_ms": 300000,  "blocked_count": 0, "total_input_tokens": 10200,  "total_output_tokens": 4200,  "primary_model": "claude-haiku-4-5" },
+    { "role": "debate",      "team": "group-data",     "task_count": 2,  "first_pass_count": 1,  "first_pass_rate": 0.50, "rework_count": 1,  "avg_score": 75, "avg_duration_ms": 600000,  "blocked_count": 1, "total_input_tokens": 21000,  "total_output_tokens": 8500,  "primary_model": "claude-opus-4-8" },
+
+    { "role": "architect",   "team": "group-infra",    "task_count": 6,  "first_pass_count": 5,  "first_pass_rate": 0.83, "rework_count": 1,  "avg_score": 90, "avg_duration_ms": 420000,  "blocked_count": 0, "total_input_tokens": 84000,  "total_output_tokens": 16000, "primary_model": "claude-sonnet-4-6" },
+    { "role": "developer",   "team": "group-infra",    "task_count": 8,  "first_pass_count": 6,  "first_pass_rate": 0.75, "rework_count": 2,  "avg_score": 86, "avg_duration_ms": 960000,  "blocked_count": 1, "total_input_tokens": 288000, "total_output_tokens": 26000, "primary_model": "claude-sonnet-4-6" },
+    { "role": "tester",      "team": "group-infra",    "task_count": 5,  "first_pass_count": 4,  "first_pass_rate": 0.80, "rework_count": 1,  "avg_score": 88, "avg_duration_ms": 300000,  "blocked_count": 0, "total_input_tokens": 5400,   "total_output_tokens": 2100,  "primary_model": "claude-haiku-4-5" },
+    { "role": "reviewer",    "team": "group-infra",    "task_count": 4,  "first_pass_count": 4,  "first_pass_rate": 1.00, "rework_count": 0,  "avg_score": 92, "avg_duration_ms": 180000,  "blocked_count": 0, "total_input_tokens": 8200,   "total_output_tokens": 3200,  "primary_model": "claude-haiku-4-5" },
+    { "role": "debate",      "team": "group-infra",    "task_count": 1,  "first_pass_count": 1,  "first_pass_rate": 1.00, "rework_count": 0,  "avg_score": 82, "avg_duration_ms": 720000,  "blocked_count": 0, "total_input_tokens": 18600,  "total_output_tokens": 7200,  "primary_model": "claude-opus-4-8" },
+
+    { "role": "architect",   "team": "group-platform", "task_count": 9,  "first_pass_count": 7,  "first_pass_rate": 0.78, "rework_count": 2,  "avg_score": 88, "avg_duration_ms": 420000,  "blocked_count": 1, "total_input_tokens": 126000, "total_output_tokens": 21000, "primary_model": "claude-sonnet-4-6" },
+    { "role": "developer",   "team": "group-platform", "task_count": 12, "first_pass_count": 7,  "first_pass_rate": 0.58, "rework_count": 5,  "avg_score": 80, "avg_duration_ms": 1200000, "blocked_count": 3, "total_input_tokens": 468000, "total_output_tokens": 33500, "primary_model": "claude-sonnet-4-6" },
+    { "role": "tester",      "team": "group-platform", "task_count": 8,  "first_pass_count": 6,  "first_pass_rate": 0.75, "rework_count": 2,  "avg_score": 85, "avg_duration_ms": 300000,  "blocked_count": 1, "total_input_tokens": 7500,   "total_output_tokens": 3100,  "primary_model": "claude-haiku-4-5" },
+    { "role": "reviewer",    "team": "group-platform", "task_count": 7,  "first_pass_count": 6,  "first_pass_rate": 0.86, "rework_count": 1,  "avg_score": 89, "avg_duration_ms": 240000,  "blocked_count": 1, "total_input_tokens": 11500,  "total_output_tokens": 4600,  "primary_model": "claude-haiku-4-5" },
+    { "role": "debate",      "team": "group-platform", "task_count": 2,  "first_pass_count": 1,  "first_pass_rate": 0.50, "rework_count": 1,  "avg_score": 72, "avg_duration_ms": 660000,  "blocked_count": 1, "total_input_tokens": 23800,  "total_output_tokens": 9200,  "primary_model": "claude-opus-4-8" },
+
+    { "role": "architect",   "team": "group-qa",       "task_count": 4,  "first_pass_count": 4,  "first_pass_rate": 1.00, "rework_count": 0,  "avg_score": 94, "avg_duration_ms": 300000,  "blocked_count": 0, "total_input_tokens": 52000,  "total_output_tokens": 10800, "primary_model": "claude-sonnet-4-6" },
+    { "role": "developer",   "team": "group-qa",       "task_count": 6,  "first_pass_count": 5,  "first_pass_rate": 0.83, "rework_count": 1,  "avg_score": 90, "avg_duration_ms": 720000,  "blocked_count": 0, "total_input_tokens": 192000, "total_output_tokens": 21000, "primary_model": "claude-sonnet-4-6" },
+    { "role": "tester",      "team": "group-qa",       "task_count": 10, "first_pass_count": 9,  "first_pass_rate": 0.90, "rework_count": 1,  "avg_score": 93, "avg_duration_ms": 180000,  "blocked_count": 0, "total_input_tokens": 9500,   "total_output_tokens": 4200,  "primary_model": "claude-haiku-4-5" },
+    { "role": "reviewer",    "team": "group-qa",       "task_count": 9,  "first_pass_count": 8,  "first_pass_rate": 0.89, "rework_count": 1,  "avg_score": 91, "avg_duration_ms": 180000,  "blocked_count": 0, "total_input_tokens": 13500,  "total_output_tokens": 5500,  "primary_model": "claude-haiku-4-5" },
+    { "role": "debate",      "team": "group-qa",       "task_count": 2,  "first_pass_count": 2,  "first_pass_rate": 1.00, "rework_count": 0,  "avg_score": 84, "avg_duration_ms": 420000,  "blocked_count": 0, "total_input_tokens": 17000,  "total_output_tokens": 6500,  "primary_model": "claude-opus-4-8" }
+  ],
+
+  "active_tasks": [
+    { "task": "login-sso-refactor",      "team": "group-di",       "wall_clock_ms": 14400000, "current_phase": "implement",   "flow_type": "development", "created_at": "2026-05-30T10:00:00Z" },
+    { "task": "data-pipeline-optimize",  "team": "group-data",     "wall_clock_ms": 10800000, "current_phase": "code-review", "flow_type": "refactor",    "created_at": "2026-05-30T14:00:00Z" },
+    { "task": "k8s-operator-upgrade",    "team": "group-infra",    "wall_clock_ms": 7200000,  "current_phase": "test",       "flow_type": "development", "created_at": "2026-05-31T08:00:00Z" },
+    { "task": "api-gateway-retry",       "team": "group-platform", "wall_clock_ms": 18000000, "current_phase": "implement",   "flow_type": "development", "created_at": "2026-05-29T16:00:00Z" },
+    { "task": "e2e-test-framework",      "team": "group-qa",       "wall_clock_ms": 3600000,  "current_phase": "propose",    "flow_type": "development", "created_at": "2026-05-31T16:00:00Z" },
+    { "task": "audit-log-module",        "team": "group-di",       "wall_clock_ms": 9600000,  "current_phase": "code-review", "flow_type": "development", "created_at": "2026-05-30T18:00:00Z" },
+    { "task": "real-time-sync-engine",   "team": "group-data",     "wall_clock_ms": 15600000, "current_phase": "implement",   "flow_type": "development", "created_at": "2026-05-29T20:00:00Z" },
+    { "task": "service-mesh-migration",  "team": "group-infra",    "wall_clock_ms": 12000000, "current_phase": "debate",      "flow_type": "refactor",    "created_at": "2026-05-30T12:00:00Z" },
+    { "task": "config-hot-reload",       "team": "group-platform", "wall_clock_ms": 8400000,  "current_phase": "test",       "flow_type": "config",      "created_at": "2026-05-31T06:00:00Z" },
+    { "task": "chaos-testing-suite",     "team": "group-qa",       "wall_clock_ms": 4800000,  "current_phase": "explore",    "flow_type": "development", "created_at": "2026-05-31T14:00:00Z" }
+  ],
+
+  "advanced": {
+    "lead_time": {
+      "p50": 28800000,
+      "p95": 86400000,
+      "p99": 172800000,
+      "avg": 36000000,
+      "min": 3600000,
+      "max": 259200000,
+      "count": 102
+    },
+    "pm_to_first_artifact_ms": {
+      "p50": 900000,
+      "p95": 3600000,
+      "p99": 7200000,
+      "avg": 1200000,
+      "min": 120000,
+      "max": 10800000,
+      "count": 98
+    },
+    "phase_duration_percentiles": [
+      { "phase": "intake",        "p50": 120000,  "p95": 300000,   "p99": 600000,   "count": 134, "min": 30000,   "max": 900000,   "low_sample_count": false },
+      { "phase": "explore",       "p50": 600000,  "p95": 1800000,  "p99": 3600000,  "count": 98,  "min": 120000,  "max": 5400000,  "low_sample_count": false },
+      { "phase": "propose",       "p50": 900000,  "p95": 2700000,  "p99": 5400000,  "count": 95,  "min": 180000,  "max": 7200000,  "low_sample_count": false },
+      { "phase": "design-review", "p50": 480000,  "p95": 1200000,  "p99": 2400000,  "count": 72,  "min": 120000,  "max": 3600000,  "low_sample_count": false },
+      { "phase": "implement",     "p50": 1800000, "p95": 5400000,  "p99": 10800000, "count": 88,  "min": 300000,  "max": 14400000, "low_sample_count": false },
+      { "phase": "test",          "p50": 300000,  "p95": 900000,   "p99": 1800000,  "count": 65,  "min": 60000,   "max": 2700000,  "low_sample_count": false },
+      { "phase": "code-review",   "p50": 420000,  "p95": 1200000,  "p99": 2400000,  "count": 82,  "min": 120000,  "max": 3600000,  "low_sample_count": false },
+      { "phase": "debate",        "p50": 600000,  "p95": 1800000,  "p99": 3600000,  "count": 10,  "min": 180000,  "max": 4800000,  "low_sample_count": false },
+      { "phase": "archive",       "p50": 180000,  "p95": 600000,   "p99": 1200000,  "count": 102, "min": 60000,   "max": 1800000,  "low_sample_count": false }
+    ],
+    "rework_reasons": [
+      { "reason": "code/implementation", "count": 8,  "percentage": 21 },
+      { "reason": "code/style",          "count": 6,  "percentage": 16 },
+      { "reason": "doc/missing",         "count": 5,  "percentage": 13 },
+      { "reason": "code/logic_bug",      "count": 4,  "percentage": 11 },
+      { "reason": "test/coverage",       "count": 4,  "percentage": 11 },
+      { "reason": "spec/gap",            "count": 3,  "percentage": 8  },
+      { "reason": "review/readability",  "count": 3,  "percentage": 8  },
+      { "reason": "code/perf",           "count": 2,  "percentage": 5  },
+      { "reason": "arch/violation",      "count": 2,  "percentage": 5  },
+      { "reason": "security/hardening",  "count": 1,  "percentage": 3  }
+    ],
+    "cost_per_task": [
+      { "flow_type": "development", "avg_input_tokens": 145000, "avg_output_tokens": 28000, "avg_total_tokens": 173000, "task_count": 68 },
+      { "flow_type": "hotfix",      "avg_input_tokens": 35000,  "avg_output_tokens": 8000,  "avg_total_tokens": 43000,  "task_count": 18 },
+      { "flow_type": "refactor",    "avg_input_tokens": 210000, "avg_output_tokens": 42000, "avg_total_tokens": 252000, "task_count": 22 },
+      { "flow_type": "docs",        "avg_input_tokens": 18000,  "avg_output_tokens": 25000, "avg_total_tokens": 43000,  "task_count": 16 },
+      { "flow_type": "config",      "avg_input_tokens": 8000,   "avg_output_tokens": 3000,  "avg_total_tokens": 11000,  "task_count": 10 }
+    ],
+    "blocked_rate": [
+      { "role": "architect",   "blocked_rate": 0.077, "blocked_count": 3,  "task_count": 39 },
+      { "role": "developer",   "blocked_rate": 0.176, "blocked_count": 9,  "task_count": 51 },
+      { "role": "tester",      "blocked_rate": 0.050, "blocked_count": 2,  "task_count": 40 },
+      { "role": "reviewer",    "blocked_rate": 0.059, "blocked_count": 2,  "task_count": 34 },
+      { "role": "debate",      "blocked_rate": 0.400, "blocked_count": 4,  "task_count": 10 },
+      { "role": "overall",     "blocked_rate": 0.119, "blocked_count": 16, "task_count": 134 }
+    ],
+    "quality_gate_stats": [
+      { "gate": "QG-ARCH-001", "passed": 112, "pending": 15, "failed": 7  },
+      { "gate": "QG-DEV-001",  "passed": 95,  "pending": 28, "failed": 11 },
+      { "gate": "QG-REV-001",  "passed": 108, "pending": 18, "failed": 8  },
+      { "gate": "QG-REV-002",  "passed": 118, "pending": 12, "failed": 4  }
+    ],
+    "context_modes": [
+      { "mode": "minimal",   "count": 42 },
+      { "mode": "read_only", "count": 38 },
+      { "mode": "full",      "count": 54 }
+    ]
+  },
+
+  "employee_performance": [
+    {
+      "employee": "wangzk",
+      "team": "group-di",
+      "role_breakdown": {
+        "architect":  { "task_count": 12, "first_pass_rate": 0.83, "avg_score": 92, "avg_duration_min": 6.0,  "total_tokens": 182000 },
+        "developer":  { "task_count": 15, "first_pass_rate": 0.67, "avg_score": 88, "avg_duration_min": 14.0, "total_tokens": 561500 },
+        "tester":     { "task_count": 10, "first_pass_rate": 0.90, "avg_score": 95, "avg_duration_min": 3.0,  "total_tokens": 11700 },
+        "reviewer":   { "task_count": 8,  "first_pass_rate": 0.88, "avg_score": 90, "avg_duration_min": 4.0,  "total_tokens": 18000 },
+        "debate":     { "task_count": 3,  "first_pass_rate": 0.67, "avg_score": 78, "avg_duration_min": 8.0,  "total_tokens": 37800 }
+      },
+      "total_tasks": 48,
+      "total_tokens": 811000,
+      "avg_score_overall": 89.6
+    },
+    {
+      "employee": "zhoucw",
+      "team": "group-data",
+      "role_breakdown": {
+        "architect":  { "task_count": 8,  "first_pass_rate": 0.75, "avg_score": 85, "avg_duration_min": 8.0,  "total_tokens": 123000 },
+        "developer":  { "task_count": 10, "first_pass_rate": 0.60, "avg_score": 82, "avg_duration_min": 18.0, "total_tokens": 389000 },
+        "tester":     { "task_count": 7,  "first_pass_rate": 0.86, "avg_score": 90, "avg_duration_min": 4.0,  "total_tokens": 8700 },
+        "reviewer":   { "task_count": 6,  "first_pass_rate": 0.83, "avg_score": 88, "avg_duration_min": 5.0,  "total_tokens": 14400 },
+        "debate":     { "task_count": 2,  "first_pass_rate": 0.50, "avg_score": 75, "avg_duration_min": 10.0, "total_tokens": 29500 }
+      },
+      "total_tasks": 33,
+      "total_tokens": 564600,
+      "avg_score_overall": 84.4
+    },
+    {
+      "employee": "lisi",
+      "team": "group-infra",
+      "role_breakdown": {
+        "architect":  { "task_count": 6,  "first_pass_rate": 0.83, "avg_score": 90, "avg_duration_min": 7.0,  "total_tokens": 100000 },
+        "developer":  { "task_count": 8,  "first_pass_rate": 0.75, "avg_score": 86, "avg_duration_min": 16.0, "total_tokens": 314000 },
+        "tester":     { "task_count": 5,  "first_pass_rate": 0.80, "avg_score": 88, "avg_duration_min": 5.0,  "total_tokens": 7500 },
+        "reviewer":   { "task_count": 4,  "first_pass_rate": 1.00, "avg_score": 92, "avg_duration_min": 3.0,  "total_tokens": 11400 },
+        "debate":     { "task_count": 1,  "first_pass_rate": 1.00, "avg_score": 82, "avg_duration_min": 12.0, "total_tokens": 25800 }
+      },
+      "total_tasks": 24,
+      "total_tokens": 458700,
+      "avg_score_overall": 87.8
+    },
+    {
+      "employee": "zhaowu",
+      "team": "group-platform",
+      "role_breakdown": {
+        "architect":  { "task_count": 9,  "first_pass_rate": 0.78, "avg_score": 88, "avg_duration_min": 7.0,  "total_tokens": 147000 },
+        "developer":  { "task_count": 12, "first_pass_rate": 0.58, "avg_score": 80, "avg_duration_min": 20.0, "total_tokens": 501500 },
+        "tester":     { "task_count": 8,  "first_pass_rate": 0.75, "avg_score": 85, "avg_duration_min": 5.0,  "total_tokens": 10600 },
+        "reviewer":   { "task_count": 7,  "first_pass_rate": 0.86, "avg_score": 89, "avg_duration_min": 4.0,  "total_tokens": 16100 },
+        "debate":     { "task_count": 2,  "first_pass_rate": 0.50, "avg_score": 72, "avg_duration_min": 11.0, "total_tokens": 33000 }
+      },
+      "total_tasks": 38,
+      "total_tokens": 708200,
+      "avg_score_overall": 83.6
+    },
+    {
+      "employee": "sunqi",
+      "team": "group-qa",
+      "role_breakdown": {
+        "architect":  { "task_count": 4,  "first_pass_rate": 1.00, "avg_score": 94, "avg_duration_min": 5.0,  "total_tokens": 62800 },
+        "developer":  { "task_count": 6,  "first_pass_rate": 0.83, "avg_score": 90, "avg_duration_min": 12.0, "total_tokens": 213000 },
+        "tester":     { "task_count": 10, "first_pass_rate": 0.90, "avg_score": 93, "avg_duration_min": 3.0,  "total_tokens": 13700 },
+        "reviewer":   { "task_count": 9,  "first_pass_rate": 0.89, "avg_score": 91, "avg_duration_min": 3.0,  "total_tokens": 19000 },
+        "debate":     { "task_count": 2,  "first_pass_rate": 1.00, "avg_score": 84, "avg_duration_min": 7.0,  "total_tokens": 23500 }
+      },
+      "total_tasks": 31,
+      "total_tokens": 332000,
+      "avg_score_overall": 90.6
+    }
+  ],
+
+  "pipeline_state_samples": [
+    {
+      "_comment": "以下是真实 pipeline-state.json 的简化示例，展示完整数据模型结构",
+      "schema_version": 5,
+      "change_name": "login-sso-refactor",
+      "title": "登录模块 SSO 重构",
+      "current_phase": "implement",
+      "flow_type": "development",
+      "team": "group-di",
+      "created_at": "2026-05-30T10:00:00Z",
+      "completed_at": null,
+      "elapsed_ms": 14400000,
+      "scores": { "code-review": 88, "debate": null },
+      "rework_count": { "developer": 2, "tester": 0 },
+      "blocked_count": 1,
+      "pipeline": {
+        "intake":       { "status": "done",   "exit_status": "DONE", "first_pass": true,  "started_at": "2026-05-30T10:00:00Z", "completed_at": "2026-05-30T10:05:00Z", "rework_reasons": [], "dispatch_history": [{ "started_at": "2026-05-30T10:00:00Z", "completed_at": "2026-05-30T10:05:00Z", "token_usage": { "input_tokens": 800, "output_tokens": 200, "model": "claude-haiku-4-5" }, "context_mode": "minimal", "exit_status": "DONE" }] },
+        "explore":      { "status": "done",   "exit_status": "DONE", "first_pass": true,  "started_at": "2026-05-30T10:05:00Z", "completed_at": "2026-05-30T10:18:00Z", "rework_reasons": [], "dispatch_history": [{ "started_at": "2026-05-30T10:05:00Z", "completed_at": "2026-05-30T10:18:00Z", "token_usage": { "input_tokens": 3200, "output_tokens": 5500, "model": "claude-sonnet-4-6" }, "context_mode": "full", "exit_status": "DONE" }] },
+        "propose":      { "status": "done",   "exit_status": "DONE", "first_pass": true,  "started_at": "2026-05-30T10:18:00Z", "completed_at": "2026-05-30T10:35:00Z", "rework_reasons": [], "dispatch_history": [{ "started_at": "2026-05-30T10:18:00Z", "completed_at": "2026-05-30T10:35:00Z", "token_usage": { "input_tokens": 5800, "output_tokens": 12000, "model": "claude-sonnet-4-6" }, "context_mode": "full", "exit_status": "DONE" }] },
+        "design-review":{ "status": "done",   "exit_status": "DONE", "first_pass": false, "started_at": "2026-05-30T10:35:00Z", "completed_at": "2026-05-30T11:00:00Z", "rework_reasons": ["spec/gap: missing error handling flow"], "dispatch_history": [{ "started_at": "2026-05-30T10:35:00Z", "completed_at": "2026-05-30T10:50:00Z", "token_usage": { "input_tokens": 2200, "output_tokens": 1800, "model": "claude-haiku-4-5" }, "context_mode": "read_only", "exit_status": "DONE_WITH_CONCERNS" }, { "started_at": "2026-05-30T10:52:00Z", "completed_at": "2026-05-30T11:00:00Z", "token_usage": { "input_tokens": 2800, "output_tokens": 2200, "model": "claude-haiku-4-5" }, "context_mode": "read_only", "exit_status": "DONE" }] },
+        "implement":    { "status": "active", "exit_status": null,   "first_pass": false, "started_at": "2026-05-30T11:00:00Z", "completed_at": null, "rework_reasons": ["code/implementation: null pointer in SSO callback", "code/style: 缺少空指针防御"], "dispatch_history": [{ "started_at": "2026-05-30T11:00:00Z", "completed_at": "2026-05-30T12:30:00Z", "token_usage": { "input_tokens": 45000, "output_tokens": 8000, "model": "claude-sonnet-4-6" }, "context_mode": "full", "exit_status": "BLOCKED" }] },
+        "test":         { "status": "pending", "exit_status": null,  "first_pass": null, "started_at": null, "completed_at": null, "rework_reasons": [], "dispatch_history": [] },
+        "code-review":  { "status": "pending", "exit_status": null,  "first_pass": null, "started_at": null, "completed_at": null, "rework_reasons": [], "dispatch_history": [] },
+        "archive":      { "status": "pending", "exit_status": null,  "first_pass": null, "started_at": null, "completed_at": null, "rework_reasons": [], "dispatch_history": [] }
+      },
+      "token_summary": {
+        "total_input_tokens": 59800,
+        "total_output_tokens": 29700,
+        "by_phase": {
+          "intake":        { "input_tokens": 800,   "output_tokens": 200,  "model": "claude-haiku-4-5" },
+          "explore":       { "input_tokens": 3200,  "output_tokens": 5500, "model": "claude-sonnet-4-6" },
+          "propose":       { "input_tokens": 5800,  "output_tokens": 12000,"model": "claude-sonnet-4-6" },
+          "design-review": { "input_tokens": 5000,  "output_tokens": 4000, "model": "claude-haiku-4-5" },
+          "implement":     { "input_tokens": 45000, "output_tokens": 8000, "model": "claude-sonnet-4-6" }
+        },
+        "by_role": {
+          "architect":  { "input_tokens": 9800,  "output_tokens": 17700, "model": "claude-sonnet-4-6" },
+          "reviewer":   { "input_tokens": 5000,  "output_tokens": 4000,  "model": "claude-haiku-4-5" },
+          "developer":  { "input_tokens": 45000, "output_tokens": 8000,  "model": "claude-sonnet-4-6" }
+        },
+        "by_model": {
+          "claude-haiku-4-5":  { "input_tokens": 5800,  "output_tokens": 4200 },
+          "claude-sonnet-4-6": { "input_tokens": 54000, "output_tokens": 25500 }
+        }
+      },
+      "quality_gates": {
+        "QG-ARCH-001": "passed",
+        "QG-DEV-001": "pending",
+        "QG-REV-001": "pending",
+        "QG-REV-002": "pending"
+      },
+      "quality_metrics": {
+        "review_score": null,
+        "p0_count": 0,
+        "p1_count": 1
+      },
+      "dispatch_efficiency": {
+        "pm_to_first_artifact_ms": 780000,
+        "total_dispatch_count": 6,
+        "avg_rounds_per_phase": 1.2
+      },
+      "intent": {
+        "confidence": 0.92,
+        "context_mode": "full",
+        "upgraded_from": null
+      }
+    }
+  ]
+}
