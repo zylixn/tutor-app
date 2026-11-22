@@ -1,0 +1,48 @@
+<view class="container">
+  <view class="masthead">
+    <text class="masthead-title">我的</text>
+    <text class="masthead-issue">家教公报</text>
+  </view>
+
+  <view wx:if="{{loading}}" class="state-box"><text class="state-copy">调阅中</text></view>
+
+  <view wx:elif="{{!loggedIn}}" class="state-box">
+    <text class="state-kicker">启事</text>
+    <text class="state-copy">登录后使用</text>
+    <view class="state-btn" bindtap="onLogin">微信登录</view>
+  </view>
+
+  <block wx:else>
+    <!-- 家教: 申请状态卡 -->
+    <view class="sheet status-card" wx:if="{{application}}">
+      <view class="status-line">
+        <text class="status-label">入驻状态</text>
+        <text class="status-value {{application.auditStatus}}">{{application.auditStatus === 'approved' ? '已通过' : application.auditStatus === 'pending' ? '审核中' : '已驳回'}}</text>
+      </view>
+      <view wx:if="{{application.auditNote}}" class="audit-note">核验意见：{{application.auditNote}}</view>
+      <view class="status-actions">
+        <view wx:if="{{application.auditStatus === 'approved'}}" class="link-action" bindtap="goMyProfile">查看我的档案</view>
+        <view wx:if="{{application.auditStatus !== 'pending'}}" class="link-action" bindtap="goApply">{{application.auditStatus === 'approved' ? '编辑档案' : '重新提交'}}</view>
+      </view>
+    </view>
+
+    <!-- 未入驻: 入驻引导 -->
+    <view class="sheet status-card" wx:else>
+      <view class="status-line">
+        <text class="status-label">教师入驻</text>
+        <text class="status-value">未入驻</text>
+      </view>
+      <view class="apply-guide">填写教学资料，经核验后刊入本期名录</view>
+      <view class="state-btn" bindtap="goApply">申请入驻</view>
+    </view>
+
+    <!-- 管理员入口 -->
+    <view class="sheet admin-card" wx:if="{{role === 'admin'}}" bindtap="goAdmin">
+      <view class="status-line">
+        <text class="status-label">公报编辑部</text>
+        <text class="status-value">待审 {{pendingCount}} 件</text>
+      </view>
+      <view class="link-action">进入审核 →</view>
+    </view>
+  </block>
+</view>

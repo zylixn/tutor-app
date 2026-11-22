@@ -1,0 +1,18 @@
+/* 「我的」页 —— hairline 描边卡（app.wxss 无通用 .sheet，此处页面级定义） */
+.sheet {
+  border: 1rpx solid var(--line-strong);
+  background: var(--paper);
+}
+
+.status-card { padding: 30rpx; margin-top: 28rpx; }
+.status-line { display: flex; justify-content: space-between; align-items: baseline; }
+.status-label { font-size: var(--fs-sub); color: var(--ink-soft); letter-spacing: 4rpx; }
+.status-value { font-family: var(--serif); font-weight: 900; font-size: 34rpx; color: var(--ink); }
+.status-value.pending { color: var(--ink-green); }
+.status-value.rejected { color: var(--seal); }
+.audit-note { margin-top: 16rpx; font-size: var(--fs-sub); color: var(--ink-soft); line-height: 1.7; border-top: 1rpx solid var(--line); padding-top: 16rpx; }
+.status-actions { display: flex; gap: 32rpx; margin-top: 20rpx; }
+.link-action { color: var(--ink-green); font-size: var(--fs-sub); letter-spacing: 2rpx; }
+.apply-guide { margin-top: 14rpx; font-size: var(--fs-sub); color: var(--ink-soft); line-height: 1.7; }
+.status-card .state-btn { margin-top: 28rpx; }
+.admin-card { margin-top: 24rpx; }

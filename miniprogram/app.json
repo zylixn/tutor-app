@@ -3,7 +3,8 @@
     "pages/index/index",
     "pages/tutor-detail/tutor-detail",
     "pages/tutor-list/tutor-list",
-    "pages/write-review/write-review"
+    "pages/write-review/write-review",
+    "pages/mine/mine"
   ],
   "window": {
     "navigationBarTitleText": "家教公报",
@@ -29,6 +30,12 @@
         "text": "家教",
         "iconPath": "images/tutor.png",
         "selectedIconPath": "images/tutor-active.png"
+      },
+      {
+        "pagePath": "pages/mine/mine",
+        "text": "我的",
+        "iconPath": "images/mine.png",
+        "selectedIconPath": "images/mine-active.png"
       }
     ]
   },
