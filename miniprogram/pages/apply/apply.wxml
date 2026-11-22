@@ -1,5 +1,5 @@
 <view class="container">
-  <view class="eyebrow"><text>家教公报编辑部</text><text>教师入驻</text></view>
+  <view class="eyebrow"><text>教师入驻</text><text>每周更新</text></view>
   <view class="masthead">
     <text class="masthead-title">教师入驻</text>
     <text class="masthead-issue">第 {{step}} 步 / 共 4 步</text>

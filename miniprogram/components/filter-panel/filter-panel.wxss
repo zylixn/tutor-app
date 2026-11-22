@@ -135,6 +135,6 @@
 }
 
 .apply-btn {
-  background: var(--ink-green);
+  background-color: var(--ink-green);
   color: var(--paper);
 }

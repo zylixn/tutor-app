@@ -1,4 +1,19 @@
+<wxs module="dt">
+module.exports.issue = function () {
+  var d = getDate();
+  var m = d.getMonth() + 1;
+  var day = d.getDate();
+  return 'NO.' + d.getFullYear() + '-' + (m < 10 ? '0' + m : m) + (day < 10 ? '0' + day : day);
+}
+</wxs>
+
 <view class="container">
+  <view class="eyebrow"><text>家教公报编辑部</text><text>教师名录</text></view>
+  <view class="masthead">
+    <text class="masthead-title">教师名录</text>
+    <text class="masthead-issue">{{dt.issue()}}</text>
+  </view>
+
   <!-- 检索行 -->
   <view class="header">
     <view class="search-bar">

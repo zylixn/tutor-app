@@ -3,8 +3,8 @@
     <image wx:if="{{tutor.avatar}}" class="avatar photo-frame" src="{{tutor.avatar}}" mode="aspectFill"/>
     <view wx:else class="avatar seal-ava">{{tutor.name[0]}}</view>
     <view class="tutor-info">
+      <view wx:if="{{featured}}" class="featured-line"><text class="featured-kicker">本期推荐</text></view>
       <view class="name-row">
-        <text wx:if="{{featured}}" class="featured-kicker">本期推荐</text>
         <text class="name">{{tutor.name}}</text>
         <view wx:if="{{tutor.verified}}" class="seal-badge">认证</view>
       </view>

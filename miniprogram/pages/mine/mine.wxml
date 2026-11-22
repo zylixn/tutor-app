@@ -1,5 +1,13 @@
 <view class="container">
-  <view class="eyebrow"><text>家教公报编辑部</text><text>读者服务</text></view>
+  <wxs module="dt">
+module.exports.issue = function () {
+  var d = getDate();
+  var m = d.getMonth() + 1;
+  var day = d.getDate();
+  return 'NO.' + d.getFullYear() + '-' + (m < 10 ? '0' + m : m) + (day < 10 ? '0' + day : day);
+}
+</wxs>
+<view class="eyebrow"><text>读者服务</text><text>每周更新 · {{dt.issue()}}</text></view>
   <view class="masthead">
     <text class="masthead-title">我的</text>
     <text class="masthead-issue">家教公报</text>
@@ -21,7 +29,7 @@
 
     <!-- 调阅失败: 「启事」重试 (seal 红为设计语言保留的重试色) -->
     <view wx:elif="{{loadFailed}}" class="state-box">
-      <text class="state-kicker">启事</text>
+      <text class="state-kicker">更正启事</text>
       <text class="state-copy">调阅失败</text>
       <view class="state-btn danger" bindtap="retryLoad">重新调阅</view>
     </view>

@@ -40,9 +40,9 @@
         maxlength="500"
         show-confirm-bar="{{false}}"
       />
-      <view class="char-count">
-        <text>{{content.length}}/500</text>
-      </view>
+    </view>
+    <view class="char-count">
+      <text>{{content.length}}/500</text>
     </view>
   </view>
 

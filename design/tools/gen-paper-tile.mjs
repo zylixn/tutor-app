@@ -5,7 +5,10 @@ import zlib from 'zlib';
 const SIZE = 72;          // 平铺尺寸
 const JITTER = 2;         // 每通道亮度抖动 ±2（纸张纤维感）
 const FLECK_RATE = 0.006; // 0.6% 深色纤维斑点
-const BASE = [247, 244, 236]; // #F7F4EC
+const BASE_ENV = process.argv.indexOf('--base');
+const BASE = BASE_ENV > -1
+  ? process.argv[BASE_ENV + 1].split(',').map(Number)
+  : [247, 244, 236]; // 默认 #F7F4EC
 
 // 简单可复现伪随机（mulberry32）
 let seed = 0x9e3779b9;

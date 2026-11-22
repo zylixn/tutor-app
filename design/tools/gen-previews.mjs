@@ -8,7 +8,7 @@ fs.mkdirSync(OUT, { recursive: true });
 
 const CSS = `
 * { margin:0; padding:0; box-sizing:border-box; }
-.phone { width:390px; background:#F7F4EC; color:#1F2A26; position:relative;
+.phone { width:390px; background-color:#F7F4EC; background-image:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='72' height='72'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.85' numOctaves='2'/%3E%3CfeColorMatrix values='0 0 0 0 0.55 0 0 0 0 0.52 0 0 0 0 0.45 0 0 0 0.05 0'/%3E%3C/filter%3E%3Crect width='72' height='72' filter='url(%23n)'/%3E%3C/svg%3E"); color:#1F2A26; position:relative;
   font: 14px/1.65 -apple-system,'PingFang SC','Hiragino Sans GB',sans-serif; -webkit-font-smoothing:antialiased; }
 .serif { font-family:'Songti SC','STSong','SimSun',serif; }
 .mono { font-family:'SF Mono','Menlo',monospace; }
@@ -21,6 +21,8 @@ const CSS = `
 .navbar { height:44px; background:#F7F4EC; display:flex; align-items:center; justify-content:center; position:relative; font-size:17px; font-weight:600; }
 .navbar .back { position:absolute; left:14px; font-size:24px; font-weight:400; line-height:1; }
 .bottom-home { height:18px; }
+
+.eyebrowrow { display:flex; justify-content:space-between; font-family:'SF Mono','Menlo',monospace; font-size:9px; color:#6C6659; letter-spacing:1px; padding:0 2px 5px; border-bottom:1px solid #D9D3C2; }
 
 /* 报头 */
 .masthead { display:flex; justify-content:space-between; align-items:baseline; padding:5px 2px 11px; border-bottom:4px double #175243; }
@@ -43,8 +45,12 @@ const CSS = `
 
 /* 条目 (连续纸面) */
 .entry { padding:16px 2px 15px; border-bottom:1px solid #D9D3C2; }
+.entry.featured { border-left:4px solid #175243; padding-left:10px; }
+.entry.featured .name { font-size:22px; letter-spacing:1px; }
+.entry.featured .bio { font-size:13px; line-height:1.85; color:#1F2A26; -webkit-line-clamp:3; }
+.fkicker { font-family:'Songti SC',serif; font-size:10px; color:#175243; letter-spacing:3px; margin-right:6px; }
 .ehead { display:flex; align-items:flex-start; }
-.ava-seal { width:48px; height:48px; margin-right:13px; flex-shrink:0; background:#B5442D; color:#FBF7EF; font-family:'Songti SC',serif; font-size:22px; font-weight:900; display:flex; align-items:center; justify-content:center; border-radius:1px; box-shadow:inset 0 0 0 1.5px rgba(251,247,239,.35); }
+.ava-seal { width:48px; height:48px; margin-right:13px; flex-shrink:0; background:#B5442D; color:#FBF7EF; font-family:'Songti SC',serif; font-size:22px; font-weight:900; display:flex; align-items:center; justify-content:center; border-radius:1px; box-shadow:inset 0 0 0 1.5px rgba(251,247,239,.4),inset 0 0 0 3px rgba(181,68,45,.55),inset 0 0 7px rgba(112,24,10,.4); }
 .ava-photo { width:52px; height:52px; margin-right:11px; flex-shrink:0; border:1px solid #B9B2A0; padding:2px; background:#F7F4EC; }
 .ava-photo .sil { width:48px; height:48px; background:#CBC5B4; position:relative; overflow:hidden; }
 .ava-photo .sil::before { content:''; position:absolute; width:16px; height:16px; background:#A8A28F; border-radius:50%; left:16px; top:10px; }
@@ -52,7 +58,7 @@ const CSS = `
 .tinfo { flex:1; min-width:0; }
 .nrow { display:flex; align-items:center; gap:7px; }
 .name { font-family:'Songti SC',serif; font-size:17px; font-weight:900; letter-spacing:1px; }
-.seal { background:#B5442D; color:#FBF7EF; font-family:'Songti SC',serif; font-size:10px; letter-spacing:1px; padding:2px 5px; border-radius:1px; box-shadow:inset 0 0 0 1px rgba(251,247,239,.4); }
+.seal { background:#B5442D; color:#FBF7EF; font-family:'Songti SC',serif; font-size:10px; letter-spacing:1px; padding:2px 5px; border-radius:1px; box-shadow:inset 0 0 0 1px rgba(251,247,239,.45),inset 0 0 4px rgba(112,24,10,.35); }
 .edu { color:#57534A; font-size:12px; margin-top:4px; letter-spacing:.5px; }
 .subjline { margin-top:5px; color:#175243; font-size:12px; letter-spacing:.5px; }
 .statline { margin-top:10px; display:flex; align-items:baseline; flex-wrap:wrap; }
@@ -83,7 +89,7 @@ const CSS = `
 
 /* 详情 */
 .dhead { display:flex; align-items:flex-start; padding:8px 0 15px; border-bottom:4px double #175243; }
-.dava { width:64px; height:64px; margin-right:15px; flex-shrink:0; background:#B5442D; color:#FBF7EF; font-family:'Songti SC',serif; font-size:32px; font-weight:900; display:flex; align-items:center; justify-content:center; border-radius:1px; box-shadow:inset 0 0 0 2px rgba(251,247,239,.35); }
+.dava { width:64px; height:64px; margin-right:15px; flex-shrink:0; background:#B5442D; color:#FBF7EF; font-family:'Songti SC',serif; font-size:32px; font-weight:900; display:flex; align-items:center; justify-content:center; border-radius:1px; box-shadow:inset 0 0 0 2px rgba(251,247,239,.4),inset 0 0 0 3px rgba(181,68,45,.55),inset 0 0 7px rgba(112,24,10,.4); }
 .dhead .name { font-size:22px; letter-spacing:1.5px; }
 .mrow { display:flex; font-size:12px; margin-bottom:4px; }
 .mrow .k { width:62px; color:#6C6659; letter-spacing:2px; flex-shrink:0; }
@@ -107,7 +113,8 @@ const CSS = `
 .folio { padding:20px 0 10px; text-align:center; font-size:11px; color:#6C6659; letter-spacing:2px; font-family:'Songti SC',serif; border-top:1px solid #D9D3C2; }
 .botbar { position:absolute; bottom:18px; left:0; right:0; background:#F7F4EC; border-top:1px solid #B9B2A0; padding:10px 14px 14px; display:flex; gap:10px; margin:0 -14px; }
 .botbar .ghost { flex:1; height:44px; line-height:40px; text-align:center; font-size:14px; letter-spacing:1px; color:#175243; border:1px solid #175243; border-radius:1px; background:transparent; }
-.botbar .main { flex:1; height:44px; line-height:44px; text-align:center; font-size:14px; letter-spacing:1px; background:#175243; color:#F7F4EC; border-radius:1px; }
+.botbar .ghost { flex:1; }
+.botbar .main { flex:1.4; height:44px; line-height:44px; text-align:center; font-size:14px; letter-spacing:1px; background-color:#175243; background-image:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='72' height='72'%3E%3Cfilter id='g'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.85' numOctaves='2'/%3E%3CfeColorMatrix values='0 0 0 0 0.75 0 0 0 0 0.85 0 0 0 0 0.78 0 0 0 0.06 0'/%3E%3C/filter%3E%3Crect width='72' height='72' filter='url(%23g)'/%3E%3C/svg%3E"); color:#F7F4EC; border-radius:1px; }
 
 /* 评语页 */
 .sec { padding:18px 2px 10px; border-bottom:1px solid #D9D3C2; }
@@ -115,18 +122,19 @@ const CSS = `
 .starrow .st { display:flex; gap:5px; }
 .starrow .st span { font-size:20px; color:#F7F4EC; -webkit-text-stroke:1px #175243; line-height:1; }
 .starrow .st span.on { color:#175243; -webkit-text-stroke:0; }
+.fact .apply { flex:1.4; }
 .starrow .t { font-size:12px; color:#57534A; letter-spacing:1px; }
 .pgrid { position:relative; border:1px solid #B9B2A0; border-radius:1px; background-color:#F7F4EC; background-image:repeating-linear-gradient(to bottom, transparent 0, transparent 25px, rgba(23,82,67,.22) 25px, rgba(23,82,67,.22) 26px); background-position:0 8px; }
-.pgrid .well { height:150px; background:transparent; border:none; border-radius:0; padding:8px 11px 22px; font-size:14px; line-height:26px; }
+.pgrid .well { height:150px; background:transparent; border:none; border-radius:0; padding:7px 11px 22px; font-size:14px; line-height:26px; }
 .pgrid .charc { position:absolute; right:8px; bottom:5px; margin:0; background:#F7F4EC; padding:0 4px; }
 .charc { text-align:right; font-size:11px; color:#6C6659; margin-top:7px; font-family:'SF Mono','Menlo',monospace; }
 .anon { display:flex; align-items:center; gap:8px; padding:18px 2px 5px; font-size:14px; }
 .cbx { width:20px; height:20px; border:1px solid #57534A; background:#F7F4EC; display:inline-flex; align-items:center; justify-content:center; color:#F7F4EC; font-size:14px; font-weight:700; }
 .cbx.on { background:#175243; border-color:#175243; }
-.submit { width:100%; height:46px; line-height:46px; text-align:center; font-size:15px; letter-spacing:2px; background:#175243; color:#F7F4EC; border-radius:1px; margin-top:20px; }
+.submit { width:100%; height:46px; line-height:46px; text-align:center; font-size:15px; letter-spacing:2px; background-color:#175243; background-image:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='72' height='72'%3E%3Cfilter id='g'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.85' numOctaves='2'/%3E%3CfeColorMatrix values='0 0 0 0 0.75 0 0 0 0 0.85 0 0 0 0 0.78 0 0 0 0.06 0'/%3E%3C/filter%3E%3Crect width='72' height='72' filter='url(%23g)'/%3E%3C/svg%3E"); color:#F7F4EC; border-radius:1px; margin-top:20px; }
 
 /* 筛选抽屉 */
-.scrim { position:absolute; inset:0; background:rgba(30,28,20,.45); }
+.scrim { position:absolute; inset:0; background:rgba(23,82,67,.38); }
 .sheet { position:absolute; left:0; right:0; bottom:0; background:#F7F4EC; border-top:3px double #175243; padding:14px 14px 18px; }
 .sheethead { display:flex; justify-content:space-between; align-items:baseline; padding:2px 2px 11px; border-bottom:4px double #175243; }
 .sheethead .t { font-family:'Songti SC',serif; font-size:17px; font-weight:900; letter-spacing:3px; }
@@ -143,7 +151,7 @@ const CSS = `
 .punit { font-size:11px; color:#6C6659; letter-spacing:1px; }
 .fact { display:flex; gap:10px; padding:16px 2px 4px; }
 .fact .reset { flex:1; height:42px; line-height:38px; text-align:center; font-size:14px; letter-spacing:1px; color:#57534A; border:1px solid #B9B2A0; border-radius:1px; }
-.fact .apply { flex:1; height:42px; line-height:42px; text-align:center; font-size:14px; letter-spacing:1px; background:#175243; color:#F7F4EC; border-radius:1px; }
+.fact .apply { flex:1; height:42px; line-height:42px; text-align:center; font-size:14px; letter-spacing:1px; background-color:#175243; background-image:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='72' height='72'%3E%3Cfilter id='g'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.85' numOctaves='2'/%3E%3CfeColorMatrix values='0 0 0 0 0.75 0 0 0 0 0.85 0 0 0 0 0.78 0 0 0 0.06 0'/%3E%3C/filter%3E%3Crect width='72' height='72' filter='url(%23g)'/%3E%3C/svg%3E"); color:#F7F4EC; border-radius:1px; }
 
 /* 成功印章 */
 .stamp-wrap { text-align:center; padding:56px 20px; position:relative; }
@@ -188,13 +196,30 @@ const shotA = page('a', `
 <div class="phone">
   ${chrome('本期目录', false)}
   <div class="container" style="padding-bottom:0;">
+    <div class="eyebrowrow"><span>家教公报编辑部</span><span>每周更新</span></div>
     <div class="masthead"><span class="masthead-title">家教公报</span><span class="masthead-issue">NO.2026-1122</span></div>
     <div class="search-bar"><span class="search-ico"></span><span class="search-ph">检索科目、年级、地点…</span><span class="text-action">筛选</span></div>
     <div class="chips"><span class="chip">数学 <b>×</b></span><span class="chip">高中 <b>×</b></span><span class="clear">清除全部</span></div>
-    ${entry('王雨桐', true, '硕士 · 华东师范大学 · 数学', '【数学】【物理】', '4.9', 180, 5,
-      '带过三届毕业班，擅长把难题拆成小步骤，学生平均提分 20+。')}
+    <div class="entry featured">
+      <div class="ehead">
+        <div class="ava-seal">王</div>
+        <div class="tinfo">
+          <div class="fkicker" style="display:block;margin-bottom:4px;padding-bottom:2px;border-bottom:1px solid #D9D3C2;">本期推荐</div><div class="nrow"><span class="name" style="font-size:22px;">王雨桐</span><span class="seal">认证</span></div>
+          <div class="edu">硕士 · 华东师范大学 · 数学</div>
+          <div class="subjline">【数学】【物理】</div>
+        </div>
+      </div>
+      <div class="statline">
+        <div class="piece"><span class="k">评分</span><span class="n">4.9</span></div>
+        <span class="dot">·</span>
+        <div class="piece"><span class="k">时薪</span><span class="n">180</span><span class="u">元/时</span></div>
+        <span class="dot">·</span>
+        <div class="piece"><span class="k">教龄</span><span class="n">5 年</span></div>
+      </div>
+      <div class="bio" style="-webkit-line-clamp:3;">带过三届毕业班，擅长把难题拆成小步骤，学生平均提分 20+。讲课从物理图像入手，每节课配独立练习清单。</div>
+    </div>
     ${entry('李牧之', false, '本科 · 复旦大学 · 英语', '【英语】【语文】', '4.8', 150, 3,
-      '雅思 8 分，注重口语与写作双线训练，课堂节奏紧凑不拖沓。', true)}
+      '雅思 8 分，注重口语与写作双线训练，课堂节奏紧凑不拖沓。')}
     ${entry('陈之遥', true, '博士 · 上海交通大学 · 物理', '【物理】【化学】', '5.0', 260, 8,
       '竞赛带队经验丰富，讲题从物理图像入手，不背公式。')}
   </div>
@@ -214,8 +239,8 @@ const shotB = page('b', `
         <div class="edu" style="font-size:12px;">硕士 · 华东师范大学 · 数学</div>
         <div class="subjline" style="margin-top:7px;">【数学】【物理】</div>
         <div style="margin-top:7px;">
-          <div class="mrow"><span class="k">所在地</span><span class="v">上海市杨浦区</span></div>
-          <div class="mrow"><span class="k">年级</span><span class="v">初中 · 高中</span></div>
+          <div class="mrow"><span class="k">所在地</span><span style="flex:1;border-bottom:1px dotted #B9B2A0;margin:0 6px 3px 8px;"></span><span class="v">上海市杨浦区</span></div>
+          <div class="mrow"><span class="k">年级</span><span style="flex:1;border-bottom:1px dotted #B9B2A0;margin:0 6px 3px 8px;"></span><span class="v">初中 · 高中</span></div>
         </div>
       </div>
     </div>
@@ -226,7 +251,7 @@ const shotB = page('b', `
     </div>
     ${dsec('个人简介', '<div style="font-size:14px;line-height:1.9;">市重点中学在职教师，十五年教龄。讲课逻辑清晰，善于从错题反推知识漏洞，每节课配独立练习清单。</div>')}
     ${dsec('可授课时间', '<div style="font-size:14px;">周六日全天 · 工作日晚间可约</div>')}
-    ${dsec('资质证明', '<span class="cred"><span style="color:#175243;font-weight:700;">✓</span> 教师资格证</span><span class="cred"><span style="color:#175243;font-weight:700;">✓</span> 学历证书</span>')}
+    ${dsec('资质证明', '<div style="position:relative;display:flex;flex-wrap:wrap;gap:7px;align-items:flex-start;padding-bottom:10px;"><span class="cred">教师资格证</span><span class="cred">学历证书</span><span style="position:absolute;right:10px;bottom:-6px;width:36px;height:22px;display:inline-flex;align-items:center;justify-content:center;background:rgba(247,244,236,.92);border:1.5px solid #B5442D;border-radius:2px;box-shadow:inset 0 0 0 1px rgba(181,68,45,.5);color:#B5442D;font-family:\'Songti SC\',serif;font-weight:900;font-size:11px;letter-spacing:1px;transform:rotate(-6deg);">验讫</span></div>')}
     ${dsec('学员评价', `
       <div class="review"><div class="rhead"><span class="rr">5 分</span><span class="rt">3 天前</span></div><div class="rc">王老师讲题很有耐心，孩子这次月考数学从 82 提到了 95。</div></div>
       <div class="review"><div class="rhead"><span class="rr">4 分</span><span class="rt">2 周前</span></div><div class="rc">讲解细致，就是时间不太好约，热门时段要提前一周定。</div></div>`)}
@@ -241,6 +266,7 @@ const shotC = page('c', `
 <div class="phone">
   ${chrome('撰写评语', true)}
   <div class="container" style="padding-bottom:0;">
+    <div class="eyebrowrow"><span>家教公报编辑部</span><span>撰写评语</span></div>
     <div style="display:flex;align-items:center;padding:14px 2px;border-bottom:4px double #175243;">
       <div class="ava-seal" style="width:52px;height:52px;font-size:24px;">王</div>
       <div><div class="name" style="display:block;font-size:17px;margin-bottom:3px;">王雨桐</div><div class="edu" style="margin-top:0;">硕士 · 华东师范大学</div></div>
@@ -269,7 +295,9 @@ const shotD = page('d', `
 <div class="phone" style="height:800px;overflow:hidden;">
   ${chrome('教师名录', false)}
   <div class="container">
-    <div class="search-bar"><span class="search-ico"></span><span class="search-ph">检索科目、年级、地点…</span><span class="text-action on">筛选</span></div>
+    <div class="eyebrowrow"><span>家教公报编辑部</span><span>教师名录</span></div>
+    <div class="masthead"><span class="masthead-title">教师名录</span><span class="masthead-issue">NO.2026-1122</span></div>
+    <div class="search-bar" style="padding:12px 2px 10px;"><span class="search-ico"></span><span class="search-ph">检索科目、年级、地点…</span><span class="text-action on">筛选</span></div>
     ${entry('王雨桐', true, '硕士 · 华东师范大学 · 数学', '【数学】【物理】', '4.9', 180, 5, '带过三届毕业班，擅长把难题拆成小步骤。')}
   </div>
   <div class="scrim"></div>

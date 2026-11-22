@@ -14,7 +14,7 @@
 .audit-actions { display: flex; gap: 20rpx; padding: 32rpx 0 20rpx; }
 .audit-actions .action-btn { flex: 1; height: 88rpx; font-size: var(--fs-body); letter-spacing: 4rpx; border-radius: 2rpx; border: none; line-height: 84rpx; }
 .audit-actions .action-btn::after { border: none; }
-.audit-actions .btn-primary { background: var(--ink-green); color: var(--paper); }
+.audit-actions .btn-primary { background: var(--ink-green); color: var(--paper); flex: 1.4; }
 .audit-actions .btn-ghost { color: var(--seal); border: 2rpx solid var(--seal); background: transparent; }
 .mt-lg { margin-top: 28rpx; }
 .f-label { font-size: var(--fs-sub); color: var(--ink-faint); letter-spacing: 4rpx; }

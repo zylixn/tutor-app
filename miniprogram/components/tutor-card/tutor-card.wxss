@@ -144,10 +144,22 @@
   padding-left: 24rpx;
 }
 .tutor-card.is-featured .name {
-  font-size: 40rpx;
+  font-size: 46rpx;
+  letter-spacing: 4rpx;
+}
+.featured-line {
+  margin-bottom: 6rpx;
+  padding-bottom: 4rpx;
+  border-bottom: 1rpx solid var(--line);
+}
+.featured-line .featured-kicker {
+  font-size: 20rpx;
 }
 .tutor-card.is-featured .bio {
   -webkit-line-clamp: 3;
+  font-size: 26rpx;
+  line-height: 1.85;
+  color: var(--ink);
 }
 .featured-kicker {
   font-family: var(--serif);

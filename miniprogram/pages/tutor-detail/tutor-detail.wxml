@@ -38,10 +38,12 @@ module.exports.issue = function () {
         <view class="d-bio-lines">
           <view class="meta-row">
             <text class="k">所在地</text>
+            <view class="leader"/>
             <text class="v">{{tutor.location}}</text>
           </view>
           <view class="meta-row" wx:if="{{tutor.grades && tutor.grades.length}}">
             <text class="k">年级</text>
+            <view class="leader"/>
             <text class="v">{{filters.joinList(tutor.grades)}}</text>
           </view>
         </view>
@@ -84,9 +86,9 @@ module.exports.issue = function () {
       <view class="sec-title">资质证明</view>
       <view class="credentials">
         <view wx:for="{{tutor.credentials}}" wx:key="index" class="credential">
-          <text wx:if="{{item.verified}}" class="cred-check">✓</text>
           <text>{{item.type}}</text>
         </view>
+        <view wx:if="{{tutor.credentials.length}}" class="cred-verify">验讫</view>
       </view>
     </view>
 
