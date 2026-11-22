@@ -88,7 +88,7 @@ func ApproveApplication(c *gin.Context) {
 	}
 
 	if _, err := database.DB.Exec(
-		"UPDATE tutors SET audit_status='approved', status='active', audit_note='' WHERE id=?", id,
+		"UPDATE tutors SET audit_status='approved', status='active', verified=1, audit_note='' WHERE id=?", id,
 	); err != nil {
 		c.JSON(http.StatusInternalServerError, gin.H{"error": "更新失败"})
 		return

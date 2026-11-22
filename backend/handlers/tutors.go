@@ -290,8 +290,8 @@ func CreateTutor(c *gin.Context) {
 	query := `
 		INSERT INTO tutors (
 			id, name, avatar, gender, education, school, major, subjects, grades,
-			hourly_rate, location, experience, verified, rating, review_count, bio, wechat_id, status
-		) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)
+			hourly_rate, location, experience, verified, rating, review_count, bio, wechat_id, status, audit_status
+		) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, 'approved')
 	`
 	_, err = database.DB.Exec(query,
 		tutorID, req.Name, req.Avatar, req.Gender, req.Education, req.School, req.Major,

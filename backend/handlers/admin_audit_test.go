@@ -75,9 +75,10 @@ func TestApproveActivatesTutor(t *testing.T) {
 		t.Fatalf("approve: %d %s", w.Code, w.Body.String())
 	}
 	var status, tutorStatus string
-	database.DB.QueryRow("SELECT audit_status, status FROM tutors WHERE id='t_p'").Scan(&status, &tutorStatus)
-	if status != "approved" || tutorStatus != "active" {
-		t.Fatalf("通过后应 approved+active, got %s/%s", status, tutorStatus)
+	var verified int
+	database.DB.QueryRow("SELECT audit_status, status, verified FROM tutors WHERE id='t_p'").Scan(&status, &tutorStatus, &verified)
+	if status != "approved" || tutorStatus != "active" || verified != 1 {
+		t.Fatalf("通过后应 approved+active+verified=1, got %s/%s/%d", status, tutorStatus, verified)
 	}
 	// 幂等：再通过一次仍 200
 	if w := postAdmin(r, admin, "/api/v1/admin/tutor-applications/t_p/approve", ""); w.Code != 200 {
