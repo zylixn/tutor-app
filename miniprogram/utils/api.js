@@ -17,6 +17,11 @@ const request = (method, url, data = {}) => {
       },
       success: (res) => {
         if (res.statusCode === 401) {
+          const app = getApp()
+          app.globalData.token = null
+          wx.removeStorageSync('token')
+          wx.removeStorageSync('userId')
+          wx.removeStorageSync('role')
           wx.showToast({ title: '请先登录', icon: 'none' })
           reject(res.data)
           return
@@ -131,13 +136,14 @@ const uploadImage = (filePath) => new Promise((resolve, reject) => {
     },
     success: (res) => {
       if (res.statusCode >= 200 && res.statusCode < 300) {
-        resolve(JSON.parse(res.data).url)
-      } else {
-        let msg = '上传失败'
-        try { msg = JSON.parse(res.data).error || msg } catch (e) {}
-        wx.showToast({ title: msg, icon: 'none' })
-        reject(res)
+        try { resolve(JSON.parse(res.data).url) }
+        catch (e) { wx.showToast({ title: '上传失败', icon: 'none' }); reject(e) }
+        return
       }
+      let msg = '上传失败'
+      try { msg = JSON.parse(res.data).error || msg } catch (e) {}
+      wx.showToast({ title: msg, icon: 'none' })
+      reject(res)
     },
     fail: reject
   })
