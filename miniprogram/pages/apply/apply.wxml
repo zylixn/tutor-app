@@ -83,7 +83,7 @@
       <view class="f-err" wx:if="{{errors.wechatId}}">{{errors.wechatId}}</view>
       <view class="f-label mt-lg">资质凭证（必传，教师证/成绩单等）</view>
       <view class="cert-row">
-        <view class="cert-item" wx:for="{{form.certImages}}" wx:key="*this">
+        <view class="cert-item" wx:for="{{certDisplays}}" wx:key="*this">
           <image class="cert-img" src="{{item}}" mode="aspectFill"/>
           <view class="cert-del" data-index="{{index}}" bindtap="removeCert">×</view>
         </view>
@@ -93,7 +93,7 @@
       <view class="f-label mt-lg">头像（可选）</view>
       <view class="cert-row">
         <view class="cert-item" wx:if="{{form.avatar}}">
-          <image class="cert-img" src="{{form.avatar}}" mode="aspectFill"/>
+          <image class="cert-img" src="{{avatarDisplay}}" mode="aspectFill"/>
           <view class="cert-del" bindtap="clearAvatar">×</view>
         </view>
         <view class="cert-add" wx:if="{{!form.avatar}}" bindtap="chooseAvatar">{{uploadingAvatar ? '…' : '＋'}}</view>

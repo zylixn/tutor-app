@@ -5,7 +5,7 @@
   <block wx:elif="{{!current}}">
     <view class="masthead">
       <text class="masthead-title">待审名录</text>
-      <text class="masthead-issue">共 {{list.length}} 件</text>
+      <text class="masthead-issue">共 {{total}} 件</text>
     </view>
     <view wx:if="{{list.length === 0}}" class="state-box">
       <text class="state-kicker">启事</text>
@@ -36,7 +36,7 @@
     </view>
     <view class="f-label mt-lg">资质凭证（核验要点：证件信息与姓名一致）</view>
     <view class="cert-row">
-      <image wx:for="{{current.certImages}}" wx:key="*this" class="cert-img-lg" src="{{item}}" mode="aspectFill"/>
+      <image wx:for="{{current.certImages}}" wx:key="*this" class="cert-img-lg" src="{{item}}" mode="aspectFit" bindtap="previewCert" data-src="{{item}}"/>
     </view>
     <view class="f-label mt-lg">驳回原因（驳回时必填）</view>
     <textarea class="note-input" value="{{rejectNote}}" bindinput="onNote" maxlength="200" placeholder="如：凭证照片模糊，请重传"/>

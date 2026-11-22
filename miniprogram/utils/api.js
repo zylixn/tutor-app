@@ -162,9 +162,16 @@ const getMyApplication = () => request('GET', '/tutor-applications/mine')
 /**
  * 管理员: 待审列表 / 通过 / 驳回
  */
-const listApplications = (status = 'pending') => request('GET', `/admin/tutor-applications?status=${status}`)
+const listApplications = (status = 'pending', pageSize = 20) => request('GET', `/admin/tutor-applications?status=${status}&pageSize=${pageSize}`)
 const approveApplication = (id) => request('POST', `/admin/tutor-applications/${id}/approve`)
 const rejectApplication = (id, note) => request('POST', `/admin/tutor-applications/${id}/reject`, { note })
+
+/**
+ * 相对上传路径 → 绝对 URL（image 组件不支持以 / 开头的站内路径）
+ */
+const resolveUpload = (u) => /^https?:\/\//.test(u)
+  ? u
+  : getApp().globalData.apiBaseUrl.replace(/\/api\/v1$/, '') + u
 
 module.exports = {
   getTutors,
@@ -179,5 +186,6 @@ module.exports = {
   getMyApplication,
   listApplications,
   approveApplication,
-  rejectApplication
+  rejectApplication,
+  resolveUpload
 }

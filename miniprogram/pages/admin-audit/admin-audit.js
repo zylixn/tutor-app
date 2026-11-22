@@ -4,6 +4,7 @@ Page({
   data: {
     loading: true,
     list: [],
+    total: 0,
     current: null,     // 正在查看的申请
     currentSubjects: '',
     currentGrades: '',
@@ -15,12 +16,12 @@ Page({
 
   async refresh() {
     try {
-      const res = await api.listApplications('pending')
+      const res = await api.listApplications('pending', 50)
       const list = (res.data || []).map(x => ({
         ...x,
         subjectsText: (x.subjects || []).join('、')
       }))
-      this.setData({ list, loading: false, current: null })
+      this.setData({ list, total: res.total || list.length, loading: false, current: null })
     } catch (e) {
       this.setData({ loading: false })
       wx.showToast({ title: '加载失败', icon: 'none' })
@@ -31,15 +32,23 @@ Page({
     const id = e.currentTarget.dataset.id
     const current = this.data.list.find(x => x.id === id)
     if (!current) { return }
-    // WXML 表达式不支持方法调用，展示字符串在此预计算
     this.setData({
-      current,
+      current: {
+        ...current,
+        // 上传接口返回相对路径，image 组件需绝对 URL 才能加载
+        certImages: (current.certImages || []).map(api.resolveUpload)
+      },
       rejectNote: '',
       currentSubjects: (current.subjects || []).join('、'),
       currentGrades: (current.grades || []).join('、')
     })
   },
   backToList() { this.setData({ current: null }) },
+
+  previewCert(e) {
+    const src = e.currentTarget.dataset.src
+    wx.previewImage({ current: src, urls: this.data.current.certImages })
+  },
 
   onNote(e) { this.setData({ rejectNote: e.detail.value }) },
 
@@ -49,7 +58,7 @@ Page({
     try {
       await api.approveApplication(this.data.current.id)
       wx.showToast({ title: '已刊入名录', icon: 'success' })
-      this.refresh()
+      await this.refresh()
     } catch (err) {
       wx.showToast({ title: (err && err.error) || '操作失败', icon: 'none' })
     } finally {
@@ -67,7 +76,7 @@ Page({
     try {
       await api.rejectApplication(this.data.current.id, this.data.rejectNote.trim())
       wx.showToast({ title: '已驳回', icon: 'none' })
-      this.refresh()
+      await this.refresh()
     } catch (err) {
       wx.showToast({ title: (err && err.error) || '操作失败', icon: 'none' })
     } finally {

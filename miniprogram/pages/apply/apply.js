@@ -22,6 +22,9 @@ Page({
     errors: {},
     subjectSelected: {},
     gradeSelected: {},
+    // 展示用绝对化副本（form 内保持相对路径提交，后端校验 /uploads/ 前缀）
+    certDisplays: [],
+    avatarDisplay: '',
     uploadingCert: false,
     uploadingAvatar: false,
     eduOptions: EDU_OPTIONS,
@@ -63,6 +66,7 @@ Page({
           subjectSelected: toSelectedMap(app.subjects),
           gradeSelected: toSelectedMap(app.grades)
         })
+        this.syncDisplays()
       }
     } catch (e) { /* 拉取旧档案失败: 保留空白表单 */ }
   },
@@ -93,6 +97,13 @@ Page({
   },
 
   /* —— 上传（showLoading 在 chooseMedia 之后，取消不误显 loading；失败 toast 由 api 层顶掉 loading）—— */
+  // WXML image 不支持以 / 开头的站内路径，展示统一走绝对化副本，form 数据流不动
+  syncDisplays() {
+    this.setData({
+      certDisplays: this.data.form.certImages.map(api.resolveUpload),
+      avatarDisplay: this.data.form.avatar ? api.resolveUpload(this.data.form.avatar) : ''
+    })
+  },
   async chooseCert() {
     if (this.data.uploadingCert) { return }
     this.setData({ uploadingCert: true })
@@ -106,6 +117,7 @@ Page({
         'form.certImages': this.data.form.certImages.concat(url),
         'errors.certImages': ''
       })
+      this.syncDisplays()
     } catch (e) { /* 用户取消或上传失败（失败 toast 由 api 层负责） */ } finally {
       this.setData({ uploadingCert: false })
     }
@@ -115,6 +127,7 @@ Page({
     const idx = e.currentTarget.dataset.index
     const list = this.data.form.certImages
     this.setData({ 'form.certImages': list.filter((_, i) => i !== idx) })
+    this.syncDisplays()
   },
   async chooseAvatar() {
     if (this.data.uploadingAvatar) { return }
@@ -126,11 +139,12 @@ Page({
       wx.hideLoading()
       this._dirty = true
       this.setData({ 'form.avatar': url })
+      this.syncDisplays()
     } catch (e) { /* 用户取消或上传失败 */ } finally {
       this.setData({ uploadingAvatar: false })
     }
   },
-  clearAvatar() { this._dirty = true; this.setData({ 'form.avatar': '' }) },
+  clearAvatar() { this._dirty = true; this.setData({ 'form.avatar': '' }); this.syncDisplays() },
 
   /* —— 步骤流转 —— */
   nextStep() {
