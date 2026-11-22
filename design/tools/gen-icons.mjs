@@ -99,6 +99,18 @@ function drawTutor(px, C) {
   fillRect(px, C, 67, 30, 71, 48);   // 帽穗垂线
   fillCircle(px, C, 69, 51, 3.2);    // 穗头
 }
+// mine：人形（圆头 + 肩弧）
+function drawMine(px, C) {
+  // 头
+  fillCircle(px, C, 40.5, 30, 13);
+  // 肩（半圆弧：顶部最宽，向下收）
+  for (let y = 47; y <= 67; y++) {
+    const half = 27 - (y - 47) * 0.18; // 顶部最宽，向下收
+    for (let x = Math.round(40.5 - half); x <= Math.round(40.5 + half); x++) {
+      put(px, x, y, C);
+    }
+  }
+}
 
 const INACTIVE = [138, 133, 116, 255]; // #8A8574 灰褐
 const ACTIVE = [23, 82, 67, 255];      // #175243 墨绿
@@ -108,6 +120,8 @@ const jobs = [
   ['home-active.png', drawHome, ACTIVE],
   ['tutor.png', drawTutor, INACTIVE],
   ['tutor-active.png', drawTutor, ACTIVE],
+  ['mine.png', drawMine, INACTIVE],
+  ['mine-active.png', drawMine, ACTIVE],
 ];
 
 for (const [name, draw, color] of jobs) {
