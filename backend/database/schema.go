@@ -24,6 +24,11 @@ func EnsureSchema() error {
 	    bio TEXT DEFAULT '',
 	    wechat_id TEXT NOT NULL,
 	    status TEXT DEFAULT 'active' CHECK(status IN ('active', 'inactive')),
+	    user_id TEXT DEFAULT '',
+	    audit_status TEXT DEFAULT 'none',
+	    audit_note TEXT DEFAULT '',
+	    submitted_at DATETIME,
+	    cert_images TEXT DEFAULT '[]',
 	    created_at DATETIME DEFAULT CURRENT_TIMESTAMP,
 	    updated_at DATETIME DEFAULT CURRENT_TIMESTAMP
 	);

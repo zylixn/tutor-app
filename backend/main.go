@@ -38,6 +38,9 @@ func main() {
 	if err := database.EnsureSchema(); err != nil {
 		log.Fatalf("❌ 初始化数据库结构失败: %v", err)
 	}
+	if err := database.Migrate(); err != nil {
+		log.Fatalf("❌ 数据库迁移失败: %v", err)
+	}
 	if err := insertTestData(); err != nil {
 		log.Fatalf("❌ 初始化测试数据失败: %v", err)
 	}
@@ -75,8 +78,8 @@ func main() {
 		fmt.Printf("   GET    /api/v1/tutors/:id   - 获取家教详情\n")
 		fmt.Printf("   POST   /api/v1/tutors       - 创建家教 (需管理员)\n")
 		fmt.Printf("   POST   /api/v1/reviews      - 提交评论 (需登录)\n")
-			fmt.Printf("   GET    /api/v1/tutors/:id/contact - 获取家教联系方式 (需登录)\n")
-			fmt.Printf("   GET    /api/v1/reviews      - 获取评论列表\n")
+		fmt.Printf("   GET    /api/v1/tutors/:id/contact - 获取家教联系方式 (需登录)\n")
+		fmt.Printf("   GET    /api/v1/reviews      - 获取评论列表\n")
 		fmt.Printf("   POST   /api/v1/auth/login   - 登录\n")
 		if err := srv.ListenAndServe(); err != nil && err != http.ErrServerClosed {
 			log.Fatalf("❌ 启动服务器失败: %v", err)
@@ -110,11 +113,11 @@ func insertTestData() error {
 
 	tutors := []struct {
 		id, name, avatar, gender, education, school, major, subjects, grades string
-		hourlyRate, experience int
-		location, bio, wechatID string
-		verified bool
-		rating float64
-		reviewCount int
+		hourlyRate, experience                                               int
+		location, bio, wechatID                                              string
+		verified                                                             bool
+		rating                                                               float64
+		reviewCount                                                          int
 	}{
 		{"tutor_001", "张明", "/images/avatars/male1.png", "male", "硕士", "北京大学", "数学系", `["数学","物理"]`, `["初中","高中"]`, 150, 5, "海淀区", "北大数学系硕士，5年家教经验，擅长初高中数学物理辅导，帮助学生快速提分。", "zhangming_edu", true, 4.9, 28},
 		{"tutor_002", "李婷", "/images/avatars/female1.png", "female", "本科", "清华大学", "英语系", `["英语"]`, `["小学","初中","高中"]`, 120, 3, "朝阳区", "清华英语专业，专业八级，擅长英语口语和写作辅导，耐心细致。", "liting_eng", true, 4.8, 22},
@@ -144,7 +147,7 @@ func insertTestData() error {
 
 	reviews := []struct {
 		id, tutorID, userID, content string
-		rating int
+		rating                       int
 	}{
 		{"review_001", "tutor_001", "user_101", "张老师教学非常专业，孩子数学成绩从70分提高到了95分，非常感谢！", 5},
 		{"review_002", "tutor_001", "user_102", "讲解清晰，很有耐心，孩子很喜欢张老师的课。", 5},
