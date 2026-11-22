@@ -4,7 +4,8 @@
     "pages/tutor-detail/tutor-detail",
     "pages/tutor-list/tutor-list",
     "pages/write-review/write-review",
-    "pages/mine/mine"
+    "pages/mine/mine",
+    "pages/apply/apply"
   ],
   "window": {
     "navigationBarTitleText": "家教公报",

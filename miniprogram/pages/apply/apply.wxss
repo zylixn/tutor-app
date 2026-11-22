@@ -1,0 +1,45 @@
+/* ---------- 稿纸格: 墨绿细格线 (从 write-review.wxss 复制——页面 WXSS 不跨页生效) ---------- */
+.paper-grid {
+  position: relative;
+  border: 1rpx solid var(--line-strong);
+  border-radius: 2rpx;
+  background-color: var(--paper);
+  background-image: repeating-linear-gradient(
+    to bottom,
+    transparent 0,
+    transparent 51rpx,
+    rgba(23, 82, 67, 0.22) 51rpx,
+    rgba(23, 82, 67, 0.22) 52rpx
+  );
+  background-position: 0 16rpx;
+}
+
+/* ---------- 表单 ---------- */
+.form-sec { border-top: 1rpx solid var(--line); padding: 28rpx 4rpx; }
+.f-row { display: flex; align-items: center; gap: 20rpx; padding: 18rpx 0; border-bottom: 1rpx solid var(--line); }
+.f-label { font-size: var(--fs-sub); color: var(--ink-faint); letter-spacing: 4rpx; }
+.f-row .f-label { width: 200rpx; flex-shrink: 0; }
+.f-input { flex: 1; font-size: var(--fs-body); color: var(--ink); }
+.f-input.underline { border-bottom: 2rpx solid var(--line-strong); padding: 8rpx 4rpx; }
+.f-err { color: var(--seal); font-size: var(--fs-label); padding: 8rpx 4rpx 0; }
+.opt-group { display: flex; flex-wrap: wrap; gap: 14rpx; }
+.opt-group.wrap { margin-top: 16rpx; }
+.opt { padding: 10rpx 30rpx; border: 1rpx solid var(--line-strong); border-radius: 2rpx; font-size: var(--fs-sub); color: var(--ink-soft); }
+.opt.on { background: var(--ink-green); color: var(--paper); border-color: var(--ink-green); }
+.apply-grid { margin-top: 16rpx; }
+.grid-textarea { width: 100%; height: 240rpx; padding: 16rpx 20rpx 40rpx; background: transparent; border: none; font-size: var(--fs-body); line-height: 52rpx; box-sizing: border-box; }
+.cert-row { display: flex; gap: 16rpx; margin-top: 16rpx; flex-wrap: wrap; }
+.cert-item { position: relative; width: 140rpx; height: 140rpx; border: 1rpx solid var(--line-strong); border-radius: 2rpx; }
+.cert-img { width: 100%; height: 100%; }
+.cert-del { position: absolute; top: -14rpx; right: -14rpx; width: 40rpx; height: 40rpx; background: var(--ink); color: var(--paper); border-radius: 50%; display: flex; align-items: center; justify-content: center; font-size: 26rpx; }
+.cert-add { width: 140rpx; height: 140rpx; border: 2rpx dashed var(--line-strong); border-radius: 2rpx; display: flex; align-items: center; justify-content: center; font-size: 48rpx; color: var(--ink-faint); }
+.preview .p-row { display: flex; gap: 20rpx; padding: 14rpx 0; border-bottom: 1rpx solid var(--line); font-size: var(--fs-sub); }
+.preview .p-k { width: 110rpx; color: var(--ink-faint); letter-spacing: 4rpx; flex-shrink: 0; }
+.preview .p-bio { line-height: 1.7; }
+.apply-note { margin-top: 24rpx; font-size: var(--fs-label); color: var(--ink-faint); line-height: 1.7; }
+.apply-actions { display: flex; gap: 20rpx; padding: 36rpx 0 20rpx; }
+.apply-actions .action-btn { flex: 1; height: 88rpx; font-size: var(--fs-body); letter-spacing: 4rpx; border-radius: 2rpx; border: none; line-height: 84rpx; }
+.apply-actions .btn-primary { background: var(--ink-green); color: var(--paper); }
+.apply-actions .btn-primary.disabled { background: var(--line-strong); }
+.apply-actions .btn-ghost { color: var(--ink-green); border: 2rpx solid var(--ink-green); background: transparent; }
+.mt-lg { margin-top: 28rpx; }

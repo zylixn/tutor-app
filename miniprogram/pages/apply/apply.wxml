@@ -1,0 +1,123 @@
+<view class="container">
+  <view class="masthead">
+    <text class="masthead-title">教师入驻</text>
+    <text class="masthead-issue">第 {{step}} 步 / 共 4 步</text>
+  </view>
+
+  <!-- 步骤一: 基本信息 -->
+  <block wx:if="{{step === 1}}">
+    <view class="form-sec">
+      <view class="f-row">
+        <text class="f-label">姓名</text>
+        <input class="f-input" value="{{form.name}}" data-field="name" bindinput="onField" placeholder="真实姓名" />
+      </view>
+      <view class="f-err" wx:if="{{errors.name}}">{{errors.name}}</view>
+      <view class="f-row">
+        <text class="f-label">性别</text>
+        <view class="opt-group">
+          <text class="opt {{form.gender === 'male' ? 'on' : ''}}" data-value="male" bindtap="onPickGender">男</text>
+          <text class="opt {{form.gender === 'female' ? 'on' : ''}}" data-value="female" bindtap="onPickGender">女</text>
+        </view>
+      </view>
+      <view class="f-err" wx:if="{{errors.gender}}">{{errors.gender}}</view>
+      <view class="f-row">
+        <text class="f-label">学历</text>
+        <view class="opt-group">
+          <text wx:for="{{eduOptions}}" wx:key="*this" class="opt {{form.education === item ? 'on' : ''}}" data-value="{{item}}" bindtap="onPickEdu">{{item}}</text>
+        </view>
+      </view>
+      <view class="f-err" wx:if="{{errors.education}}">{{errors.education}}</view>
+      <view class="f-row">
+        <text class="f-label">学校</text>
+        <input class="f-input" value="{{form.school}}" data-field="school" bindinput="onField" placeholder="毕业院校" />
+      </view>
+      <view class="f-err" wx:if="{{errors.school}}">{{errors.school}}</view>
+      <view class="f-row">
+        <text class="f-label">专业</text>
+        <input class="f-input" value="{{form.major}}" data-field="major" bindinput="onField" placeholder="如：数学系" />
+      </view>
+    </view>
+  </block>
+
+  <!-- 步骤二: 教学信息 -->
+  <block wx:if="{{step === 2}}">
+    <view class="form-sec">
+      <view class="f-label">授课科目</view>
+      <view class="opt-group wrap">
+        <text wx:for="{{subjectOptions}}" wx:key="*this" class="opt {{subjectSelected[item] ? 'on' : ''}}" data-value="{{item}}" bindtap="toggleSubject">{{item}}</text>
+      </view>
+      <view class="f-err" wx:if="{{errors.subjects}}">{{errors.subjects}}</view>
+      <view class="f-label mt-lg">授课年级</view>
+      <view class="opt-group wrap">
+        <text wx:for="{{gradeOptions}}" wx:key="*this" class="opt {{gradeSelected[item] ? 'on' : ''}}" data-value="{{item}}" bindtap="toggleGrade">{{item}}</text>
+      </view>
+      <view class="f-err" wx:if="{{errors.grades}}">{{errors.grades}}</view>
+      <view class="f-row mt-lg">
+        <text class="f-label">时薪（元/时）</text>
+        <input class="f-input" type="number" value="{{form.hourlyRate}}" data-field="hourlyRate" bindinput="onField" placeholder="50-500" />
+      </view>
+      <view class="f-err" wx:if="{{errors.hourlyRate}}">{{errors.hourlyRate}}</view>
+      <view class="f-row">
+        <text class="f-label">教龄（年）</text>
+        <input class="f-input" type="number" value="{{form.experience}}" data-field="experience" bindinput="onField" placeholder="如 3" />
+      </view>
+      <view class="f-row">
+        <text class="f-label">所在地</text>
+        <input class="f-input" value="{{form.location}}" data-field="location" bindinput="onField" placeholder="如：上海市杨浦区" />
+      </view>
+      <view class="f-err" wx:if="{{errors.location}}">{{errors.location}}</view>
+    </view>
+  </block>
+
+  <!-- 步骤三: 简介与凭证 -->
+  <block wx:if="{{step === 3}}">
+    <view class="form-sec">
+      <view class="f-label">个人简介（30-500 字）</view>
+      <view class="paper-grid apply-grid">
+        <textarea class="grid-textarea" value="{{form.bio}}" data-field="bio" bindinput="onField" maxlength="500" placeholder="教学经验、风格、可授课时间…" show-confirm-bar="{{false}}"/>
+      </view>
+      <view class="f-err" wx:if="{{errors.bio}}">{{errors.bio}}</view>
+      <view class="f-label mt-lg">微信号（家长联系用，刊出时脱敏）</view>
+      <input class="f-input underline" value="{{form.wechatId}}" data-field="wechatId" bindinput="onField" placeholder="微信号" />
+      <view class="f-err" wx:if="{{errors.wechatId}}">{{errors.wechatId}}</view>
+      <view class="f-label mt-lg">资质凭证（必传，教师证/成绩单等）</view>
+      <view class="cert-row">
+        <view class="cert-item" wx:for="{{form.certImages}}" wx:key="*this">
+          <image class="cert-img" src="{{item}}" mode="aspectFill"/>
+          <view class="cert-del" data-index="{{index}}" bindtap="removeCert">×</view>
+        </view>
+        <view class="cert-add" wx:if="{{form.certImages.length < 3}}" bindtap="chooseCert">＋</view>
+      </view>
+      <view class="f-err" wx:if="{{errors.certImages}}">{{errors.certImages}}</view>
+      <view class="f-label mt-lg">头像（可选）</view>
+      <view class="cert-row">
+        <view class="cert-item" wx:if="{{form.avatar}}">
+          <image class="cert-img" src="{{form.avatar}}" mode="aspectFill"/>
+          <view class="cert-del" bindtap="clearAvatar">×</view>
+        </view>
+        <view class="cert-add" wx:if="{{!form.avatar}}" bindtap="chooseAvatar">＋</view>
+      </view>
+    </view>
+  </block>
+
+  <!-- 步骤四: 预览确认 -->
+  <block wx:if="{{step === 4}}">
+    <view class="form-sec preview">
+      <view class="p-row"><text class="p-k">姓名</text><text>{{form.name}}</text></view>
+      <view class="p-row"><text class="p-k">学历</text><text>{{form.education}} · {{form.school}}{{form.major ? ' · ' + form.major : ''}}</text></view>
+      <view class="p-row"><text class="p-k">科目</text><text class="subj">{{previewSubjects}}</text></view>
+      <view class="p-row"><text class="p-k">年级</text><text>{{previewGrades}}</text></view>
+      <view class="p-row"><text class="p-k">时薪</text><text class="num">{{form.hourlyRate}} 元/时</text></view>
+      <view class="p-row"><text class="p-k">简介</text><text class="p-bio">{{form.bio}}</text></view>
+      <view class="p-row"><text class="p-k">凭证</text><text>{{form.certImages.length}} 张</text></view>
+      <view class="apply-note">提交后由公报编辑部人工核验，结果将在「我的」页通知</view>
+    </view>
+  </block>
+
+  <!-- 底部操作 -->
+  <view class="apply-actions">
+    <button wx:if="{{step > 1}}" class="action-btn btn-ghost" bindtap="prevStep">上一步</button>
+    <button wx:if="{{step < 4}}" class="action-btn btn-primary" bindtap="nextStep">下一步</button>
+    <button wx:if="{{step === 4}}" class="action-btn btn-primary {{submitting ? 'disabled' : ''}}" bindtap="submit">{{submitting ? '存入中…' : '存入公报'}}</button>
+  </view>
+</view>
