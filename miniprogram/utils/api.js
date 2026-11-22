@@ -79,10 +79,99 @@ const getTutorContact = async (tutorId) => {
   return await request('GET', `/tutors/${tutorId}/contact`)
 }
 
+/**
+ * 微信登录（wx.login → code → 后端换 JWT），并持久化
+ */
+const login = () => new Promise((resolve, reject) => {
+  wx.login({
+    success: (res) => {
+      if (!res.code) { reject(new Error('wx.login 未返回 code')); return }
+      request('POST', '/auth/login', { code: res.code }).then((data) => {
+        const app = getApp()
+        app.globalData.token = data.token
+        app.globalData.userId = data.userId
+        app.globalData.role = data.role
+        wx.setStorageSync('token', data.token)
+        wx.setStorageSync('userId', data.userId)
+        wx.setStorageSync('role', data.role)
+        resolve(data)
+      }).catch(reject)
+    },
+    fail: reject
+  })
+})
+
+/**
+ * 确保已登录（storage 恢复 → 必要时静默登录）
+ */
+const ensureLogin = async () => {
+  const app = getApp()
+  if (!app.globalData.token) {
+    app.globalData.token = wx.getStorageSync('token') || null
+    app.globalData.role = wx.getStorageSync('role') || null
+    app.globalData.userId = wx.getStorageSync('userId') || null
+  }
+  if (!app.globalData.token) {
+    await login()
+  }
+  return app.globalData
+}
+
+/**
+ * 上传图片（wx.uploadFile，独立于 request 的 multipart 流程）
+ */
+const uploadImage = (filePath) => new Promise((resolve, reject) => {
+  const app = getApp()
+  wx.uploadFile({
+    url: app.globalData.apiBaseUrl + '/tutor-applications/images',
+    filePath,
+    name: 'image',
+    header: {
+      Authorization: app.globalData.token ? 'Bearer ' + app.globalData.token : ''
+    },
+    success: (res) => {
+      if (res.statusCode >= 200 && res.statusCode < 300) {
+        resolve(JSON.parse(res.data).url)
+      } else {
+        let msg = '上传失败'
+        try { msg = JSON.parse(res.data).error || msg } catch (e) {}
+        wx.showToast({ title: msg, icon: 'none' })
+        reject(res)
+      }
+    },
+    fail: reject
+  })
+})
+
+/**
+ * 提交入驻申请
+ */
+const submitApplication = (data) => request('POST', '/tutor-applications', data)
+
+/**
+ * 查询我的申请
+ */
+const getMyApplication = () => request('GET', '/tutor-applications/mine')
+
+/**
+ * 管理员: 待审列表 / 通过 / 驳回
+ */
+const listApplications = (status = 'pending') => request('GET', `/admin/tutor-applications?status=${status}`)
+const approveApplication = (id) => request('POST', `/admin/tutor-applications/${id}/approve`)
+const rejectApplication = (id, note) => request('POST', `/admin/tutor-applications/${id}/reject`, { note })
+
 module.exports = {
   getTutors,
   getTutorDetail,
   submitReview,
   createTutor,
-  getTutorContact
+  getTutorContact,
+  login,
+  ensureLogin,
+  uploadImage,
+  submitApplication,
+  getMyApplication,
+  listApplications,
+  approveApplication,
+  rejectApplication
 }
