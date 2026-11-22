@@ -1,0 +1,48 @@
+<view class="container">
+  <view wx:if="{{loading}}" class="state-box"><text class="state-copy">调阅中</text></view>
+
+  <!-- 列表 -->
+  <block wx:elif="{{!current}}">
+    <view class="masthead">
+      <text class="masthead-title">待审名录</text>
+      <text class="masthead-issue">共 {{list.length}} 件</text>
+    </view>
+    <view wx:if="{{list.length === 0}}" class="state-box">
+      <text class="state-kicker">启事</text>
+      <text class="state-copy">本期无待审稿件</text>
+    </view>
+    <view wx:for="{{list}}" wx:key="id" class="sheet audit-item" data-id="{{item.id}}" bindtap="openDetail">
+      <view class="a-name">{{item.name}}<text class="a-meta">{{item.education}} · {{item.school}}</text></view>
+      <view class="a-sub">{{item.subjectsText}} · {{item.hourlyRate}} 元/时</view>
+    </view>
+  </block>
+
+  <!-- 详情 -->
+  <block wx:else>
+    <view class="d-head-row">
+      <text class="back-link" bindtap="backToList">‹ 返回列表</text>
+    </view>
+    <view class="masthead">
+      <text class="masthead-title">{{current.name}}</text>
+      <text class="masthead-issue">待审</text>
+    </view>
+    <view class="sheet detail-card">
+      <view class="p-row"><text class="p-k">学历</text><text>{{current.education}} · {{current.school}}{{current.major ? ' · ' + current.major : ''}}</text></view>
+      <view class="p-row"><text class="p-k">科目</text><text>{{currentSubjects}}</text></view>
+      <view class="p-row"><text class="p-k">年级</text><text>{{currentGrades}}</text></view>
+      <view class="p-row"><text class="p-k">时薪</text><text>{{current.hourlyRate}} 元/时</text></view>
+      <view class="p-row"><text class="p-k">简介</text><text class="p-bio">{{current.bio}}</text></view>
+      <view class="p-row"><text class="p-k">微信</text><text>{{current.wechatId}}</text></view>
+    </view>
+    <view class="f-label mt-lg">资质凭证（核验要点：证件信息与姓名一致）</view>
+    <view class="cert-row">
+      <image wx:for="{{current.certImages}}" wx:key="*this" class="cert-img-lg" src="{{item}}" mode="aspectFill"/>
+    </view>
+    <view class="f-label mt-lg">驳回原因（驳回时必填）</view>
+    <textarea class="note-input" value="{{rejectNote}}" bindinput="onNote" maxlength="200" placeholder="如：凭证照片模糊，请重传"/>
+    <view class="audit-actions">
+      <button class="action-btn btn-ghost" bindtap="reject">驳回</button>
+      <button class="action-btn btn-primary" bindtap="approve">通过并刊入</button>
+    </view>
+  </block>
+</view>
