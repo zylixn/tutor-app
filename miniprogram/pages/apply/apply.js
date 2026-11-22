@@ -22,12 +22,20 @@ Page({
     errors: {},
     subjectSelected: {},
     gradeSelected: {},
+    uploadingCert: false,
+    uploadingAvatar: false,
     eduOptions: EDU_OPTIONS,
     subjectOptions: SUBJECT_OPTIONS,
     gradeOptions: GRADE_OPTIONS
   },
 
-  onLoad() { this.init() },
+  onLoad() {
+    this._dirty = false    // 用户已开始输入则 init 回填不覆盖
+    this._unloaded = false // 延迟 navigateBack 前页面已被卸载则不弹栈
+    this.init()
+  },
+
+  onUnload() { this._unloaded = true },
 
   async init() {
     try {
@@ -40,6 +48,7 @@ Page({
     // 已有档案 → 带入内容（编辑/重提场景）；拉取失败不拦表单，按新申请继续
     try {
       const app = await api.getMyApplication()
+      if (this._dirty) { return } // 用户已开始输入，不覆盖
       if (app.auditStatus && app.auditStatus !== 'none') {
         this.setData({
           form: {
@@ -60,14 +69,16 @@ Page({
 
   /* —— 通用输入 —— */
   onField(e) {
+    this._dirty = true
     const field = e.currentTarget.dataset.field
     this.setData({ [`form.${field}`]: e.detail.value, [`errors.${field}`]: '' })
   },
-  onPickGender(e) { this.setData({ 'form.gender': e.currentTarget.dataset.value, 'errors.gender': '' }) },
-  onPickEdu(e) { this.setData({ 'form.education': e.currentTarget.dataset.value, 'errors.education': '' }) },
+  onPickGender(e) { this._dirty = true; this.setData({ 'form.gender': e.currentTarget.dataset.value, 'errors.gender': '' }) },
+  onPickEdu(e) { this._dirty = true; this.setData({ 'form.education': e.currentTarget.dataset.value, 'errors.education': '' }) },
   toggleSubject(e) { this.toggleList('subjects', 'subjectSelected', e.currentTarget.dataset.value) },
   toggleGrade(e) { this.toggleList('grades', 'gradeSelected', e.currentTarget.dataset.value) },
   toggleList(field, selectedField, value) {
+    this._dirty = true
     const list = this.data.form[field]
     const selected = this.data[selectedField]
     let next
@@ -81,30 +92,45 @@ Page({
     this.setData({ [`form.${field}`]: next, [`errors.${field}`]: '' })
   },
 
-  /* —— 上传 —— */
+  /* —— 上传（showLoading 在 chooseMedia 之后，取消不误显 loading；失败 toast 由 api 层顶掉 loading）—— */
   async chooseCert() {
+    if (this.data.uploadingCert) { return }
+    this.setData({ uploadingCert: true })
     try {
       const res = await wx.chooseMedia({ count: 1, mediaType: ['image'], sizeType: ['compressed'] })
+      wx.showLoading({ title: '上传中' })
       const url = await api.uploadImage(res.tempFiles[0].tempFilePath)
+      wx.hideLoading()
+      this._dirty = true
       this.setData({
         'form.certImages': this.data.form.certImages.concat(url),
         'errors.certImages': ''
       })
-    } catch (e) { /* 用户取消或上传失败（上传失败已有 toast） */ }
+    } catch (e) { /* 用户取消或上传失败（失败 toast 由 api 层负责） */ } finally {
+      this.setData({ uploadingCert: false })
+    }
   },
   removeCert(e) {
+    this._dirty = true
     const idx = e.currentTarget.dataset.index
     const list = this.data.form.certImages
     this.setData({ 'form.certImages': list.filter((_, i) => i !== idx) })
   },
   async chooseAvatar() {
+    if (this.data.uploadingAvatar) { return }
+    this.setData({ uploadingAvatar: true })
     try {
       const res = await wx.chooseMedia({ count: 1, mediaType: ['image'], sizeType: ['compressed'] })
+      wx.showLoading({ title: '上传中' })
       const url = await api.uploadImage(res.tempFiles[0].tempFilePath)
+      wx.hideLoading()
+      this._dirty = true
       this.setData({ 'form.avatar': url })
-    } catch (e) { /* 用户取消 */ }
+    } catch (e) { /* 用户取消或上传失败 */ } finally {
+      this.setData({ uploadingAvatar: false })
+    }
   },
-  clearAvatar() { this.setData({ 'form.avatar': '' }) },
+  clearAvatar() { this._dirty = true; this.setData({ 'form.avatar': '' }) },
 
   /* —— 步骤流转 —— */
   nextStep() {
@@ -133,9 +159,13 @@ Page({
         experience: parseInt(f.experience, 10) || 0, bio: f.bio,
         avatar: f.avatar, certImages: f.certImages, wechatId: f.wechatId
       })
+      // 成功后保持 submitting=true 直到离开页面，封死 800ms 窗口内的双击重提
       wx.showToast({ title: '已存入公报', icon: 'success' })
-      setTimeout(() => wx.navigateBack(), 800)
+      setTimeout(() => {
+        if (!this._unloaded) { wx.navigateBack() }
+      }, 800)
     } catch (err) {
+      this.setData({ submitting: false })
       if (err && err.errors) {
         this.setData({ errors: err.errors })
         // 跳到第一个有错的步骤
@@ -147,8 +177,6 @@ Page({
         const msg = (err && err.error) || '提交失败，请重试'
         wx.showToast({ title: msg, icon: 'none' })
       }
-    } finally {
-      this.setData({ submitting: false })
     }
   }
 })

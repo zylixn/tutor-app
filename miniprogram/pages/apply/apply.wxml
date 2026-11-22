@@ -75,6 +75,7 @@
       <view class="f-label">个人简介（30-500 字）</view>
       <view class="paper-grid apply-grid">
         <textarea class="grid-textarea" value="{{form.bio}}" data-field="bio" bindinput="onField" maxlength="500" placeholder="教学经验、风格、可授课时间…" show-confirm-bar="{{false}}"/>
+        <view class="char-count"><text>{{form.bio.length}}/500</text></view>
       </view>
       <view class="f-err" wx:if="{{errors.bio}}">{{errors.bio}}</view>
       <view class="f-label mt-lg">微信号（家长联系用，刊出时脱敏）</view>
@@ -86,7 +87,7 @@
           <image class="cert-img" src="{{item}}" mode="aspectFill"/>
           <view class="cert-del" data-index="{{index}}" bindtap="removeCert">×</view>
         </view>
-        <view class="cert-add" wx:if="{{form.certImages.length < 3}}" bindtap="chooseCert">＋</view>
+        <view class="cert-add" wx:if="{{form.certImages.length < 3}}" bindtap="chooseCert">{{uploadingCert ? '…' : '＋'}}</view>
       </view>
       <view class="f-err" wx:if="{{errors.certImages}}">{{errors.certImages}}</view>
       <view class="f-label mt-lg">头像（可选）</view>
@@ -95,7 +96,7 @@
           <image class="cert-img" src="{{form.avatar}}" mode="aspectFill"/>
           <view class="cert-del" bindtap="clearAvatar">×</view>
         </view>
-        <view class="cert-add" wx:if="{{!form.avatar}}" bindtap="chooseAvatar">＋</view>
+        <view class="cert-add" wx:if="{{!form.avatar}}" bindtap="chooseAvatar">{{uploadingAvatar ? '…' : '＋'}}</view>
       </view>
     </view>
   </block>

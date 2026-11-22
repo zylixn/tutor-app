@@ -328,3 +328,19 @@ page {
   border: 1rpx solid var(--line-strong);
   background: var(--paper);
 }
+
+/* ---------- 稿纸格: 墨绿细格线 (报刊隐喻进功能层, write-review/apply 共用) ---------- */
+.paper-grid {
+  position: relative;
+  border: 1rpx solid var(--line-strong);
+  border-radius: 2rpx;
+  background-color: var(--paper);
+  background-image: repeating-linear-gradient(
+    to bottom,
+    transparent 0,
+    transparent 51rpx,
+    rgba(23, 82, 67, 0.22) 51rpx,
+    rgba(23, 82, 67, 0.22) 52rpx
+  );
+  background-position: 0 16rpx;
+}

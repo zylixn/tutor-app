@@ -145,7 +145,7 @@ const uploadImage = (filePath) => new Promise((resolve, reject) => {
       wx.showToast({ title: msg, icon: 'none' })
       reject(res)
     },
-    fail: reject
+    fail: (e) => { wx.showToast({ title: '上传失败，请重试', icon: 'none' }); reject(e) }
   })
 })
 
