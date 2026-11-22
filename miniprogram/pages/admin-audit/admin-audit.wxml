@@ -3,6 +3,7 @@
 
   <!-- 列表 -->
   <block wx:elif="{{!current}}">
+    <view class="eyebrow"><text>公报编辑部</text><text>人工核验</text></view>
     <view class="masthead">
       <text class="masthead-title">待审名录</text>
       <text class="masthead-issue">共 {{total}} 件</text>

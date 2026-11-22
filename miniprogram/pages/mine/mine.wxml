@@ -1,4 +1,5 @@
 <view class="container">
+  <view class="eyebrow"><text>家教公报编辑部</text><text>读者服务</text></view>
   <view class="masthead">
     <text class="masthead-title">我的</text>
     <text class="masthead-issue">家教公报</text>

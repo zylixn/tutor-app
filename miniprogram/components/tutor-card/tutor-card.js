@@ -3,6 +3,10 @@ Component({
     tutor: {
       type: Object,
       value: {}
+    },
+    featured: {
+      type: Boolean,
+      value: false
     }
   },
 

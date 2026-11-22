@@ -8,6 +8,9 @@ module.exports.issue = function () {
 </wxs>
 
 <view class="container">
+  <!-- 报眼 -->
+  <view class="eyebrow"><text>家教公报编辑部</text><text>每周更新</text></view>
+
   <!-- 公报报头 -->
   <view class="masthead">
     <text class="masthead-title">家教公报</text>
@@ -53,6 +56,7 @@ module.exports.issue = function () {
       wx:for="{{tutors}}"
       wx:key="id"
       tutor="{{item}}"
+      featured="{{index === 0}}"
     />
   </view>
 
